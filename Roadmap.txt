@@ -1,0 +1,71 @@
+Previous proiject yielded some good results. Now it's time to adapt everything to Godot.
+
+There is lon way to go, but it can be like this:
+[DONE]1. Run Godot and Simulation in parallel:
+	- Simulation is just loop with fps counter.
+	- Godot runs at its own fps and prints out Simulation FPS.
+[DONE]2. Simple conversion between Sim and Godot:
+	+ Placeholder scene.
+	+ Add singleton. Make it store coordinate conversion scale.
+	x Use rust to print contents of singleton. [Fuck this. This info is stored in rust]
+	+ Coordinate conversion between Godot and and Rust. [Scale value inside RustBridge]
+	+ Get mouse position. Print it through rust.
+	+ Implement player camera early. [Zoom not taken into account. Implemented on rust side]
+	+ Implement Debug communications between Sim and Godot. [Wtf did I mean by this point?]
+[FUCK THIS FOR NOW]3. Recreate old SDL2 functionality.
+	- This will be hard :)
+	- Decide (for now), what parts of rendering are in rust and what are in Godot.
+	+ Register space pressed and mouse position. On Godot side.
+	- Spawn/free unit nodes on rust side. Update by sending signals.
+	- Holy SHit. WTF is even going on. What the fuck. Seriously.
+	- I think I need to redo all this stuff.
+[DONE]4. Start implementing new architecture.
+	~ On godot side, create nodes GameLoop, GameLoopManager, RustBridge_<Name>, GameManager, UnitTemplate.
+	+ Have nodes GameLoop and RustBridge with appropriate structs:
+		+ GameLoop node. Starts loop and creates Option<Messenger>
+	+ No GUI node for now.
+[DONE] 4.5. Make sure that current Messenger works as intended:
+	+ Does rec() function clear message queue from messenger? [YES]
+	+ Does simulation only send Object(...) messages on object update? [NO]
+[DONE] 5. Spawn and display single unit in Godot:
+	+ add received message cache in RustBridge (rust). Reason: They will be distributed to Godot nodes through separate functions.
+	+ Add object cache for RustBridge's GameManager. Use it do decide between spawning and updating nodes. [Hope it works lol]
+		+ Rework object IDs.
+	x Add fn tmp_get_obj_update. It should output array of object id, sim location and sim destination.
+	x Use that info to udate object cache. (Object exists-> update its info, Doesnt exist -> spawn and give parameters)
+	x object cache is meh idea.
+		- In rust it will be ok, and will kinda protect me from messenger bugs (updating object that was not created).
+		- in gdscript it sucks dick. Because Gdscript sucks dick :)
+[DONE, KINDA] 6. Implement unit selection.
+	+ Selected units are stored in GUI node.
+	- Add ability to deselect units.
+	- How is input actually handled in Godot? [Figure OUT LATER]
+[DONE] 7. Implement move command for units and unit position updates and all of that.
+	+ Unit node holds destination and all of that.
+	+ Dont bother with signals just yet.
+	+ Export all messages
+[DONE] 8. Scale GODOT visuals.
+	+ EZ
+9. ECS. 
+	+ Why: 
+		* I will need it later anyway. 
+		* Will allow me to send components themselves to renderer and back
+	- How? Ph dude. Need to basically rewrite stuff.
+	+ Make hecs test project.
+		+ Can my types be used in components? (fixed)[YES]
+	+ Make plan on how my current system can be implemented in ECS. [YEAH, WHATEVER] 
+10. Port to ECS:
+	- for each component have export function?
+	+ PROBLEM: Can't have messenger inside singleton.
+		+ SOLUTION: Messenger is outside singleton. Only inbox is inside :)
+	+ Message processing: DON't remove messages. Because some systems might reuse them?
+	+ Ok, singleton entity in general sucks. Cos of borrow checker of course.
+		+ Solution, state is stored in same struct as ECS.
+
+Long term:
+	+ Rework messaging system. I don't like the fact that I use enums now. [DONE. Now it uses lots of small enums]
+	+ Fix simulation to only send object messages after something changed. [DONE with small message rework]
+	- Add static typing to GDscript. It will save my life
+	
+
+So basic idea: Every object Godot spawns is a scene. Therefore it's good if there is some general entity scene (units)

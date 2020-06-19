@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+var arr = [[\"a\", 1,2], [\"a\", 3, 5]]
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	for x in arr:
+		print(x[0], x)
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
+[node name="Tmp_Test_Scene" type="Node"]
+script = SubResource( 1 )

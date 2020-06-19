@@ -1,0 +1,31 @@
+[package]
+name = "Simulation"
+version = "0.1.0"
+authors = ["vilius"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[profile.dev]
+opt-level = 1
+
+[dependencies]
+rand = "0.7.3"
+#doryen-fov = "0.1.1"
+#snowflake = "1.2"
+fixed-sqrt = "0.2.1"
+gdnative = "0.8.1"
+#serde = "1.0.111"
+hecs = "0.2.12"
+
+# tam, kad naudoti SDL2_image
+[dependencies.sdl2]
+version = "*"
+default-features = false
+features = ["image"]
+
+[dependencies.fixed]
+version = "1.0.0" # for fixed sqrt to work
+# features = ["f16", "serde"]
+
+[lib]
+crate-type = ["cdylib"]

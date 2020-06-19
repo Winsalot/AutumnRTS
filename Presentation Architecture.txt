@@ -1,0 +1,63 @@
+Ok, now this was a major pain to impement all of that stuff that doesn't work.
+Lets take a serious step towards decoupling.
+
+Rust Part:
+	+ Implements RustBridge struct/class. This is the root node of Game instance of Godot.
+	RustBridge: 
+		+ Has multiple methods to collect, process and send messages to engine.
+		+ Stores Engine Message Schedule.
+		+ Passes Batched engine Messages to GodotScripts node (first hard coded child node in Godot, Name might be changed later into GameManager).
+		+ Stores Render Messages and sends them to Simulation on every tick.
+		+ godot_print!s for debugging.
+	RustBridge DOES NOT:
+		+ DOES NOT SPAWN SCENES.
+		+ DOES NOT MODIFY SCENE CONTENTS.
+		+ DOES NOT SEND SIGNALS.
+		+ DOES NOT FREE SCENES.
+
+Godot Part:
+	Contains Game node, which should instance RustBridge with all the appropriate parameters:
+		+ For simplicity it could be autoload, where relevant variables are changed before game start, and once RustBridge is instanced, it takes all relevant info from there.
+	Contains GameManager node. GameManager:
+		+ Instances other scenes (units, buildings, projectiles and shit)
+		+ Stores names of all instanced scenes.
+		+ Frees scenes once they become unavailable to player.
+		+ Takes Engine Message Batches, handles them by either spawning/freeing scenes or by sending signals with updated game state.
+		+ Stores game state information? Autoload is kinda shitty idea anyway.
+	Every Instanced Node (Unit) from GameManager:
+		+ Stores corresponding game object's state.
+		+ Plays sweet animations and sounds.
+		Nope x Deals with player input (selection, commands, interactions).
+		Nope x After meaningful input, calls RustBridge method to Add to RendererMessages.
+		+ Sends information directly to GUI? [Maybe, in a way]
+	Camera 2d:
+		+ Basically viewport flexibility.
+		+ Probably data used in converting Godot Coords into Simulation coords.
+	GUI:
+		+ Displays information from RustBridge: Minimap, Resources.
+		+ Displays information from Units (list of selected units, abilities and shit)
+		+ On meaningfiul input:
+			Either: Passes input directly to corresponding unit (signals? But maybe they suck)
+			Or: Directly calls RustBridge.
+			Problematic part: Lots of caster units selected, and player casts spell at enemy. Ideally, only a single unit, that has spell off cooldown, enough mana AND is the closest to target should send input message. Solution would be to (1) either calculate available caster in Godot (which contradicts design philosophy), or (2) send whole list of Unit ID's to Simulation and let it handle the calculations.
+			Ok, so (2) is abviously better for design reasons, therefore It is decided, that SIMULATION WILL HANDLE UNIT GROUP COMMANDS.
+		+ On meaningful input: Sends info to RustBridge. Yes:
+			+ All unit input is delivered through Game GUI.
+
+UPDATE on RustBridge:
++ Rust side should account for the fact, that multiple users can be playing and sending messages on same machine (Human player and N bots). Therefore:
+	+ There is GameLoop node, which starts the loop and creates/stores appropriate amount of messenger objects.
+		+ Should contain safeguar to prevent players from giving commands to other units.
+	+ GameLoop node contains GameLoopManager Godot-side node, that spawns RustBridge_<Name>  nodes equal to the number of players (1+number of bots).
+		+ Only Player's RustBridge scene renders things.
+
+About Bot implementation:
+	+ Bots should be non-cheating.
+	+ Also, there is generalist "unit scene", which contains all information that can be received from simulation.
+	+ Bots work same way as player's RustBridge, except their units are invisible/ they have no UI.
+	+ Bots send messages to Simulation.
+	+ Sounds complicated, but this will help with multiplayer in the future, as there I will also have multiple input sources.
+
+
+UPDATE: Seems like GameLoop and RustBridge separation is not as good as I thought. 
+Still wanna have bots imlementation on Godot side. Maybe same RustBridge can handle both bots and player? Don't see why not. Could use separate signals or something. Anyway, this is a problem for the future.

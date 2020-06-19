@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://GodotRustBridge.tres" type="GDNativeLibrary" id=1]
+[ext_resource path="res://Presentation_Godot/scripts/GUI.gd" type="Script" id=2]
+[ext_resource path="res://Presentation_Godot/scripts/GameManager.gd" type="Script" id=3]
+
+[sub_resource type="NativeScript" id=1]
+resource_name = "RustBridge"
+class_name = "RustBridge"
+library = ExtResource( 1 )
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Label
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	var sim_fps = self.get_node(\"/root/PresentationParams\").sim_fps
+	var own_fps = String(1/(delta+(1/500)))
+	self.set_text(\"Render FPS is: \"+ own_fps +
+	\"\\nSimulation FPS: \" + String(sim_fps))
+	pass
+"
+
+[node name="RustBridge" type="Node"]
+script = SubResource( 1 )
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="GUI" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="FPS Info" type="Label" parent="GUI"]
+margin_right = 40.0
+margin_bottom = 14.0
+script = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
