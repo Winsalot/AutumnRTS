@@ -46,7 +46,7 @@ There is lon way to go, but it can be like this:
 	+ Export all messages
 [DONE] 8. Scale GODOT visuals.
 	+ EZ
-9. ECS. 
+[DONE] 9. ECS. 
 	+ Why: 
 		* I will need it later anyway. 
 		* Will allow me to send components themselves to renderer and back
@@ -54,13 +54,32 @@ There is lon way to go, but it can be like this:
 	+ Make hecs test project.
 		+ Can my types be used in components? (fixed)[YES]
 	+ Make plan on how my current system can be implemented in ECS. [YEAH, WHATEVER] 
-10. Port to ECS:
+[DONE] 10. Port to ECS:
 	- for each component have export function?
 	+ PROBLEM: Can't have messenger inside singleton.
 		+ SOLUTION: Messenger is outside singleton. Only inbox is inside :)
 	+ Message processing: DON't remove messages. Because some systems might reuse them?
 	+ Ok, singleton entity in general sucks. Cos of borrow checker of course.
 		+ Solution, state is stored in same struct as ECS.
+[DONE] 11. Rewrite Game loop and simulation to use ECS:
+	+ Yes.
+	+ Rewrite Game Loop
+	+ Make sure godot runs and all that shit
+11.5. Does GIT actually work?
+	- Push current changes
+	- backup
+	- Delete unused files
+	- Push again
+	- Try to restore
+12. Towards pathfinding.
+	- Implement collisins.
+	- Collision box (cos speheres suck :) ).
+	- Collision prediction (on move if next position collides with some object, then don't move).
+	- Add map 
+		- Idk about data format.
+		- Should contain info such as z level, block vision, block path
+	- Make units collide with map as well.
+	- Implement grid somewhere in all of this
 
 Long term:
 	+ Rework messaging system. I don't like the fact that I use enums now. [DONE. Now it uses lots of small enums]

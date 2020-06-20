@@ -1,0 +1,14 @@
+Races/factions:
+
+Archaic humans:
+
+Transhumanists:
+
+Controller AI:
+
+
+Map features:
+
+> Arbitrary number of z-levels
+> Teleporters in map
+> Neutral buildings (teleporters)

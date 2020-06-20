@@ -15,7 +15,7 @@ pub struct SimState {
 }
 
 impl SimState {
-	pub fn new(fps_limit: u32, sim_messenger: SimMessenger) -> Self {
+	pub fn new(sim_messenger: SimMessenger, fps_limit: u32) -> Self {
 		SimState {
 			ecs: World::new(),
 			messenger: sim_messenger,

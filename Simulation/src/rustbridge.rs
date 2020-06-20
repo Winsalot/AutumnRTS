@@ -41,7 +41,6 @@ impl RustBridge {
 		fps_limit: i32) {
 
 		let (sim_handle, rend_messenger) = sim_gameloop::start_loop(
-			n_fps_avg as usize,
 			fps_limit as u32);
 
 		self.sim_handle = Some(sim_handle);
@@ -82,7 +81,9 @@ impl RustBridge {
 	fn receive_sim_messages(&mut self, _owner: gdnative::Node){
 		if let Some(rend_msg) = &self.messenger {
 			self.message_inbox.append(&mut rend_msg.rec());
+			godot_print!("{:?}", self.message_inbox);
 		}
+
 	}
 
 	#[export]

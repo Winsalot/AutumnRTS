@@ -8,24 +8,6 @@ use crate::sim_fix_math::{Pos, FixF};
 // this module contains ALL used systems (for now)
 
 
-/*
-
-// Initialise singleton entity
-pub fn init_simulation(ecs: &mut World, fps_limit: u32) -> Entity {
-
-	let mut sim_state = EntityBuilder::new();
-
-	sim_state.add(FpsComp::new(20, fps_limit));
-	sim_state.add(TickComp::new());
-	sim_state.add(SimStateComp::new());
-	sim_state.add(MessageComp::new());
-
-	let state_entity = ecs.spawn(sim_state.build());
-	
-	state_entity
-}
-
-*/
 pub fn update_fps_info(sim: &mut SimState){
 	let fps = sim.fps_counter.get_fps_simple();
 	sim.send_batch.push(EngineMessage::Fps(fps));
@@ -133,6 +115,8 @@ pub fn update_positions(sim: &mut SimState){
 
 		let dx = (*pos.get_pos() - *dest.get_dest()) / distance;
 		let new_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
+
+		pos.set_pos(new_pos);
 
 		msg = EngineMessage::ObjMove(id.to_bits(), new_pos);
 		sim.send_batch.push(msg);

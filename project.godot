@@ -42,7 +42,7 @@ PresentationParams="*res://Presentation_Godot/scripts/Presentation_Params.gd"
 
 [debug]
 
-settings/fps/force_fps=60
+settings/fps/force_fps=5
 
 [input]
 
