@@ -12,7 +12,6 @@ mod simulation;
 mod rustbridge;
 mod rustbridge_messages;
 mod sim_unit_base_components;
-//mod sim_state_components;
 mod sim_systems;
 mod sim_ecs;
 

@@ -7,6 +7,7 @@ pub struct TypeNameComp {
 	name: String,
 }
 
+
 /// Location component
 pub struct PositionComp {
 	pos: Pos,
