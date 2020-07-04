@@ -26,7 +26,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var sim_fps = self.get_node(\"/root/PresentationParams\").sim_fps
-	var own_fps = String(1/(delta+(1/500)))
+	var own_fps = String(1/(delta+(1/50000)))
 	self.set_text(\"Render FPS is: \"+ own_fps +
 	\"\\nSimulation FPS: \" + String(sim_fps))
 	pass

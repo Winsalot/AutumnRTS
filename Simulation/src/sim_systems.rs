@@ -65,65 +65,6 @@ pub fn input_spawn_unit(sim: &mut SimState) {
 	}
 }
 
-pub fn input_update_destinations(sim: &mut SimState){
-
-	let inbox = &mut sim.inbox;
-
-	let (dest_msg, rest): (Vec<RenderMessage>, Vec<RenderMessage>) = inbox
-		.clone()
-		.iter()
-		.partition(|&msg| match msg {
-			RenderMessage::Destination(..) => true,
-			_ => false,
-		});
-
-	*inbox = rest;
-	for i in 0..dest_msg.len(){
-		match dest_msg[i]{
-			RenderMessage::Destination(id, pos) => {
-				let dest_comp = sim.ecs.get_mut::<DestinationComp>(Entity::from_bits(id.get().clone()));
-				if let Ok(mut dest_comp) = dest_comp {
-					dest_comp.set_dest(pos);
-					let msg = EngineMessage::ObjDest(id, pos);
-					sim.send_batch.push(msg);
-				}
-			},
-			_ => {}
-		}
-	}
-}
-
-pub fn update_positions(sim: &mut SimState){
-	// Updates unit positions
-	type ToQuery<'a> = (&'a IdComp, &'a mut PositionComp, &'a DestinationComp, &'a SpeedComponent);
-	let ecs = &mut sim.ecs;
-	'query_loop: for (_, (id, pos, dest, speed)) in &mut ecs.query::<ToQuery>(){
-		if dest.get_dest() == pos.get_pos() {
-			continue 'query_loop;
-		}
-
-		let msg: EngineMessage;
-
-		let distance = Pos::dist(pos.get_pos(), dest.get_dest());
-
-		if distance == 0 {
-			let new_pos = dest.get_dest();
-			pos.set_pos(*new_pos);
-			msg = EngineMessage::ObjMove(*id, *new_pos);
-			sim.send_batch.push(msg);
-			continue 'query_loop;
-		}
-
-		let dx = (*pos.get_pos() - *dest.get_dest()) / distance;
-		let new_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
-
-		pos.set_pos(new_pos);
-
-		msg = EngineMessage::ObjMove(*id, new_pos);
-		sim.send_batch.push(msg);
-	}
-}
-
 
 pub fn clear_inbox(sim: &mut SimState) -> Option<Vec<RenderMessage>>{
 	// clears unread rendermessages.

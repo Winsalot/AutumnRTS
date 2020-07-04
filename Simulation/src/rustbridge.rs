@@ -39,6 +39,7 @@ impl RustBridge {
 		n_fps_avg: i32,
 		fps_limit: i32) {
 
+
 		let (sim_handle, rend_messenger) = sim_gameloop::start_loop(
 			fps_limit as u32);
 
@@ -66,6 +67,7 @@ impl RustBridge {
 
 	#[export]
 	fn deliver_input(&mut self, _owner: gdnative::Node) {
+		
 		let msg = std::mem::replace(&mut self.message_batch, vec![]);
 		let len_tmp = msg.len();
 		if let Some(rend_msg) = &self.messenger {

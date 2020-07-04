@@ -1,5 +1,5 @@
 use hecs::*;
-use crate::sim_fix_math::{Pos, FixF};
+use crate::sim_fix_math::*;
 
 
 /// Unit type name
@@ -21,6 +21,11 @@ pub struct PositionComp {
 	pos: Pos,
 }
 
+/// Next position component
+pub struct NextPosComp {
+	pos: Pos,
+}
+
 // Unit's destination component
 pub struct DestinationComp {
 	dest: Pos,
@@ -32,9 +37,8 @@ pub struct SpeedComponent {
 }
 
 // Square hitbox. W,H should be treadted as radius
-pub struct CollisionComponent{
-	h: FixF,
-	w: FixF,
+pub struct CollComp{
+	r: FixF,
 }
 
 
@@ -44,9 +48,10 @@ pub fn plc_unit(pos: Pos, speed: FixF, id_counter: &mut u64) -> EntityBuilder {
 
 	unit_builder.add(TypeNameComp::new("placeholder"));
 	unit_builder.add(PositionComp::new(pos));
+	unit_builder.add(NextPosComp::new(pos));
 	unit_builder.add(DestinationComp::new(pos));
 	unit_builder.add(SpeedComponent::new(speed));
-	unit_builder.add(CollisionComponent::new(FixF::from_num(0.5)));
+	unit_builder.add(CollComp::new(FixF::from_num(1.0)));
 	unit_builder.add(IdComp::new(id_counter));
 
 	unit_builder
@@ -61,6 +66,20 @@ impl TypeNameComp {
 impl PositionComp {
 	pub fn new(pos: Pos) -> Self {
 		PositionComp{pos: pos}
+	}
+
+	pub fn set_pos(&mut self, pos: Pos) {
+		self.pos = pos;
+	} 
+
+	pub fn get_pos(&self) -> &Pos {
+		&self.pos
+	}
+}
+
+impl NextPosComp {
+	pub fn new(pos: Pos) -> Self {
+		NextPosComp{pos: pos}
 	}
 
 	pub fn set_pos(&mut self, pos: Pos) {
@@ -96,40 +115,16 @@ impl SpeedComponent {
 	}
 }
 
-impl CollisionComponent{
+impl CollComp{
 	pub fn new(radius: FixF) -> Self {
-		CollisionComponent{
-			w: radius,
-			h: radius,
+		CollComp{
+			r: radius,
 		}
 	}
 
-	pub fn get_h(&self) -> &FixF {
-		&self.h
+	pub fn get_r(&self) -> &FixF {
+		&self.r
 	}
-
-	pub fn get_w(&self) -> &FixF {
-		&self.w
-	}
-}
-
-pub fn is_colliding(
-	p1: &PositionComp,
-	c1: &CollisionComponent,
-	p2: &PositionComp,
-	c2: &CollisionComponent
-	) -> bool {
-
-	let pos1 = p1.get_pos();
-	let pos2 = p2.get_pos();
-
-	let dx = (pos1.x - pos2.x).abs();
-	let dy = (pos1.y - pos2.y).abs();
-
-	if (dx<(c1.get_w() + c2.get_w())) | (dy < (c1.get_h() + c2.get_h())) {
-		return true;
-	}
-	false
 }
 
 impl IdComp {

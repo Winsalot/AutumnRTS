@@ -78,6 +78,9 @@ There is lon way to go, but it can be like this:
 	- [Fuck this] Collision box (cos speheres suck :) ).
 	- Collision spheres (radius). Already have distance function, so yay nigga.
 	- Collision prediction (on move if next position collides with some object, then don't move).
+		- Basically add next_position component.
+		- And this component will do shit for us
+13. Mapo:
 	- Add map 
 		- Idk about data format.
 		- Should contain info such as z level, block vision, block path

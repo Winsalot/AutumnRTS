@@ -5,7 +5,7 @@ use std::ops::{Add, Sub, Mul, Div};
 
 
 
-pub type FixF = I31F1; //fixed float
+pub type FixF = I30F2; //fixed float
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct Pos {

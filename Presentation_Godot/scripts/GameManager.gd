@@ -21,7 +21,7 @@ func _ready():
 	# rustbridge: RustBridge = self.get_parent()	
 	params = self.get_node("/root/PresentationParams")
 	rustbridge = self.get_parent()
-	rustbridge.start_loop(1, 1) 
+	rustbridge.start_loop(1, 2) 
 	pass 
 
 
