@@ -6,6 +6,7 @@ use crate::messenger::*;
 use crate::sim_fix_math::*;
 
 
+
 /// Simple destination update from messages
 pub fn sys_input_dest(sim: &mut SimState){
 
@@ -83,10 +84,11 @@ pub fn sys_collision_pred(sim: &mut SimState){
 
 	let mut non_move_entities: Vec<Entity> = vec![];
 
-	'nested_loop: for (id0, (next_pos0, coll0)) in &mut ecs.query::<ToQuery0>(){
-		for (id1, (next_pos1, coll1)) in &mut ecs.query::<ToQuery0>(){
+	'parent_loop: for (id0, (next_pos0, coll0)) in &mut ecs.query::<ToQuery0>(){
+		'child_loop: for (id1, (next_pos1, coll1)) in &mut ecs.query::<ToQuery0>(){
+
 			if id1==id0{
-				continue 'nested_loop;
+				continue 'child_loop;
 			}
 			// does id0 collide with anything?
 			let dist = Pos::dist(next_pos0.get_pos(), next_pos1.get_pos());
