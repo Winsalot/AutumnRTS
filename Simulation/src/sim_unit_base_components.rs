@@ -22,6 +22,12 @@ pub struct SpeedComponent {
 	speed: FixF,
 }
 
+// Square hitbox. W,H should be treadted as radius
+pub struct CollisionComponent{
+	h: FixF,
+	w: FixF,
+}
+
 
 pub fn plc_unit(pos: Pos, speed: FixF) -> EntityBuilder {
 
@@ -31,6 +37,7 @@ pub fn plc_unit(pos: Pos, speed: FixF) -> EntityBuilder {
 	unit_builder.add(PositionComp::new(pos));
 	unit_builder.add(DestinationComp::new(pos));
 	unit_builder.add(SpeedComponent::new(speed));
+	unit_builder.add(CollisionComponent::new(FixF::from_num(0.5)));
 
 	unit_builder
 }
@@ -77,4 +84,40 @@ impl SpeedComponent {
 	pub fn get_speed(&self) -> &FixF {
 		&self.speed
 	}
+}
+
+impl CollisionComponent{
+	pub fn new(radius: FixF) -> Self {
+		CollisionComponent{
+			w: radius,
+			h: radius,
+		}
+	}
+
+	pub fn get_h(&self) -> &FixF {
+		&self.h
+	}
+
+	pub fn get_w(&self) -> &FixF {
+		&self.w
+	}
+}
+
+pub fn is_colliding(
+	p1: &PositionComp,
+	c1: &CollisionComponent,
+	p2: &PositionComp,
+	c2: &CollisionComponent
+	) -> bool {
+
+	let pos1 = p1.get_pos();
+	let pos2 = p2.get_pos();
+
+	let dx = (pos1.x - pos2.x).abs();
+	let dy = (pos1.y - pos2.y).abs();
+
+	if (dx<(c1.get_w() + c2.get_w())) | (dy < (c1.get_h() + c2.get_h())) {
+		return true;
+	}
+	false
 }
