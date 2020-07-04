@@ -52,10 +52,11 @@ pub fn input_spawn_unit(sim: &mut SimState) {
 	for i in 0..spawn_msg.len(){
 		match spawn_msg[i]{
 			RenderMessage::Spawn(pos) => {
-				let mut new_unit = plc_unit(pos, FixF::from_num(2));
+				let mut new_unit = plc_unit(pos, FixF::from_num(2), &mut sim.id_counter);
 				let e = sim.ecs.spawn(new_unit.build());
 
-				let msg = EngineMessage::ObjSpawn(e.to_bits(), pos);
+				let id = sim.ecs.get::<IdComp>(e).unwrap();
+				let msg = EngineMessage::ObjSpawn(*id, pos);
 
 				sim.send_batch.push(msg);
 			},
@@ -80,7 +81,7 @@ pub fn input_update_destinations(sim: &mut SimState){
 	for i in 0..dest_msg.len(){
 		match dest_msg[i]{
 			RenderMessage::Destination(id, pos) => {
-				let dest_comp = sim.ecs.get_mut::<DestinationComp>(Entity::from_bits(id));
+				let dest_comp = sim.ecs.get_mut::<DestinationComp>(Entity::from_bits(id.get().clone()));
 				if let Ok(mut dest_comp) = dest_comp {
 					dest_comp.set_dest(pos);
 					let msg = EngineMessage::ObjDest(id, pos);
@@ -94,9 +95,9 @@ pub fn input_update_destinations(sim: &mut SimState){
 
 pub fn update_positions(sim: &mut SimState){
 	// Updates unit positions
-	type ToQuery<'a> = (&'a mut PositionComp, &'a DestinationComp, &'a SpeedComponent);
+	type ToQuery<'a> = (&'a IdComp, &'a mut PositionComp, &'a DestinationComp, &'a SpeedComponent);
 	let ecs = &mut sim.ecs;
-	'query_loop: for (id, (pos, dest, speed)) in &mut ecs.query::<ToQuery>(){
+	'query_loop: for (_, (id, pos, dest, speed)) in &mut ecs.query::<ToQuery>(){
 		if dest.get_dest() == pos.get_pos() {
 			continue 'query_loop;
 		}
@@ -108,7 +109,7 @@ pub fn update_positions(sim: &mut SimState){
 		if distance == 0 {
 			let new_pos = dest.get_dest();
 			pos.set_pos(*new_pos);
-			msg = EngineMessage::ObjMove(id.to_bits(), *new_pos);
+			msg = EngineMessage::ObjMove(*id, *new_pos);
 			sim.send_batch.push(msg);
 			continue 'query_loop;
 		}
@@ -118,7 +119,7 @@ pub fn update_positions(sim: &mut SimState){
 
 		pos.set_pos(new_pos);
 
-		msg = EngineMessage::ObjMove(id.to_bits(), new_pos);
+		msg = EngineMessage::ObjMove(*id, new_pos);
 		sim.send_batch.push(msg);
 	}
 }

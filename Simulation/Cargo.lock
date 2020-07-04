@@ -9,7 +9,6 @@ dependencies = [
  "gdnative",
  "hecs",
  "rand",
- "sdl2",
 ]
 
 [[package]]
@@ -469,28 +468,6 @@ name = "scopeguard"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d29ab0c6d3fc0ee92fe66e2d99f700eab17a8d57d1c1d3b748380fb20baa78cd"
-
-[[package]]
-name = "sdl2"
-version = "0.34.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "45c68e7a45838d6dd8723347a5d233f2c989f0b291f18a46158d5dfbb275ada1"
-dependencies = [
- "bitflags",
- "lazy_static",
- "libc",
- "sdl2-sys",
-]
-
-[[package]]
-name = "sdl2-sys"
-version = "0.34.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "575db20c45cce6565d4ece46509288ded53f5571dc89e4af165a562eb0eeec26"
-dependencies = [
- "cfg-if",
- "libc",
-]
 
 [[package]]
 name = "semver"

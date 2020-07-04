@@ -65,12 +65,14 @@ There is lon way to go, but it can be like this:
 	+ Yes.
 	+ Rewrite Game Loop
 	+ Make sure godot runs and all that shit
-11.5. Does GIT actually work?
+[DONE] 11.1. Does GIT actually work?
 	+ Push current changes
 	+ backup
 	+ Delete unused files
 	+ Push again
 	+ Try to restore
+[DONE] 11.2. REmove old sim_object and move to ECS completely.
+	+ Need id component?
 12. Towards pathfinding.
 	- Implement collisins.
 	- [Fuck this] Collision box (cos speheres suck :) ).

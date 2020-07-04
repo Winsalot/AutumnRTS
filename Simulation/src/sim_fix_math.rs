@@ -1,4 +1,3 @@
-use fixed::prelude::*;
 use fixed::types::*;
 use fixed::traits::ToFixed;
 use fixed_sqrt::FixedSqrt;

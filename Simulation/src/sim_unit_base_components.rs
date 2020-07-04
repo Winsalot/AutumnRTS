@@ -7,6 +7,14 @@ pub struct TypeNameComp {
 	name: String,
 }
 
+/// Unit id
+/// Reason is that hecs ecs reuses id's, and 
+///this could cause some bugs in the future. 
+///Id component should be perfectly unique in game context 
+#[derive(Debug,PartialEq, Clone, Copy)]
+pub struct IdComp {
+	id: u64,
+}
 
 /// Location component
 pub struct PositionComp {
@@ -30,7 +38,7 @@ pub struct CollisionComponent{
 }
 
 
-pub fn plc_unit(pos: Pos, speed: FixF) -> EntityBuilder {
+pub fn plc_unit(pos: Pos, speed: FixF, id_counter: &mut u64) -> EntityBuilder {
 
 	let mut unit_builder = EntityBuilder::new();
 
@@ -39,6 +47,7 @@ pub fn plc_unit(pos: Pos, speed: FixF) -> EntityBuilder {
 	unit_builder.add(DestinationComp::new(pos));
 	unit_builder.add(SpeedComponent::new(speed));
 	unit_builder.add(CollisionComponent::new(FixF::from_num(0.5)));
+	unit_builder.add(IdComp::new(id_counter));
 
 	unit_builder
 }
@@ -121,4 +130,24 @@ pub fn is_colliding(
 		return true;
 	}
 	false
+}
+
+impl IdComp {
+	pub fn new(id_counter: &mut u64) -> Self {
+		let id = std::mem::replace(id_counter, *id_counter + 1);
+
+		IdComp {
+			id: id,
+		}
+	}
+
+	pub fn get(&self) -> &u64 {
+		&self.id
+	}
+
+	pub fn from(id: u64) -> Self {
+		IdComp{
+			id: id,
+		}
+	}
 }

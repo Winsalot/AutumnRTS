@@ -12,6 +12,7 @@ pub struct SimState {
 	pub fps_limit: u32,
 	pub break_loop: bool,
 	pub current_tick: u32,
+	pub id_counter: u64,
 }
 
 impl SimState {
@@ -25,6 +26,7 @@ impl SimState {
 			fps_limit: fps_limit,
 			break_loop: false,
 			current_tick: 0,
+			id_counter: 0,
 
 		}
 	}

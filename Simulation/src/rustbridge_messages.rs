@@ -1,7 +1,7 @@
 use gdnative::*;
 use crate::sim_fix_math::{Pos, FixF};
 use crate::messenger::*;
-use crate::sim_object::*;
+use crate::sim_unit_base_components::IdComp;
 
 // this small module offers functions to process Simulation messages 
 // and prepaes them for godot
@@ -21,7 +21,7 @@ pub fn vector2_to_pos(vec: Vector2) -> Pos {
 
 // return Variant- ready format
 pub fn inbox_drain_spawn(inbox: &mut Vec<EngineMessage>) -> 
-	Vec<(ObjectID, f32, f32)> 
+	Vec<(u64, f32, f32)> 
 	{
 	let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) = inbox
 		.clone()
@@ -34,11 +34,11 @@ pub fn inbox_drain_spawn(inbox: &mut Vec<EngineMessage>) ->
 	*inbox = rest;
 
 	// turn messages into tuples:
-	let mut ret: Vec<(ObjectID, f32, f32)> = vec![];
+	let mut ret: Vec<(u64, f32, f32)> = vec![];
 	for i in 0..target.len(){
 		if let EngineMessage::ObjSpawn(id, pos) = target[i] {
 			ret.push(
-				(id, pos.x.to_num::<f32>(), pos.y.to_num::<f32>())
+				(id.get().clone(), pos.x.to_num::<f32>(), pos.y.to_num::<f32>())
 				);
 		}
 	}
@@ -47,7 +47,7 @@ pub fn inbox_drain_spawn(inbox: &mut Vec<EngineMessage>) ->
 }
 
 pub fn inbox_drain_move(inbox: &mut Vec<EngineMessage>) -> 
-	Vec<(ObjectID, f32, f32)> 
+	Vec<(u64, f32, f32)> 
 	{
 	let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) = inbox
 		.clone()
@@ -60,11 +60,11 @@ pub fn inbox_drain_move(inbox: &mut Vec<EngineMessage>) ->
 	*inbox = rest;
 
 	// turn messages into tuples:
-	let mut ret: Vec<(ObjectID, f32, f32)> = vec![];
+	let mut ret: Vec<(u64, f32, f32)> = vec![];
 	for i in 0..target.len(){
 		if let EngineMessage::ObjMove(id, pos) = target[i] {
 			ret.push(
-				(id, pos.x.to_num::<f32>(), pos.y.to_num::<f32>())
+				(id.get().clone(), pos.x.to_num::<f32>(), pos.y.to_num::<f32>())
 				);
 		}
 	}
@@ -98,7 +98,7 @@ pub fn inbox_drain_fps(inbox: &mut Vec<EngineMessage>) ->
 }
 
 pub fn inbox_drain_dest(inbox: &mut Vec<EngineMessage>) -> 
-	Vec<(ObjectID, f32, f32)> 
+	Vec<(u64, f32, f32)> 
 	{
 	let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) = inbox
 		.clone()
@@ -111,11 +111,11 @@ pub fn inbox_drain_dest(inbox: &mut Vec<EngineMessage>) ->
 	*inbox = rest;
 
 	// turn messages into tuples:
-	let mut ret: Vec<(ObjectID, f32, f32)> = vec![];
+	let mut ret: Vec<(u64, f32, f32)> = vec![];
 	for i in 0..target.len(){
 		if let EngineMessage::ObjDest(id, pos) = target[i] {
 			ret.push(
-				(id, pos.x.to_num::<f32>(), pos.y.to_num::<f32>())
+				(id.get().clone(), pos.x.to_num::<f32>(), pos.y.to_num::<f32>())
 				);
 		}
 	}
