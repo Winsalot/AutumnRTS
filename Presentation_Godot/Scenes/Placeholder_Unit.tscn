@@ -1,12 +1,35 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://Presentation_Godot/scripts/Placeholder_Unit.gd" type="Script" id=2]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="GDScript" id=4]
+script/source = "extends Sprite
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	var dims = self.get_node(\"/root/PresentationParams\").scale;
+	var own_size = self.texture.get_size()
+	print(dims )
+	self.set_scale(dims / own_size * 2)
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 31.9552, 32.5031 )
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=3]
 script/source = "extends Line2D
 
 
@@ -33,14 +56,15 @@ script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
+script = SubResource( 4 )
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="Line2D" type="Line2D" parent="."]
 width = 2.0
 default_color = Color( 0.215686, 0.764706, 0.505882, 1 )
-script = SubResource( 2 )
+script = SubResource( 3 )
 [connection signal="input_event" from="Area2D" to="." method="_on_Area2D_input_event"]

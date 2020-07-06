@@ -6,6 +6,7 @@ export(Vector2) var real_pos; # Real position in simulation
 export(Vector2) var dest; # Real position in simulation
 export(bool) var is_selected
 export(int) var unique_id;
+export(Vector2) var dimensions;
 
 var gui;
 
@@ -16,6 +17,7 @@ func _ready():
 	is_selected = false;
 	gui = get_node("/root/RustBridge/GUI")
 	dest = self.get_position()
+	dimensions = self.get_node("/root/PresentationParams").scale;
 	pass # Replace with function body.
 
 

@@ -80,12 +80,19 @@ There is lon way to go, but it can be like this:
 	+ Collision prediction (on move if next position collides with some object, then don't move).
 		- Basically add next_position component.
 		- And this component will do shit for us
-13. Mapo:
+[DONE] 13. Mapo:
 	- Add map 
-		- Idk about data format.
-		- Should contain info such as z level, block vision, block path
-	- Make units collide with map as well.
-	- Implement grid somewhere in all of this
+		x Idk about data format.
+		x Should contain info such as z level, block vision, block path
+		+ Mapo is just vector of tiles. Tiles have block and z level propeties.
+		+ Z level would be important for FOV.
+		+ Ramps are just z level changes
+13.1. Render Mapo: 
+	- Map message?
+	- In godot it should be just grid of labels with z level and passability. 
+13.2 New system to check for collisions with map features.
+14. Pathfinding.
+	- A* or some shit.
 
 Long term:
 	+ Rework messaging system. I don't like the fact that I use enums now. [DONE. Now it uses lots of small enums]

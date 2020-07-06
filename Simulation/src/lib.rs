@@ -10,6 +10,7 @@ mod sim_unit_base_components;
 mod sim_systems;
 mod sim_sys_movement;
 mod sim_ecs;
+mod sim_map;
 
 use rustbridge::*;
 
