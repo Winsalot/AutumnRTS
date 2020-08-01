@@ -1,11 +1,15 @@
 use crate::sim_fix_math::*;
+use crate::messenger::EngineMessage;
 
-
+#[derive(Debug,PartialEq, Clone, Copy)]
 pub struct MapTile {
 	block_path: bool,
 	z_level: i32
 }
+
+#[derive(Debug,PartialEq, Clone)]
 pub struct Map {
+	size: (usize, usize),
 	tilemap: Vec<MapTile>
 }
 
@@ -23,6 +27,14 @@ impl MapTile {
 			z_level: z_level,
 		}
 	}
+
+	pub fn blocks_path(&self) -> bool {
+		self.block_path
+	}
+
+	pub fn z_level(&self) -> i32 {
+		self.z_level
+	}
 }
 
 impl Map {
@@ -35,16 +47,34 @@ impl Map {
 		}
 
 		Map{
+			size: (width as usize, height as usize),
 			tilemap: map,
 		}
 	}
 
-	pub fn get_tile(&mut self, x: u32, y: u32) -> &mut MapTile {
+	pub fn get_tile(&self, x: u32, y: u32) -> &MapTile {
+		&self.tilemap[(x+(x*y)) as usize]
+	}
+
+	pub fn get_tile_mut(&mut self, x: u32, y: u32) -> &mut MapTile {
 		&mut self.tilemap[(x+(x*y)) as usize]
 	}
 
 	fn set_tile(&mut self, x: u32, y: u32, new_tile: MapTile) {
 		self.tilemap[(x+(x*y)) as usize] = new_tile;
+	}
+
+	pub fn to_message(&self) -> Vec<EngineMessage> {
+		let mut msg: Vec<EngineMessage> = vec![];
+		for x in 0..self.size.0 {
+			for y in 0..self.size.1 {
+				let tile = self.get_tile(x as u32, y as u32).clone();
+				let tile_pos = Pos::new(FixF::from_num(x), FixF::from_num(x));
+				let tile_msg = EngineMessage::MapTile(tile_pos, tile);
+				msg.push(tile_msg);
+			}
+		}
+		msg
 	}
 
 	pub fn make_test_map() -> Self {

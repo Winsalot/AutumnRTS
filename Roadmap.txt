@@ -87,8 +87,16 @@ There is lon way to go, but it can be like this:
 		+ Mapo is just vector of tiles. Tiles have block and z level propeties.
 		+ Z level would be important for FOV.
 		+ Ramps are just z level changes
-13.1. Render Mapo: 
-	- Map message?
+[DONE]13.1. Mapo synchronization between sim and rend.
+	- Ok fuck this part. 
+	- Just fucking send map through message channels
+13.1.1. Render Mapo: 
+	+ Map message. [Individual tiles, cos vectors dont implement copy trait. yeah.]
+	+ Function that generates map message.
+	- System that listens for specific rare renderer messages (eg. starting positions, map layout, whole game state).
+		- This system waits for maprequest from renderer and calls generate_map_message.
+		- FUCK this. Just run it once in the beginning. [Later]
+	- Function that extracts and prepares maptile messages.
 	- In godot it should be just grid of labels with z level and passability. 
 13.2 New system to check for collisions with map features.
 14. Pathfinding.

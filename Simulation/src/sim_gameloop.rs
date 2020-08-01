@@ -5,6 +5,7 @@ use std::thread::JoinHandle;
 use crate::sim_ecs::*;
 use crate::sim_systems::*;
 use crate::sim_sys_movement::*;
+use crate::sim_map::Map;
 
 // Starts game loop and returns all the control handles
 
@@ -16,12 +17,19 @@ pub fn start_loop(fps: u32) ->
 
 	let sim_handle = std::thread::spawn(move || {
 
+		// Initialise kay parts of the simulation:
 		let messenger = sim_messenger;
+		let map = Map::make_test_map();
+		let mut sim = SimState::new(map, messenger, fps);
 
-		let mut sim = SimState::new(messenger, fps);
-
+		// Run init systems:
+		update_fps_info(&mut sim);
+		sys_init_send_map(&mut sim);
+		send_messages(&mut sim);
+		end_tick(&mut sim);
+		
+		// Run game loop & systems
 		'running: loop {
-			// run all systems:
 			update_fps_info(&mut sim);
 			receive_messages(&mut sim);
 

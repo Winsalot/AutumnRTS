@@ -77,6 +77,11 @@ pub fn clear_inbox(sim: &mut SimState) -> Option<Vec<RenderMessage>>{
 	ret
 }
 
+pub fn sys_init_send_map(sim: &mut SimState){
+	let mut msg = sim.map.to_message();
+	sim.send_batch.append(&mut msg);
+}
+
 pub fn send_messages(sim: &mut SimState) {
 	sim.messenger.send(sim.send_batch.clone());
 	sim.send_batch = vec![];
@@ -87,3 +92,4 @@ pub fn end_tick(sim: &mut SimState) {
 	sim.fps_counter.limit_fps(sim.fps_limit);
 	sim.fps_counter.tick();
 }
+

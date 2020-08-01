@@ -3,6 +3,7 @@ use crate::sim_fix_math::Pos;
 use std::sync::mpsc::{channel, Sender, Receiver};
 //use gdnative::{ToVariant, FromVariant};
 use crate::sim_unit_base_components::IdComp;
+use crate::sim_map::MapTile;
 
 
 #[derive(Debug,PartialEq, Clone, Copy)]
@@ -10,6 +11,7 @@ pub enum EngineMessage {
 	ObjSpawn(IdComp, Pos),
 	ObjMove(IdComp, Pos),
 	ObjDest(IdComp, Pos),
+	MapTile(Pos, MapTile),
 	Fps(u64),
 	// None, // this message sucks
 	Break,

@@ -1,5 +1,5 @@
 [package]
-name = "Simulation"
+name = "simulation"
 version = "0.1.0"
 authors = ["vilius"]
 edition = "2018"
