@@ -1,10 +1,58 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+
+# Declare member variables here. Examples:
+export(bool) var block_path = 0
+export(int) var z_level = 0
+
+var pixel_scale
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pixel_scale = self.get_node(\"/root/PresentationParams\").scale
+	
+	self.get_node(\"Z level\").set_text(String(z_level))
+	self.get_node(\"Z level\").set_begin(Vector2(1 - pixel_scale.x/2, 5))
+	
+	self.get_node(\"Block path\").set_text(String(block_path))
+	self.get_node(\"Block path\").set_begin(Vector2(1 - pixel_scale.x/2, -13))
+	
+	self.get_node(\"Sprite\").set_region(1)
+	self.get_node(\"Sprite\").set_region_rect(Rect2(10,10, pixel_scale.x -2 , pixel_scale.y -2))
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
 
 [node name="TileInfo" type="Node2D"]
+position = Vector2( 100, 100 )
+script = SubResource( 1 )
 
-[node name="Label" type="Label" parent="."]
-margin_right = 40.0
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.00784314, 0.00784314, 0.00784314, 1 )
+texture = ExtResource( 1 )
+region_rect = Rect2( 10, 10, 32, 32 )
+
+[node name="Block path" type="Label" parent="."]
+margin_right = 67.0
 margin_bottom = 14.0
+text = "Block path"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Z level" type="Label" parent="."]
+margin_right = 54.0
+margin_bottom = 25.0
+text = "z level"
 __meta__ = {
 "_edit_use_anchors_": false
 }
