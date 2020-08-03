@@ -1,34 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://Presentation_Godot/scripts/Placeholder_Unit.gd" type="Script" id=2]
 
-[sub_resource type="GDScript" id=1]
-script/source = "extends Sprite
-
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = \"text\"
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	var dims = self.get_node(\"/root/PresentationParams\").scale;
-	#var own_size = self.texture.get_size()
-	#print(dims )
-	#self.set_scale(dims / own_size * 2)
-	self.set_region(1)
-	self.set_region_rect(Rect2(10,10, dims.x -2 , dims.y -2))
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-"
-
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=2]
 radius = 30.2408
 
 [sub_resource type="GDScript" id=3]
@@ -53,21 +27,43 @@ func _process(delta):
 	pass
 "
 
+[sub_resource type="GDScript" id=4]
+script/source = "extends Node2D
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+var parent
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	parent = self.get_parent()
+	self.position = Vector2(0,0)
+	pass # Replace with function body.
+
+func _draw():
+	draw_circle(Vector2(0,0),parent.coll_radius * parent.pixel_scale.x, Color(0.5, 0.5, 1, 0.2))
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
 [node name="Placeholder_Unit" type="Node2D"]
 script = ExtResource( 2 )
-
-[node name="Sprite" type="Sprite" parent="."]
-visible = false
-texture = ExtResource( 1 )
-script = SubResource( 1 )
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 4 )
+shape = SubResource( 2 )
 
 [node name="Destination" type="Line2D" parent="."]
 width = 2.0
 default_color = Color( 0.215686, 0.764706, 0.505882, 1 )
 script = SubResource( 3 )
+
+[node name="NextPos" type="Node2D" parent="."]
+script = SubResource( 4 )
 [connection signal="input_event" from="Area2D" to="." method="_on_Area2D_input_event"]

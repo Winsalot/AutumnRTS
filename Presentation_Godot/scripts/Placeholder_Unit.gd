@@ -4,36 +4,40 @@ class_name Unit
 
 export(Vector2) var real_pos; # Real position in simulation
 export(Vector2) var dest; # Real position in simulation
+export(float) var coll_radius;
 export(bool) var is_selected
 export(int) var unique_id;
-export(Vector2) var dimensions;
+export(Vector2) var pixel_scale;
+export(Vector2) var next_pos;
 
 var gui;
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	real_pos = self.get_position();
+	real_pos = self.get_position(); # wtf? That's not right
+	next_pos = self.get_position();
 	is_selected = false;
 	gui = get_node("/root/RustBridge/GUI")
 	dest = self.get_position()
-	dimensions = self.get_node("/root/PresentationParams").scale;
+	pixel_scale = self.get_node("/root/PresentationParams").scale;
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
+func _process(delta):
 	#print(self.get_position() - self.dest)
-	#pass
+	$NextPos.set_position(next_pos - self.position)
+	pass
 
 
 func _draw():
 	# Your draw commands here
 	if !is_selected:
-		draw_circle_custom(32, true, Color(0.1, 0.1, 0.3, 0.9))
+		draw_circle_custom(coll_radius * pixel_scale.x, true, Color(0.1, 0.1, 0.3, 0.9))
 	else:
-		draw_circle_custom(32, true, Color(0.1, 0.1, 0.3, 0.9))
-		draw_circle_custom(32+5, false, Color(0.960, 0.945, 0.078, 0.95))
+		draw_circle_custom(coll_radius * pixel_scale.x, true, Color(0.1, 0.1, 0.3, 0.9))
+		draw_circle_custom(coll_radius * pixel_scale.x + 5, false, Color(0.960, 0.945, 0.078, 0.95))
 	#print("Draw call executed")
 	pass
 
@@ -42,7 +46,7 @@ func _on_Area2D_input_event(_viewport, event, _shape_idx):
 		#print("Mouse clicked inside object. Node name: ", self.get_name())
 		gui.select_unit(self)
 		is_selected = true
-		$Sprite.set_self_modulate(Color(0.7, 1.0, 0.7,1))
+		#$Sprite.set_self_modulate(Color(0.7, 1.0, 0.7,1))
 		self.update()
 		self.get_tree().set_input_as_handled()
 		print("imput marked as handled")

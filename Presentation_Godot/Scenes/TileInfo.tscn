@@ -14,10 +14,10 @@ var pixel_scale
 func _ready():
 	pixel_scale = self.get_node(\"/root/PresentationParams\").scale
 	
-	self.get_node(\"Z level\").set_text(String(z_level))
+	self.get_node(\"Z level\").set_text(\"z:\" + String(z_level))
 	self.get_node(\"Z level\").set_begin(Vector2(1 - pixel_scale.x/2, 5))
 	
-	self.get_node(\"Block path\").set_text(String(block_path))
+	self.get_node(\"Block path\").set_text(\"Block:\" + String(int(block_path)))
 	self.get_node(\"Block path\").set_begin(Vector2(1 - pixel_scale.x/2, -13))
 	
 	#self.get_node(\"Sprite\").set_region(1)

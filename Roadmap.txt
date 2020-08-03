@@ -99,24 +99,25 @@ There is lon way to go, but it can be like this:
 	+ Function that extracts and prepares maptile messages.
 	+ In godot it should be just grid of labels with z level and passability. 
 14. More transparency in Godot side. (Fuck me, don't wanna do this)
-	-Move from shitty sprites to custom drawings: https://docs.godotengine.org/en/stable/tutorials/2d/custom_drawing_in_2d.html
+	+Move from shitty sprites to custom drawings: https://docs.godotengine.org/en/stable/tutorials/2d/custom_drawing_in_2d.html
 		+ For unit.
 		+ For selected unit.
-		- Make sure that these ^ correspond to collision radius.
+		+ Make sure that these ^ correspond to collision radius.
 		+ For tiles.
-	- Use polygons for units.
+	+ Use polygons for units.
 		- Draw simple polygon circle or square, I don't care.
-	- Next position rendering.
+	+ Next position rendering.
 		- rearrange syustems so that next_pos is calculated and used on separate iterations of game loop.
 		- Create message for next pos.
 		- Use it in godot.
-	- Collision size rendering.
+	+ Collision size rendering.
 		- create message
 		- Send it on unit spawn?
 		- use it in godot to adjust unit and next po size.
-	- Add global param for extra info.
+	- Add global param for extra info. OH god. Please not this.
 		- If enabled units have labels with their locations and shit
 		- Tiles also display coordinates as label
+
 	
 
 Long term:

@@ -41,7 +41,7 @@ pub fn sys_input_dest(sim: &mut SimState){
 pub fn sys_set_next_pos(sim: &mut SimState){
 
 	type ToQuery<'a> = (
-		// &'a IdComp, 
+		 &'a IdComp, 
 		&'a PositionComp, 
 		&'a mut NextPosComp, 
 		&'a DestinationComp, 
@@ -50,7 +50,7 @@ pub fn sys_set_next_pos(sim: &mut SimState){
 	
 	let ecs = &mut sim.ecs;
 
-	'query_loop: for (_id, (pos, next_pos, dest, speed)) in &mut ecs.query::<ToQuery>(){
+	'query_loop: for (_, (id, pos, next_pos, dest, speed)) in &mut ecs.query::<ToQuery>(){
 		
 		// is there somewhere to move?
 		if dest.get_dest() == pos.get_pos() {
@@ -68,6 +68,8 @@ pub fn sys_set_next_pos(sim: &mut SimState){
 		let n_next_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
 
 		next_pos.set_pos(n_next_pos);
+		let msg = EngineMessage::ObjNextPos(*id, n_next_pos);
+		sim.send_batch.push(msg)
 
 	}
 }

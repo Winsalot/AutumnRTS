@@ -99,6 +99,11 @@ impl RustBridge {
 	}
 
 	#[export]
+	fn get_next_pos(&mut self, _owner: gdnative::Node) -> Variant {
+		inbox_drain_next_pos(&mut self.message_inbox).to_variant()
+	}
+
+	#[export]
 	fn get_msg_dest(&mut self, _owner: gdnative::Node) -> Variant {
 		inbox_drain_dest(&mut self.message_inbox).to_variant()
 	}

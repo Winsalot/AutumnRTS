@@ -26,6 +26,10 @@ func _unhandled_input(event):
 	if event.is_action_pressed("deselect_all"):
 		#print("deselect event registered")
 		#self.get_tree().set_input_as_handled()
+		for unit in selected_units:
+			unit.is_selected = false
+			unit.update()
+		selected_units = []
 		pass
 	if event.is_action_pressed("right_click"):
 		for unit in selected_units:

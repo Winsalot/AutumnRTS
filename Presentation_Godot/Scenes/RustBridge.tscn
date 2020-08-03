@@ -54,7 +54,7 @@ margin_left = 37.655
 margin_top = 576.299
 margin_right = 537.655
 margin_bottom = 590.299
-text = "SPACE to spawn unit, LEFT MOUSE to select, RIGHT MOUSE to give move order"
+text = "SPACE to spawn unit, LEFT MOUSE to select, RIGHT MOUSE to give move order; ESC to deselect all units"
 __meta__ = {
 "_edit_use_anchors_": false
 }

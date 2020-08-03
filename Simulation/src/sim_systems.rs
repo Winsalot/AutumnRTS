@@ -52,13 +52,21 @@ pub fn input_spawn_unit(sim: &mut SimState) {
 	for i in 0..spawn_msg.len(){
 		match spawn_msg[i]{
 			RenderMessage::Spawn(pos) => {
-				let mut new_unit = plc_unit(pos, FixF::from_num(0.5), &mut sim.id_counter);
+				//TODO: coll_rad_tmp should not be hardcoded
+				let coll_rad_tmp = FixF::from_num(0.5);
+
+				let mut new_unit = plc_unit(pos, coll_rad_tmp, &mut sim.id_counter);
 				let e = sim.ecs.spawn(new_unit.build());
 
 				let id = sim.ecs.get::<IdComp>(e).unwrap();
-				let msg = EngineMessage::ObjSpawn(*id, pos);
 
+				// TODO: remove this message:
+				//let msg_old = EngineMessage::ObjSpawn(*id, pos);
+				//sim.send_batch.push(msg_old);
+
+				let msg = EngineMessage::ObjPosColl(*id, pos, coll_rad_tmp);
 				sim.send_batch.push(msg);
+				
 			},
 			_ => {}
 		}

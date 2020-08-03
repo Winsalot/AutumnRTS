@@ -1,4 +1,4 @@
-use crate::sim_fix_math::Pos;
+use crate::sim_fix_math::{Pos, FixF};
 //use crate::sim_object::*;
 use std::sync::mpsc::{channel, Sender, Receiver};
 //use gdnative::{ToVariant, FromVariant};
@@ -8,8 +8,10 @@ use crate::sim_map::MapTile;
 
 #[derive(Debug,PartialEq, Clone, Copy)]
 pub enum EngineMessage {
-	ObjSpawn(IdComp, Pos),
+	//ObjSpawn(IdComp, Pos), // Deprecated
+	ObjPosColl(IdComp, Pos, FixF), // Message carrying position and collision radius info
 	ObjMove(IdComp, Pos),
+	ObjNextPos(IdComp, Pos),
 	ObjDest(IdComp, Pos),
 	MapTile(Pos, MapTile),
 	Fps(u64),

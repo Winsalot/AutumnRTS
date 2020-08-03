@@ -39,9 +39,9 @@ pub fn start_loop(fps: u32) ->
 
 			input_spawn_unit(&mut sim);
 			sys_input_dest(&mut sim);
-			sys_set_next_pos(&mut sim);
 			sys_collision_pred(&mut sim);
 			sys_set_pos(&mut sim);
+			sys_set_next_pos(&mut sim);
 			clear_inbox(&mut sim);
 			send_messages(&mut sim);
 			end_tick(&mut sim);
