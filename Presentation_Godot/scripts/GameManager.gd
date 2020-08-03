@@ -61,7 +61,7 @@ func spawn_map():
 	for tile_spawn in map_info:
 		#print(tile_spawn)
 		var tile = plc_tile.instance()
-		var xy = Vector2(tile_spawn[0], tile_spawn[1]) * params.scale + Vector2(100,100)
+		var xy = Vector2(tile_spawn[0], tile_spawn[1]) * params.scale 
 		tile.set_position(xy)
 		tile.set_name("Tile:" + String(xy))
 		tile.block_path = tile_spawn[2]
