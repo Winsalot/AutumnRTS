@@ -1,4 +1,4 @@
-#AutumnRTS
+# AutumnRTS
 
 Real time strategy game/engine written in Rust and Godot. Project is in very early stage of developement and it is not playable yet. 
 
@@ -23,7 +23,7 @@ Overall I plan to aim to make a game that:
 
 Regarding lore, setting and graphics, this is too early to say. Probably some sci fi thing.
 
-##Goals for this project and what will set it apart
+## Goals for this project and what will set it apart
 
 Currently the game logic (simulation) is written in Rust, and rendering as well as user input is done in Godot (renderer). Currently renderer and simulation are already decoupled and run in separate threads. I believe that this architecture gives me a lot of freedom on future developement.
 
@@ -31,11 +31,11 @@ For example, the game state could be rendered in either 2d or 3d, with only chan
 
 In theory, someday even bots and mods could be written purely in Godot.
 
-##Current state of project
+## Current state of project
 
 Developement is rather slow. You can check the last commit to see if it is still going.  
 
-##Installation
+## Installation
 
 To test the code locally navigate to project folder and build rust library:
 
