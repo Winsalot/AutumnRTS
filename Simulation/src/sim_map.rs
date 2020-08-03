@@ -53,15 +53,15 @@ impl Map {
 	}
 
 	pub fn get_tile(&self, x: u32, y: u32) -> &MapTile {
-		&self.tilemap[(x+(x*y)) as usize]
+		&self.tilemap[(x+(self.size.0 as u32* y)) as usize]
 	}
 
 	pub fn get_tile_mut(&mut self, x: u32, y: u32) -> &mut MapTile {
-		&mut self.tilemap[(x+(x*y)) as usize]
+		&mut self.tilemap[(x+(self.size.0 as u32 * y)) as usize]
 	}
 
 	fn set_tile(&mut self, x: u32, y: u32, new_tile: MapTile) {
-		self.tilemap[(x+(x*y)) as usize] = new_tile;
+		self.tilemap[(x+(self.size.0 as u32 * y)) as usize] = new_tile;
 	}
 
 	pub fn to_message(&self) -> Vec<EngineMessage> {
@@ -81,14 +81,19 @@ impl Map {
 		//makes 8x8 map with walls and multiple z levels
 		let mut map = Map::empty_map(8,8);
 
+		//map.set_tile(3, 3, MapTile::wall_tile(1));
+
+		//println!("{:?}", map);
+
+
 		for y in 0..8 {
 			'lower: for x in 0..8 {
 				// Add exterior walls:
-				if (y == 0) | (y == 8) | (x == 0) | (x == 8) {
+				if (y == 0) | (y == 7) | (x == 0) | (x == 7) {
 					map.set_tile(x, y, MapTile::wall_tile(1));
 					continue 'lower;
 				}
-
+				
 				match (x, y) {
 					(1,1) => map.set_tile(x, y, MapTile::ground_tile(1)),
 					(1,2) => map.set_tile(x, y, MapTile::ground_tile(1)),
@@ -108,9 +113,11 @@ impl Map {
 					
 					_ => {},
 				}
+				
 
 			}
 		}
+		
 
 		map
 	}

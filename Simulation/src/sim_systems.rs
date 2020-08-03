@@ -52,7 +52,7 @@ pub fn input_spawn_unit(sim: &mut SimState) {
 	for i in 0..spawn_msg.len(){
 		match spawn_msg[i]{
 			RenderMessage::Spawn(pos) => {
-				let mut new_unit = plc_unit(pos, FixF::from_num(2), &mut sim.id_counter);
+				let mut new_unit = plc_unit(pos, FixF::from_num(0.5), &mut sim.id_counter);
 				let e = sim.ecs.spawn(new_unit.build());
 
 				let id = sim.ecs.get::<IdComp>(e).unwrap();

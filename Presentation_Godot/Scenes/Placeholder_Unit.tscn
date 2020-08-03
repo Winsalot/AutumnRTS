@@ -15,9 +15,11 @@ script/source = "extends Sprite
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var dims = self.get_node(\"/root/PresentationParams\").scale;
-	var own_size = self.texture.get_size()
-	print(dims )
-	self.set_scale(dims / own_size * 2)
+	#var own_size = self.texture.get_size()
+	#print(dims )
+	#self.set_scale(dims / own_size * 2)
+	self.set_region(1)
+	self.set_region_rect(Rect2(10,10, dims.x -2 , dims.y -2))
 	pass # Replace with function body.
 
 

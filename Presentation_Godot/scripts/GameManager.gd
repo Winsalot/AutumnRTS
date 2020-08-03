@@ -59,13 +59,15 @@ func spawn_units():
 func spawn_map():
 	var map_info = rustbridge.get_msg_map()
 	for tile_spawn in map_info:
+		#print(tile_spawn)
 		var tile = plc_tile.instance()
-		var xy = Vector2(tile_spawn[0], tile_spawn[1]) * params.scale
+		var xy = Vector2(tile_spawn[0], tile_spawn[1]) * params.scale + Vector2(100,100)
 		tile.set_position(xy)
 		tile.set_name("Tile:" + String(xy))
 		tile.block_path = tile_spawn[2]
 		tile.z_level = tile_spawn[3]
-		print("Tile ", tile.get_name(), " placed at ", tile.get_position())
+		self.add_child(tile)
+		#print("Tile ", tile.get_name(), " placed at " + String(tile.get_position()) + ", block: "+ String(tile.block_path))
 
 
 func move_units():
