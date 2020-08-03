@@ -9,7 +9,7 @@ var selected_units = [];
 var params;
 
 func _ready():
-	rustbridge = self.get_parent()
+	rustbridge = self.get_node("/root/RustBridge")
 	params = self.get_node("/root/PresentationParams")
 
 

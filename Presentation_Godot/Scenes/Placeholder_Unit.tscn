@@ -28,8 +28,8 @@ func _ready():
 #	pass
 "
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 31.9552, 32.5031 )
+[sub_resource type="CircleShape2D" id=4]
+radius = 30.2408
 
 [sub_resource type="GDScript" id=3]
 script/source = "extends Line2D
@@ -57,15 +57,16 @@ func _process(delta):
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
+visible = false
 texture = ExtResource( 1 )
 script = SubResource( 1 )
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 
-[node name="Line2D" type="Line2D" parent="."]
+[node name="Destination" type="Line2D" parent="."]
 width = 2.0
 default_color = Color( 0.215686, 0.764706, 0.505882, 1 )
 script = SubResource( 3 )

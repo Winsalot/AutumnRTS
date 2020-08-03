@@ -27,11 +27,46 @@ func _ready():
 	#pass
 
 
-func _on_Area2D_input_event(viewport, event, shape_idx):
+func _draw():
+	# Your draw commands here
+	if !is_selected:
+		draw_circle_custom(32, true, Color(0.1, 0.1, 0.3, 0.9))
+	else:
+		draw_circle_custom(32, true, Color(0.1, 0.1, 0.3, 0.9))
+		draw_circle_custom(32+5, false, Color(0.960, 0.945, 0.078, 0.95))
+	#print("Draw call executed")
+	pass
+
+func _on_Area2D_input_event(_viewport, event, _shape_idx):
 	if event.is_action_pressed("mouse_select_single"):
 		#print("Mouse clicked inside object. Node name: ", self.get_name())
 		gui.select_unit(self)
+		is_selected = true
 		$Sprite.set_self_modulate(Color(0.7, 1.0, 0.7,1))
+		self.update()
 		self.get_tree().set_input_as_handled()
 		print("imput marked as handled")
 	pass # Replace with function body.
+
+
+func draw_circle_custom(radius, fill = true, col = Color(0.1, 0.1, 0.3, 0.9)):
+	
+	if radius <= 0.0:
+		return
+		
+	var maxerror = 0.25
+	var maxpoints = 128 # I think this is renderer limit
+	
+	var numpoints = ceil(PI / acos(1.0 - maxerror / radius))
+	numpoints = clamp(numpoints, 3, maxpoints)
+	
+	var points = PoolVector2Array([])
+	
+	for i in numpoints:
+		var phi = i * PI * 2.0 / numpoints
+		var v = Vector2(sin(phi), cos(phi))
+		points.push_back(v * radius)
+	if fill:
+		draw_colored_polygon(points, col)
+	else:
+		draw_polyline(points, col, 3)

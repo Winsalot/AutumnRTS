@@ -90,22 +90,40 @@ There is lon way to go, but it can be like this:
 [DONE]13.1. Mapo synchronization between sim and rend.
 	- Ok fuck this part. 
 	- Just fucking send map through message channels
-13.1.1. Render Mapo: 
+[DONE]13.1.1. Render Mapo: 
 	+ Map message. [Individual tiles, cos vectors dont implement copy trait. yeah.]
 	+ Function that generates map message.
-	- System that listens for specific rare renderer messages (eg. starting positions, map layout, whole game state).
+	+ System that listens for specific rare renderer messages (eg. starting positions, map layout, whole game state).
 		- This system waits for maprequest from renderer and calls generate_map_message.
 		- FUCK this. Just run it once in the beginning. [Later]
-	- Function that extracts and prepares maptile messages.
-	- In godot it should be just grid of labels with z level and passability. 
-13.2 New system to check for collisions with map features.
-14. Pathfinding.
-	- A* or some shit.
+	+ Function that extracts and prepares maptile messages.
+	+ In godot it should be just grid of labels with z level and passability. 
+14. More transparency in Godot side. (Fuck me, don't wanna do this)
+	-Move from shitty sprites to custom drawings: https://docs.godotengine.org/en/stable/tutorials/2d/custom_drawing_in_2d.html
+		+ For unit.
+		+ For selected unit.
+		- Make sure that these ^ correspond to collision radius.
+		+ For tiles.
+	- Use polygons for units.
+		- Draw simple polygon circle or square, I don't care.
+	- Next position rendering.
+		- rearrange syustems so that next_pos is calculated and used on separate iterations of game loop.
+		- Create message for next pos.
+		- Use it in godot.
+	- Collision size rendering.
+		- create message
+		- Send it on unit spawn?
+		- use it in godot to adjust unit and next po size.
+	- Add global param for extra info.
+		- If enabled units have labels with their locations and shit
+		- Tiles also display coordinates as label
+	
 
 Long term:
 	+ Rework messaging system. I don't like the fact that I use enums now. [DONE. Now it uses lots of small enums]
 	+ Fix simulation to only send object messages after something changed. [DONE with small message rework]
-	- Add static typing to GDscript. It will save my life
+	x Add static typing to GDscript. It will save my life
+	
 	
 
 So basic idea: Every object Godot spawns is a scene. Therefore it's good if there is some general entity scene (units)

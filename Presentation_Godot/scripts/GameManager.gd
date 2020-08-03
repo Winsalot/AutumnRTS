@@ -22,8 +22,9 @@ func _ready():
 	self.set_process_input(false)
 	# rustbridge: RustBridge = self.get_parent()	
 	params = self.get_node("/root/PresentationParams")
-	rustbridge = self.get_parent()
+	rustbridge = self.get_node("/root/RustBridge")
 	rustbridge.start_loop(1, 2) 
+	
 	pass 
 
 
@@ -31,11 +32,11 @@ func _ready():
 func _process(delta):
 	rustbridge.receive_sim_messages() # should be first thing every frame
 	
+	spawn_map()
 	spawn_units()
 	move_units()
 	get_engine_fps()
 	set_unit_dest()
-	spawn_map()
 	
 	rustbridge.clear_inbox()
 	rustbridge.deliver_input() # Should be last action in presentation tick

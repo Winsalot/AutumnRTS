@@ -52,7 +52,7 @@ __meta__ = {
 [node name="Controls info" type="Label" parent="GUI"]
 margin_left = 37.655
 margin_top = 576.299
-margin_right = 77.655
+margin_right = 537.655
 margin_bottom = 590.299
 text = "SPACE to spawn unit, LEFT MOUSE to select, RIGHT MOUSE to give move order"
 __meta__ = {
