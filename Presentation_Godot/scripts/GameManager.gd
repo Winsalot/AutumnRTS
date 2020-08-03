@@ -10,6 +10,7 @@ class_name GameManager
 var rustbridge;
 
 var plc_unit; # placeholder unit. Will use dictionary with multiple units
+var plc_tile;
 var params;
 
 
@@ -17,6 +18,7 @@ var params;
 
 func _ready():
 	plc_unit = preload("res://Presentation_Godot/Scenes/Placeholder_Unit.tscn")
+	plc_tile = preload("res://Presentation_Godot/Scenes/TileInfo.tscn")
 	self.set_process_input(false)
 	# rustbridge: RustBridge = self.get_parent()	
 	params = self.get_node("/root/PresentationParams")
@@ -28,11 +30,12 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	rustbridge.receive_sim_messages() # should be first thing every frame
+	
 	spawn_units()
 	move_units()
 	get_engine_fps()
 	set_unit_dest()
-	
+	spawn_map()
 	
 	rustbridge.clear_inbox()
 	rustbridge.deliver_input() # Should be last action in presentation tick
@@ -52,6 +55,18 @@ func spawn_units():
 		unit.unique_id = unit_spawn[0]
 		self.add_child(unit)
 	pass
+
+func spawn_map():
+	var map_info = rustbridge.get_msg_map()
+	for tile_spawn in map_info:
+		var tile = plc_tile.instance()
+		var xy = Vector2(tile_spawn[0], tile_spawn[1]) * params.scale
+		tile.set_position(xy)
+		tile.set_name("Tile:" + String(xy))
+		tile.block_path = tile_spawn[2]
+		tile.z_level = tile_spawn[3]
+		print("Tile ", tile.get_name(), " placed at ", tile.get_position())
+
 
 func move_units():
 	var move_info = rustbridge.get_msg_move()

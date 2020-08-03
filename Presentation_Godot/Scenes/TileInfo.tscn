@@ -22,8 +22,8 @@ func _ready():
 	self.get_node(\"Block path\").set_text(String(block_path))
 	self.get_node(\"Block path\").set_begin(Vector2(1 - pixel_scale.x/2, -13))
 	
-	self.get_node(\"Sprite\").set_region(1)
-	self.get_node(\"Sprite\").set_region_rect(Rect2(10,10, pixel_scale.x -2 , pixel_scale.y -2))
+	#self.get_node(\"Sprite\").set_region(1)
+	#self.get_node(\"Sprite\").set_region_rect(Rect2(10,10, pixel_scale.x -2 , pixel_scale.y -2))
 	pass # Replace with function body.
 
 
@@ -33,11 +33,9 @@ func _ready():
 "
 
 [node name="TileInfo" type="Node2D"]
-position = Vector2( 100, 100 )
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 0.00784314, 0.00784314, 0.00784314, 1 )
 texture = ExtResource( 1 )
 region_rect = Rect2( 10, 10, 32, 32 )
 

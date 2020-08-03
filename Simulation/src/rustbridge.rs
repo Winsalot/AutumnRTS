@@ -82,7 +82,8 @@ impl RustBridge {
 	fn receive_sim_messages(&mut self, _owner: gdnative::Node){
 		if let Some(rend_msg) = &self.messenger {
 			self.message_inbox.append(&mut rend_msg.rec());
-			godot_print!("{:?}", self.message_inbox);
+			//godot_print!("Messages receibved");
+			//godot_print!("Received messages: {:?}", self.message_inbox);
 		}
 
 	}
