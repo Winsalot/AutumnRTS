@@ -51,8 +51,8 @@ func spawn_units():
 	var spawn_info = rustbridge.get_msg_spawn()
 	for unit_spawn in spawn_info:
 		var unit = plc_unit.instance()
-		var xy = Vector2(unit_spawn[1], unit_spawn[2]) * params.scale
-		unit.set_position(xy)
+		var xy = Vector2(unit_spawn[1], unit_spawn[2]) #* params.scale
+		unit.set_real_pos(xy)
 		unit.set_name(unit_name(unit_spawn[0]))
 		unit.unique_id = unit_spawn[0]
 		unit.coll_radius = unit_spawn[3]
@@ -64,8 +64,8 @@ func spawn_map():
 	for tile_spawn in map_info:
 		#print(tile_spawn)
 		var tile = plc_tile.instance()
-		var xy = Vector2(tile_spawn[0], tile_spawn[1]) * params.scale 
-		tile.set_position(xy)
+		var xy = Vector2(tile_spawn[0], tile_spawn[1]) #* params.scale 
+		tile.set_real_pos(xy)
 		tile.set_name("Tile:" + String(xy))
 		tile.block_path = tile_spawn[2]
 		tile.z_level = tile_spawn[3]
@@ -77,16 +77,16 @@ func move_units():
 	var move_info = rustbridge.get_msg_move()
 	for unit_move in move_info:
 		var unit = self.get_node(unit_name(unit_move[0]))
-		var xy = Vector2(unit_move[1], unit_move[2]) * params.scale
-		unit.set_position(xy)
+		var xy = Vector2(unit_move[1], unit_move[2])# * params.scale
+		unit.set_real_pos(xy)
 	pass
 
 func get_next_pos():
 	var next_pos_info = rustbridge.get_next_pos()
 	for unit_next_pos in next_pos_info:
 		var unit = self.get_node(unit_name(unit_next_pos[0]))
-		var xy = Vector2(unit_next_pos[1], unit_next_pos[2]) * params.scale
-		unit.next_pos = xy
+		var xy = Vector2(unit_next_pos[1], unit_next_pos[2]) #* params.scale
+		unit.set_next_pos(xy)
 	pass
 
 func get_engine_fps():
@@ -98,4 +98,4 @@ func set_unit_dest():
 	var dest_info = rustbridge.get_msg_dest()
 	for unit_dest in dest_info:
 		var unit = self.get_node(unit_name(unit_dest[0]))
-		unit.dest = Vector2(unit_dest[1], unit_dest[2])*params.scale
+		unit.set_dest(Vector2(unit_dest[1], unit_dest[2]))

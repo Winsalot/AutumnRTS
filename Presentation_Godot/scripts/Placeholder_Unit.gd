@@ -11,23 +11,34 @@ export(Vector2) var pixel_scale;
 export(Vector2) var next_pos;
 
 var gui;
+var params;
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	real_pos = self.get_position(); # wtf? That's not right
-	next_pos = self.get_position();
+	#real_pos = self.get_position(); # wtf? That's not right
+	next_pos = real_pos;
+	dest = real_pos;
 	is_selected = false;
 	gui = get_node("/root/RustBridge/GUI")
-	dest = self.get_position()
-	pixel_scale = self.get_node("/root/PresentationParams").scale;
+	params = self.get_node("/root/PresentationParams")
+	pixel_scale = params.scale;
+	
+	self.position = real_pos * pixel_scale
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	#print(self.get_position() - self.dest)
-	$NextPos.set_position(next_pos - self.position)
+	#$NextPos.set_position(next_pos - self.position)
+	$NextPos.position = (next_pos - real_pos) * pixel_scale
+	if params.detailed_info:
+		$Details.set_text("real_pos: " + String(real_pos) + \
+		"\n" + "next_pos: " + String(next_pos) + \
+		"\n" + "collision_radius: " +String(coll_radius))
+	else:
+		$Details.set_text("")
 	pass
 
 
@@ -74,3 +85,14 @@ func draw_circle_custom(radius, fill = true, col = Color(0.1, 0.1, 0.3, 0.9)):
 		draw_colored_polygon(points, col)
 	else:
 		draw_polyline(points, col, 3)
+
+func set_real_pos(xy):
+	real_pos = xy
+	self.position = real_pos * pixel_scale
+
+func set_next_pos(xy):
+	next_pos = xy
+	#print("Next pos: "+String($NextPos.position) + "Own pos: " + String(self.position))
+
+func set_dest(xy):
+	dest = xy

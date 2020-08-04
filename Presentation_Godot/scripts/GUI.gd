@@ -36,6 +36,10 @@ func _unhandled_input(event):
 			print("orer move for ", unit.get_name())
 			var xy = rustbridge.get_viewport().get_mouse_position()/params.scale
 			rustbridge.send_msg_move(unit.unique_id, xy)
+	if event.is_action_pressed("show_more_info"):
+		params.detailed_info = true
+	if event.is_action_released("show_more_info"):
+		params.detailed_info = false
 
 func select_unit(node: Unit):
 	if !selected_units.has(node):

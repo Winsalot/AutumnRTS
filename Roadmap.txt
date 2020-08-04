@@ -1,4 +1,4 @@
-Previous proiject yielded some good results. Now it's time to adapt everything to Godot.
+In this file I write out things to implement step by step for myself. If you decide to read it, prepare for a lot of foul language. I think it's a fun read.
 
 There is lon way to go, but it can be like this:
 [DONE]1. Run Godot and Simulation in parallel:
@@ -98,7 +98,7 @@ There is lon way to go, but it can be like this:
 		- FUCK this. Just run it once in the beginning. [Later]
 	+ Function that extracts and prepares maptile messages.
 	+ In godot it should be just grid of labels with z level and passability. 
-14. More transparency in Godot side. (Fuck me, don't wanna do this)
+[DONE]14. More transparency in Godot side. (Fuck me, don't wanna do this)
 	+Move from shitty sprites to custom drawings: https://docs.godotengine.org/en/stable/tutorials/2d/custom_drawing_in_2d.html
 		+ For unit.
 		+ For selected unit.
@@ -114,9 +114,17 @@ There is lon way to go, but it can be like this:
 		- create message
 		- Send it on unit spawn?
 		- use it in godot to adjust unit and next po size.
-	- Add global param for extra info. OH god. Please not this.
-		- If enabled units have labels with their locations and shit
-		- Tiles also display coordinates as label
+[DONE] 15. Add global param for extra info. OH god. Please not this.
+	- Ideally should be done using signals. But I haven't learned to use signals yet. So I will do it my own way and maybe refactor later.
+	- If enabled units have labels with their locations and shit
+	+ Fix real location var for placeholder unit
+		- Game Manager should call real pos setter.
+	+ Tiles also display coordinates as label
+	+ Display only when holding some key (eg. Tab?)??
+16. Add collisions unit vs map:
+	- Probably need this. Although I don't ant to add this :(
+	- SHould map have it's own collision and position components inside ECS?
+	- Or should it just have a dedicated system with no actual redundant components?
 
 	
 

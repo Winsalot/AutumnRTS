@@ -7,18 +7,25 @@ script/source = "extends Node2D
 # Declare member variables here. Examples:
 export(bool) var block_path = 0
 export(int) var z_level = 0
+var real_pos;
 
 var pixel_scale
+var params;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pixel_scale = self.get_node(\"/root/PresentationParams\").scale
+	params = self.get_node(\"/root/PresentationParams\")
+	pixel_scale = params.scale
 	
-	self.get_node(\"Z level\").set_text(\"z:\" + String(z_level))
-	self.get_node(\"Z level\").set_begin(Vector2(1 - pixel_scale.x/2, 5))
+	self.position = real_pos * pixel_scale
 	
-	self.get_node(\"Block path\").set_text(\"Block:\" + String(int(block_path)))
-	self.get_node(\"Block path\").set_begin(Vector2(1 - pixel_scale.x/2, -13))
+	$Details.set_begin(Vector2(1- pixel_scale.x/2, 1 - pixel_scale.y/2))
+	
+	#self.get_node(\"Z level\").set_text(\"z:\" + String(z_level))
+	#self.get_node(\"Z level\").set_begin(Vector2(1 - pixel_scale.x/2, 5))
+	
+	#self.get_node(\"Block path\").set_text(\"Block:\" + String(int(block_path)))
+	#self.get_node(\"Block path\").set_begin(Vector2(1 - pixel_scale.x/2, -13))
 	
 	#self.get_node(\"Sprite\").set_region(1)
 	#self.get_node(\"Sprite\").set_region_rect(Rect2(10,10, pixel_scale.x -2 , pixel_scale.y -2))
@@ -42,8 +49,15 @@ func _draw():
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(_delta):
+	if params.detailed_info:
+		$Details.set_text(\"b_path: \" + String(int(block_path)) + \"\\n\" + \"z_lvl: \" + String(z_level) + \"\\n\" + \"pos:\" + String(real_pos))
+	else:
+		$Details.set_text(\"\")
+	pass
+
+func set_real_pos(xy):
+	real_pos = xy
 "
 
 [node name="TileInfo" type="Node2D"]
@@ -51,6 +65,7 @@ position = Vector2( 100, 100 )
 script = SubResource( 1 )
 
 [node name="Block path" type="Label" parent="."]
+visible = false
 margin_right = 67.0
 margin_bottom = 14.0
 text = "Block path"
@@ -59,9 +74,17 @@ __meta__ = {
 }
 
 [node name="Z level" type="Label" parent="."]
+visible = false
 margin_right = 54.0
 margin_bottom = 25.0
 text = "z level"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Details" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

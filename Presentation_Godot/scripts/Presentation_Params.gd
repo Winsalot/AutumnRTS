@@ -6,6 +6,7 @@ extends Node
 var scale = Vector2(64.0, 64.0)
 var unit_name_prefix = "unit_id"
 var sim_fps = 0
+var detailed_info = false
 
 
 

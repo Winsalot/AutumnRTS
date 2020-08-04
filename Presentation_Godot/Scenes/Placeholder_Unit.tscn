@@ -2,10 +2,10 @@
 
 [ext_resource path="res://Presentation_Godot/scripts/Placeholder_Unit.gd" type="Script" id=2]
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=1]
 radius = 30.2408
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=2]
 script/source = "extends Line2D
 
 
@@ -23,11 +23,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	self.set_points([parent.dest - parent.get_position(), Vector2(0.0, 0.0)])
+	self.set_points([(parent.dest *parent.pixel_scale) - parent.get_position(), Vector2(0.0, 0.0)])
 	pass
 "
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=3]
 script/source = "extends Node2D
 
 
@@ -57,13 +57,22 @@ script = ExtResource( 2 )
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="Destination" type="Line2D" parent="."]
 width = 2.0
 default_color = Color( 0.215686, 0.764706, 0.505882, 1 )
-script = SubResource( 3 )
+script = SubResource( 2 )
 
 [node name="NextPos" type="Node2D" parent="."]
-script = SubResource( 4 )
+script = SubResource( 3 )
+
+[node name="Details" type="Label" parent="."]
+margin_left = 0.836243
+margin_top = -27.1779
+margin_right = 40.8362
+margin_bottom = -13.1779
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="input_event" from="Area2D" to="." method="_on_Area2D_input_event"]
