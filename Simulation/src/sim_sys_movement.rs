@@ -31,7 +31,7 @@ pub fn sys_input_dest(sim: &mut SimState){
 					// Prevent destination from happening outside mapo
 					sim.map.constrain_pos(&mut pos);
 
-					dest_comp.set_dest(pos);
+					dest_comp.set_dest(pos, sim.current_tick);
 					let msg = EngineMessage::ObjDest(id, pos);
 					sim.send_batch.push(msg);
 				}
@@ -48,20 +48,48 @@ pub fn sys_set_next_pos(sim: &mut SimState){
 		 &'a IdComp, 
 		&'a PositionComp, 
 		&'a mut NextPosComp, 
-		&'a DestinationComp, 
+		&'a mut PathComp,
+		//&'a DestinationComp, 
 		&'a SpeedComponent
 		);
 	
 	let ecs = &mut sim.ecs;
 
-	'query_loop: for (_, (id, pos, next_pos, dest, speed)) in &mut ecs.query::<ToQuery>(){
-		
+	//'query_loop: for (_, (id, pos, next_pos, path, _dest, speed)) in &mut ecs.query::<ToQuery>(){
+	'query_loop: for (_, (id, pos, next_pos, path, speed)) in &mut ecs.query::<ToQuery>(){
+		/*
 		// is there somewhere to move?
 		if dest.get_dest() == pos.get_pos() {
 			continue 'query_loop;
 		}
+*/
+		println!("own pos {:?}", pos.clone());
+		println!("{:?}", path.clone());
+		let path_next_pos = path.get_next_pos(pos.get_pos());
 
+		if let Some(move_to) = path_next_pos {
+
+			let distance = pos.get_pos().dist(move_to);
+
+
+
+			if distance == 0 {
+				next_pos.set_pos(*move_to);
+				continue 'query_loop;
+			}
+
+			let dx = (*pos.get_pos() - *move_to) / distance;
+			println!("dx: {:?} \n", dx);
+			let n_next_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
+
+			next_pos.set_pos(n_next_pos);
+			let msg = EngineMessage::ObjNextPos(*id, n_next_pos);
+			sim.send_batch.push(msg)
+		}
+
+/*
 		//let distance = Pos::dist(pos.get_pos(), dest.get_dest());
+		//let distance = pos.get_pos().dist(dest.get_dest());
 		let distance = pos.get_pos().dist(dest.get_dest());
 
 		if distance == 0 {
@@ -75,7 +103,7 @@ pub fn sys_set_next_pos(sim: &mut SimState){
 		next_pos.set_pos(n_next_pos);
 		let msg = EngineMessage::ObjNextPos(*id, n_next_pos);
 		sim.send_batch.push(msg)
-
+*/
 	}
 }
 

@@ -46,9 +46,14 @@ func _process(delta):
 	
 	# update pathfinding:
 	if !path.empty():
-		if real_pos == path[path.size() - 1]:
+		if real_pos == real_path[real_path.size() - 1]:
 			self.set_path(PoolVector2Array())
-			
+	
+	path = PoolVector2Array()
+	for xy in real_path:
+		path.push_back((xy - real_pos) * pixel_scale)
+	self.update()
+	
 	pass
 
 
@@ -60,7 +65,8 @@ func _draw():
 		draw_circle_custom(coll_radius * pixel_scale.x, true, Color(0.1, 0.1, 0.3, 0.9))
 		draw_circle_custom(coll_radius * pixel_scale.x + 5, false, Color(0.960, 0.945, 0.078, 0.95))
 	#print("Draw call executed")
-	draw_polyline(path, Color(0.1, 0.1, 0.9, 0.9), 5.0)
+	if path.size() >= 2:
+		draw_polyline(path, Color(0.1, 0.1, 0.9, 0.9), 5.0)
 	pass
 
 func _on_Area2D_input_event(_viewport, event, _shape_idx):
@@ -69,7 +75,7 @@ func _on_Area2D_input_event(_viewport, event, _shape_idx):
 		gui.select_unit(self)
 		is_selected = true
 		#$Sprite.set_self_modulate(Color(0.7, 1.0, 0.7,1))
-		self.update()
+		#self.update()
 		self.get_tree().set_input_as_handled()
 		#print("imput marked as handled")
 	pass # Replace with function body.
@@ -111,10 +117,6 @@ func set_dest(xy):
 
 func set_path(positions):
 	real_path = PoolVector2Array(positions)
-	path = PoolVector2Array()
-	for xy in real_path:
-		path.push_back((xy - real_pos) * pixel_scale)
-	self.update()
-	
+
 
 

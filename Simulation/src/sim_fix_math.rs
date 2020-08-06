@@ -55,6 +55,11 @@ impl Pos {
 			y: self.y.round(),
 			}
 	}
+
+/// Get fractional part that was lost when rounding
+	pub fn fractional_part(&self) -> Pos{
+		*self - self.round()
+	}
 }
 
 impl Add for Pos {

@@ -13,7 +13,7 @@ pub enum EngineMessage {
 	ObjMove(IdComp, Pos),
 	ObjNextPos(IdComp, Pos),
 	ObjDest(IdComp, Pos),
-	ObjPathTmp(IdComp, [Pos;10]), // To visualise pathfinding. Sends next 10 steps.
+	ObjPathTmp(IdComp, [Pos;20]), // To visualise pathfinding. Sends next 10 steps.
 	MapTile(Pos, MapTile),
 	Fps(u64),
 	None, // this message sucks

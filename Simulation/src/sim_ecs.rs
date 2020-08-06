@@ -12,7 +12,7 @@ pub struct SimState {
 	pub fps_counter: FpsCounter,
 	pub fps_limit: u32,
 	pub break_loop: bool,
-	pub current_tick: u32,
+	pub current_tick: u64,
 	pub id_counter: u64,
 	pub map: Map,
 }

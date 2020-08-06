@@ -124,14 +124,15 @@ There is lon way to go, but it can be like this:
 [DONE (not gonna do it)]15.1. Refactor. Rewrite components with single value into Tuple structs.
 	x But should I actually do it though?
 	+ Nope. regular structs have more readability and have private variables by default.
-16. Add pathfinding.
+[DONE] 16. Add pathfinding.
 	+ Use pathfinding crate.
 	x only 4 movement directions.
 	+ Make pathfinding run on Pos and not on Tile.
 	- Workflow:
-		- Multiple map calls are oK. Should be only a single ECS query.
-		- The system itself should query position/destination and run pathfinding only on those that have destination and position different.
-		- Fuck it. We running pathfingind every frame bruh.
+		+ Multiple map calls are oK. Should be only a single ECS query.
+		+ The system itself should query position/destination and run pathfinding only on those that have destination and position different.
+		x Fuck it. We running pathfingind every frame bruh.
+			x Not work like this bruh :(.
 		+ Function that takes Pos, checks map for obstacles and returns available adjacent Pos.
 		+ Heutristic function between positions. 
 		+ Function to check if destination has been reached.
@@ -144,7 +145,8 @@ There is lon way to go, but it can be like this:
 			- If position != destination uopdate path component.
 			- Generate message of first 10 nodes to walk on.
 			- Display path on Godot.
-		- Make next pos use path component instead of destination.
+		+ Make next pos use path component instead of destination.
+		+ Make it run only after destination has been updated. I mean once.
 17. Add collision avodance. 
 	- Dumb way. Instead of stopping unit goes 90 degrees to the side.
 

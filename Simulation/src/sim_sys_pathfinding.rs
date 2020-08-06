@@ -6,6 +6,8 @@ use crate::sim_ecs::SimState;
 use crate::sim_fix_math::*;
 use std::collections::VecDeque;
 use crate::messenger::*;
+use itertools::Itertools;
+
 
 // Note: assumes that destination is pointing to walkable tile.
 // Otherwise will fail.
@@ -108,7 +110,9 @@ impl PathfindingHelper {
 	    	Some((path, ..)) => {
 	    		let mut ret: VecDeque<Pos> = VecDeque::from(path);
 	    		ret.push_back(goal);
-	    		ret.push_front(start);
+	    		//ret.push_front(start);
+	    		ret = ret.iter().dedup().map(|x| *x + start.fractional_part()).collect();
+	    		//ret = ret.iter().dedup().map(|x| *x).collect();
 
 	    		return ret;
 	    	}
@@ -122,8 +126,8 @@ impl PathfindingHelper {
 		match end {
 			None => return EngineMessage::None,
 			Some(goal) => {
-				let mut ret = [*goal;10];
-				for i in 0..path1.len().min(10){
+				let mut ret = [*goal;20];
+				for i in 0..path1.len().min(20){
 					ret[i] = path1.pop_front().unwrap();
 				}
 				return EngineMessage::ObjPathTmp(id.clone(), ret);
@@ -132,7 +136,6 @@ impl PathfindingHelper {
 		
 	}
 }
-
 
 
 /// Should compute the path towards the destination
@@ -154,6 +157,10 @@ pub fn sys_pathfinding_astar(sim: &mut SimState){
 	'query_loop: for (_, (id, pos, dest, path_comp)) in &mut ecs.query::<ToQuery>(){
 
 		//println!("Calculating path for {:?}", id);
+		if dest.last_set() != sim.current_tick {
+			continue 'query_loop;
+		}
+
 		if pos.get_pos() == dest.get_dest(){
 			continue 'query_loop;
 		}

@@ -19,6 +19,7 @@ pub struct IdComp {
 }
 
 /// Location component
+#[derive(Debug,PartialEq, Clone)]
 pub struct PositionComp {
 	pos: Pos,
 }
@@ -31,6 +32,7 @@ pub struct NextPosComp {
 // Unit's destination component
 pub struct DestinationComp {
 	dest: Pos,
+	updated_on: u64,
 }
 
 /// Unit's speed component
@@ -44,6 +46,7 @@ pub struct CollComp{
 }
 
 // pathfinding pomponent. Holds positions that unit should walk to.
+#[derive(Debug,PartialEq, Clone)]
 pub struct PathComp{
 	positions: VecDeque<Pos>,	
 }
@@ -103,15 +106,20 @@ impl NextPosComp {
 
 impl DestinationComp {
 	pub fn new(pos: Pos) -> Self {
-		DestinationComp{dest: pos}
+		DestinationComp{dest: pos, updated_on: 0}
 	}
 
-	pub fn set_dest(&mut self, pos: Pos) {
+	pub fn set_dest(&mut self, pos: Pos, tick: u64) {
 		self.dest = pos;
+		self.updated_on = tick;
 	} 
 
 	pub fn get_dest(&self) -> &Pos{
 		&self.dest
+	}
+
+	pub fn last_set(&self) -> u64 {
+		self.updated_on
 	}
 }
 
@@ -178,5 +186,21 @@ impl PathComp {
 
 	pub fn from_vec(&mut self, path: Vec<Pos>) {
 		self.positions = VecDeque::from(path);
+	}
+
+	pub fn is_empty(&self) -> bool {
+		self.positions.len() == 0
+	}
+
+	pub fn get_next_pos(&mut self, current_pos: &Pos) -> Option<&Pos>{
+		match self.positions.front() {
+			None => return None,
+			Some(front) => {
+				if front == current_pos {
+					self.positions.pop_front();
+				}
+					return self.positions.front()
+			}
+		}
 	}
 }
