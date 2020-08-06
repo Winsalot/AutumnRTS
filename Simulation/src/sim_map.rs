@@ -64,6 +64,22 @@ impl Map {
 		self.tilemap[(x+(self.size.0 as u32 * y)) as usize] = new_tile;
 	}
 
+	pub fn size(&self) -> (usize, usize) {
+		self.size.clone()
+	}
+
+	/// Adjusts pos to be within map
+	pub fn constrain_pos(&self, pos: &mut Pos){
+		*pos = Pos::from_num(
+			pos.x.max(FixF::from_num(0)), 
+			pos.y.max(FixF::from_num(0))
+			);
+		*pos = Pos::from_num(
+			pos.x.min(FixF::from_num(self.size().0 - 1)), 
+			pos.y.min(FixF::from_num(self.size().1 - 1))
+			);
+	}
+
 	pub fn to_message(&self) -> Vec<EngineMessage> {
 		let mut msg: Vec<EngineMessage> = vec![];
 		for x in 0..self.size.0 {

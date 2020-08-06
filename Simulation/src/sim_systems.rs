@@ -52,6 +52,15 @@ pub fn input_spawn_unit(sim: &mut SimState) {
 	for i in 0..spawn_msg.len(){
 		match spawn_msg[i]{
 			RenderMessage::Spawn(pos) => {
+
+				// Prevent from spawning outside map:
+				if (pos.x < 0) |
+					(pos.y < 0) |
+					(pos.x > (sim.map.size().0 - 1))|
+					(pos.y > (sim.map.size().1 - 1)){
+						continue;
+					}
+
 				//TODO: coll_rad_tmp should not be hardcoded
 				let coll_rad_tmp = FixF::from_num(0.5);
 
@@ -60,9 +69,6 @@ pub fn input_spawn_unit(sim: &mut SimState) {
 
 				let id = sim.ecs.get::<IdComp>(e).unwrap();
 
-				// TODO: remove this message:
-				//let msg_old = EngineMessage::ObjSpawn(*id, pos);
-				//sim.send_batch.push(msg_old);
 
 				let msg = EngineMessage::ObjPosColl(*id, pos, coll_rad_tmp);
 				sim.send_batch.push(msg);

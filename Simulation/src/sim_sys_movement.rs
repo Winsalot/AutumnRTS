@@ -24,9 +24,13 @@ pub fn sys_input_dest(sim: &mut SimState){
 
 	for i in 0..dest_msg.len(){
 		match dest_msg[i]{
-			RenderMessage::Destination(id, pos) => {
+			RenderMessage::Destination(id, mut pos) => {
 				let dest_comp = sim.ecs.get_mut::<DestinationComp>(Entity::from_bits(id.get().clone()));
 				if let Ok(mut dest_comp) = dest_comp {
+
+					// Prevent destination from happening outside mapo
+					sim.map.constrain_pos(&mut pos);
+
 					dest_comp.set_dest(pos);
 					let msg = EngineMessage::ObjDest(id, pos);
 					sim.send_batch.push(msg);

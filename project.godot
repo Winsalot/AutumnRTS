@@ -34,7 +34,7 @@ _global_script_class_icons={
 
 config/name="AutumnRts"
 run/main_scene="res://Presentation_Godot/Scenes/RustBridge.tscn"
-config/icon="res://icon.png"
+config/icon="res://Assets/godot-ferris.png"
 
 [autoload]
 
