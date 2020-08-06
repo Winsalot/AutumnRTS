@@ -1,4 +1,6 @@
 use hecs::*;
+use std::collections::VecDeque;
+
 use crate::sim_fix_math::*;
 
 
@@ -39,6 +41,11 @@ pub struct SpeedComponent {
 // Square hitbox. W,H should be treadted as radius
 pub struct CollComp{
 	r: FixF,
+}
+
+// pathfinding pomponent. Holds positions that unit should walk to.
+pub struct PathComp{
+	positions: VecDeque<Pos>,	
 }
 
 
@@ -144,5 +151,21 @@ impl IdComp {
 		IdComp{
 			id: id,
 		}
+	}
+}
+
+impl PathComp {
+	pub fn new() -> Self{
+		PathComp{
+			positions: VecDeque::new(),	
+		}
+	}
+
+	pub fn get_all(&self) -> Vec<Pos> {
+		Vec::from(self.positions.clone())
+	}
+
+	pub fn set(&mut self, path: Vec<Pos>) {
+		self.positions = VecDeque::from(path);
 	}
 }

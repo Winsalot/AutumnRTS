@@ -68,6 +68,19 @@ impl Map {
 		self.size.clone()
 	}
 
+	pub fn tile_from_pos(&self, pos: Pos) -> &MapTile {
+		let pos1 = pos.round();
+		self.get_tile(pos.x.to_num::<u32>(), pos.y.to_num::<u32>())
+
+	}
+
+	// Checks wether position is within the map:
+	pub fn within(&self, pos: Pos) -> bool {
+		(pos.x >= 0) &
+			(pos.y >= 0) &
+			(pos.x < (self.size().0)) &
+			(pos.y < (self.size().1))
+	}
 	/// Adjusts pos to be within map
 	pub fn constrain_pos(&self, pos: &mut Pos){
 		*pos = Pos::from_num(

@@ -7,6 +7,12 @@ use std::ops::{Add, Sub, Mul, Div};
 
 pub type FixF = I28F4; //fixed float
 
+
+pub fn zero() -> FixF {
+	FixF::from_num(0)
+}
+
+
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct Pos {
 	pub x: FixF, // FixedI32 with 24 integer bits and eight fractional bits.
@@ -34,9 +40,20 @@ impl Pos {
 		let l = Pos::square(pos);
 		return (l.x + l.y).sqrt()
 	}
-
+/*
 	pub fn dist(xy1: &Pos, xy2: &Pos) -> FixF {
 		Pos::vec_length(xy1.clone() - xy2.clone())
+	}
+*/
+	pub fn dist(&self, xy: &Pos) -> FixF {
+		Pos::vec_length(self.clone() - xy.clone())
+	}
+
+	pub fn round(&self) -> Pos {
+		Pos{
+			x: self.x.round(), 
+			y: self.y.round(),
+			}
 	}
 }
 

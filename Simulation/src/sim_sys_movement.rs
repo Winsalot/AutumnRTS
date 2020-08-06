@@ -61,7 +61,8 @@ pub fn sys_set_next_pos(sim: &mut SimState){
 			continue 'query_loop;
 		}
 
-		let distance = Pos::dist(pos.get_pos(), dest.get_dest());
+		//let distance = Pos::dist(pos.get_pos(), dest.get_dest());
+		let distance = pos.get_pos().dist(dest.get_dest());
 
 		if distance == 0 {
 			next_pos.set_pos(*dest.get_dest());

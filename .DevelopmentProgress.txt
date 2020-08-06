@@ -121,10 +121,23 @@ There is lon way to go, but it can be like this:
 		- Game Manager should call real pos setter.
 	+ Tiles also display coordinates as label
 	+ Display only when holding some key (eg. Tab?)??
-16. Add collisions unit vs map:
-	- Probably need this. Although I don't ant to add this :(
-	- SHould map have it's own collision and position components inside ECS?
-	- Or should it just have a dedicated system with no actual redundant components?
+[DONE (not gonna do it)]15.1. Refactor. Rewrite components with single value into Tuple structs.
+	x But should I actually do it though?
+	+ Nope. regular structs have more readability and have private variables by default.
+16. Add pathfinding.
+	+ Use pathfinding crate.
+	- only 4 movement directions.
+	- Make pathfinding run on Pos and not on Tile.
+	- Workflow:
+		- Multiple map calls are oK. Should be only a single ECS query.
+		- The system itself should query position/destination and run pathfinding only on those that have destination and position different.
+		- Fuck it. We running pathfingind every frame bruh.
+		+ Function that takes Pos, checks map for obstacles and returns available adjacent Pos.
+		+ Heutristic function between positions. 
+		+ Function to check if destination has been reached.
+		- Adjacent cells function is here. But does it work? I have no idea.
+			- Find a way to test it.
+
 
 	
 

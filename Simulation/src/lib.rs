@@ -11,6 +11,7 @@ mod sim_systems;
 mod sim_sys_movement;
 mod sim_ecs;
 mod sim_map;
+mod sim_sys_pathfinding;
 
 use rustbridge::*;
 

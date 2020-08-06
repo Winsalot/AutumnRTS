@@ -18,6 +18,8 @@ func _ready():
 #	pass
 
 func _unhandled_input(event):
+	if event.is_action_pressed("quit"):
+		get_tree().quit()
 	if event.is_action_pressed("presentation_spawn_unit"):
 		var xy = rustbridge.get_viewport().get_mouse_position()/params.scale
 		rustbridge.tmp_spawn_obj(xy)

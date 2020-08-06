@@ -14,6 +14,7 @@ rand = "0.7.3"
 fixed-sqrt = "0.2.1"
 gdnative = "0.8.1"
 hecs = "0.2.12"
+pathfinding = "2.0.4"
 
 [dependencies.fixed]
 version = "1.0.0" # for fixed sqrt to work

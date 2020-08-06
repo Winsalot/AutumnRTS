@@ -54,10 +54,7 @@ pub fn input_spawn_unit(sim: &mut SimState) {
 			RenderMessage::Spawn(pos) => {
 
 				// Prevent from spawning outside map:
-				if (pos.x < 0) |
-					(pos.y < 0) |
-					(pos.x > (sim.map.size().0 - 1))|
-					(pos.y > (sim.map.size().1 - 1)){
+				if !sim.map.within(pos){
 						continue;
 					}
 

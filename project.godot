@@ -32,7 +32,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="AutumnRts"
+config/name="AutumnRTS"
 run/main_scene="res://Presentation_Godot/Scenes/RustBridge.tscn"
 config/icon="res://Assets/godot-ferris.png"
 
@@ -70,6 +70,11 @@ right_click={
 show_more_info={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"unicode":0,"echo":false,"script":null)
+ ]
+}
+quit={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"unicode":0,"echo":false,"script":null)
  ]
 }
 
