@@ -135,9 +135,12 @@ There is lon way to go, but it can be like this:
 		+ Function that takes Pos, checks map for obstacles and returns available adjacent Pos.
 		+ Heutristic function between positions. 
 		+ Function to check if destination has been reached.
-		- Adjacent cells function is here. But does it work? I have no idea.
-			- Find a way to test it.
-
+		+ Adjacent cells function is here. But does it work? I have no idea.
+			+ Find a way to test it.
+			+ All good, it work. Me smart.
+		+ Make pathfinding function. It works!
+17. Add collision avodance. 
+	- Dumb way. Instead of stopping unit goes 90 degrees to the side.
 
 	
 

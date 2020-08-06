@@ -4,6 +4,7 @@ use crate::sim_unit_base_components::*;
 use crate::sim_map::*;
 use crate::sim_ecs::SimState;
 use crate::sim_fix_math::*;
+use std::collections::VecDeque;
 
 // Note: assumes that destination is pointing to walkable tile.
 // Otherwise will fail.
@@ -35,10 +36,12 @@ impl PathfindingHelper {
 	}
 
 	fn heuristic_euclidean(pos1: Pos, pos2: Pos) -> FixF {
-		pos1.dist(&pos2)
+		pos1.dist(&pos2)*10
 	}
 
-	fn adjacent(map: &Map, pos: Pos) -> Vec<Pos> {
+
+// Would use FixF for cost, but it doesn;t implement num_traits::identities::Zero trait. So use u32
+	fn adjacent(map: &Map, pos: Pos) -> Vec<(Pos,FixF)> {
 
 		// check if initial cell is within map:
 		if !map.within(pos){
@@ -46,7 +49,7 @@ impl PathfindingHelper {
 		}
 
 		// start with adjaent cells that are within the map
-		let mut adj: Vec<Pos> = vec![
+		let mut adj: Vec<(Pos, FixF)> = vec![
 			pos + Pos::from_num(0, 1),
 			pos + Pos::from_num(1, 0),
 			pos + Pos::from_num(0, -1),
@@ -56,12 +59,13 @@ impl PathfindingHelper {
 			.filter(|x| map.within(**x))
 			.filter(|x| !map.tile_from_pos(**x).blocks_path())
 			.map(|x| *x)
+			.map(|x| (x, FixF::from_num(10)))
 			.collect();
 
 		// Individually check availability of diagonal cells.
 		// Only add if they don't block path and have non-blocking adjacent cells.
 		// Since map is rectangle, adjacent cells will always be within the map.
-		let mut diagonals: Vec<Pos> = vec![
+		let mut diagonals: Vec<(Pos, FixF)> = vec![
 			Pos::from_num(1, 1),
 			Pos::from_num(1, -1),
 			Pos::from_num(-1, -1),
@@ -76,6 +80,7 @@ impl PathfindingHelper {
 				(!map.tile_from_pos(adj2).blocks_path())
 			})
 			.map(|x| *x + pos)
+			.map(|x| (x, FixF::from_num(14)))
 			.collect();
 
 
@@ -84,40 +89,43 @@ impl PathfindingHelper {
 
 		adj
 	}
+
+	// returns vector of points to visit. Includes current position and final position
+	fn find_path(map: &Map, start: Pos, goal: Pos) -> Option<VecDeque<Pos>> {
+
+		let path_helper = PathfindingHelper::new(start.round(), goal.round());
+
+		let result = astar(
+	        &path_helper.get_start(),
+	        |p| PathfindingHelper::adjacent(map, *p),
+	        |p| PathfindingHelper::heuristic_euclidean(*p, path_helper.get_goal()),
+	        |p| path_helper.check_goal(*p),
+	    );
+
+	    match result{
+	    	None => return None,
+	    	Some((path, ..)) => {
+	    		let mut ret: VecDeque<Pos> = VecDeque::from(path);
+	    		ret.push_back(goal);
+	    		ret.push_front(start);
+
+	    		return Some(ret);
+	    	}
+	    }
+	}
 }
 
 
 
 
-
-/*
-
-// TODO: rewrite this one.
-fn run_astar(map: &mut Map) {
-    map.reset_path();
-
-    let result = astar(
-        map.get_start(),
-        |p| map.adjacent(p),
-        |p| p.dist_e(map.get_goal()),
-        |p| p == map.get_goal(),
-    );
-    //println!("{:?}", result);
-    //println!("{:?}",result.expect("no path found").1);
-    if let Some((tiles_path, _)) = result {
-        map.mark_path(tiles_path);
-    }
-}
-
-*/
 
 #[cfg(test)]
 mod pathfinding_tests {
-	// run with:
-	// cargo test --release -- --nocapture
 
 	#[test]
 	fn adjacent_test(){
+	// run with:
+	// cargo test -- --nocapture
 		use crate::sim_ecs::*;
 		use crate::messenger::*;
 		use crate::sim_map::Map;
@@ -142,5 +150,30 @@ mod pathfinding_tests {
 		println!("{:?} adjacent: {:?}",pos3, PathfindingHelper::adjacent(&sim.map, pos3));
 		println!("{:?} adjacent: {:?}",pos4, PathfindingHelper::adjacent(&sim.map, pos4));
 		
+	}
+
+	#[test]
+	fn find_path(){
+		use crate::sim_ecs::*;
+		use crate::messenger::*;
+		use crate::sim_map::Map;
+		use crate::sim_sys_pathfinding::PathfindingHelper;
+		use crate::sim_fix_math::*;
+
+
+
+		let (sim_messenger, _rend_messenger) = create_messenger();
+
+		let messenger = sim_messenger;
+		let map = Map::make_test_map();
+		let sim = SimState::new(map, messenger, 10);
+
+		let start = Pos::from_num(2.3, 5.1);
+		let goal = Pos::from_num(1.7, 2.7);
+
+		let path = PathfindingHelper::find_path(&sim.map, start, goal);
+
+		println!("The path is: \n");
+		println!("{:?}", path);
 	}
 }

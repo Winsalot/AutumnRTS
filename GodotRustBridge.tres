@@ -1,5 +1,5 @@
 [gd_resource type="GDNativeLibrary" format=2]
 
 [resource]
-entry/X11.64 = "res://Simulation/target/release/libsimulation.so"
+entry/X11.64 = "res://Simulation/target/debug/libsimulation.so"
 dependency/X11.64 = [  ]

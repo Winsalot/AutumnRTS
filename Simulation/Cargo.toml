@@ -17,8 +17,9 @@ hecs = "0.2.12"
 pathfinding = "2.0.4"
 
 [dependencies.fixed]
-version = "1.0.0" # for fixed sqrt to work
+version = "1.1.0" # for fixed sqrt to work
 # features = ["f16", "serde"]
+features = ["num-traits"]
 
 [lib]
 crate-type = ["cdylib"]

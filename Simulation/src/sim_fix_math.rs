@@ -13,7 +13,7 @@ pub fn zero() -> FixF {
 }
 
 
-#[derive(Debug, PartialEq, Clone, Copy)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, Copy)]
 pub struct Pos {
 	pub x: FixF, // FixedI32 with 24 integer bits and eight fractional bits.
 	pub y: FixF
