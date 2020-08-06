@@ -1,179 +1,158 @@
 // File contains main movement syustems
-use crate::sim_unit_base_components::*;
-use crate::sim_ecs::*;
-use hecs::*;
 use crate::messenger::*;
+use crate::sim_ecs::*;
 use crate::sim_fix_math::*;
-
-
+use crate::sim_unit_base_components::*;
+use hecs::*;
 
 /// Simple destination update from messages
-pub fn sys_input_dest(sim: &mut SimState){
+pub fn sys_input_dest(sim: &mut SimState) {
+    let inbox = &mut sim.inbox;
 
-	let inbox = &mut sim.inbox;
+    let (dest_msg, rest): (Vec<RenderMessage>, Vec<RenderMessage>) =
+        inbox.clone().iter().partition(|&msg| match msg {
+            RenderMessage::Destination(..) => true,
+            _ => false,
+        });
 
-	let (dest_msg, rest): (Vec<RenderMessage>, Vec<RenderMessage>) = inbox
-		.clone()
-		.iter()
-		.partition(|&msg| match msg {
-			RenderMessage::Destination(..) => true,
-			_ => false,
-		});
+    *inbox = rest;
 
-	*inbox = rest;
+    for i in 0..dest_msg.len() {
+        match dest_msg[i] {
+            RenderMessage::Destination(id, mut pos) => {
+                let dest_comp = sim
+                    .ecs
+                    .get_mut::<DestinationComp>(Entity::from_bits(id.get().clone()));
+                if let Ok(mut dest_comp) = dest_comp {
+                    // Prevent destination from happening outside mapo
+                    sim.map.constrain_pos(&mut pos);
 
-	for i in 0..dest_msg.len(){
-		match dest_msg[i]{
-			RenderMessage::Destination(id, mut pos) => {
-				let dest_comp = sim.ecs.get_mut::<DestinationComp>(Entity::from_bits(id.get().clone()));
-				if let Ok(mut dest_comp) = dest_comp {
-
-					// Prevent destination from happening outside mapo
-					sim.map.constrain_pos(&mut pos);
-
-					dest_comp.set_dest(pos, sim.current_tick);
-					let msg = EngineMessage::ObjDest(id, pos);
-					sim.send_batch.push(msg);
-				}
-			},
-			_ => {}
-		}
-	}
+                    dest_comp.set_dest(pos, sim.current_tick);
+                    let msg = EngineMessage::ObjDest(id, pos);
+                    sim.send_batch.push(msg);
+                }
+            }
+            _ => {}
+        }
+    }
 }
 
 // update next position, that moves unit closer to destination
-pub fn sys_set_next_pos(sim: &mut SimState){
+pub fn sys_set_next_pos(sim: &mut SimState) {
+    type ToQuery<'a> = (
+        &'a IdComp,
+        &'a PositionComp,
+        &'a mut NextPosComp,
+        &'a mut PathComp,
+        //&'a DestinationComp,
+        &'a SpeedComponent,
+    );
 
-	type ToQuery<'a> = (
-		 &'a IdComp, 
-		&'a PositionComp, 
-		&'a mut NextPosComp, 
-		&'a mut PathComp,
-		//&'a DestinationComp, 
-		&'a SpeedComponent
-		);
-	
-	let ecs = &mut sim.ecs;
+    let ecs = &mut sim.ecs;
 
-	//'query_loop: for (_, (id, pos, next_pos, path, _dest, speed)) in &mut ecs.query::<ToQuery>(){
-	'query_loop: for (_, (id, pos, next_pos, path, speed)) in &mut ecs.query::<ToQuery>(){
-		/*
-		// is there somewhere to move?
-		if dest.get_dest() == pos.get_pos() {
-			continue 'query_loop;
-		}
-*/
-		println!("own pos {:?}", pos.clone());
-		println!("{:?}", path.clone());
-		let path_next_pos = path.get_next_pos(pos.get_pos());
+    //'query_loop: for (_, (id, pos, next_pos, path, _dest, speed)) in &mut ecs.query::<ToQuery>(){
+    'query_loop: for (_, (id, pos, next_pos, path, speed)) in &mut ecs.query::<ToQuery>() {
+        /*
+                // is there somewhere to move?
+                if dest.get_dest() == pos.get_pos() {
+                    continue 'query_loop;
+                }
+        */
+        println!("own pos {:?}", pos.clone());
+        println!("{:?}", path.clone());
+        let path_next_pos = path.get_next_pos(pos.get_pos());
 
-		if let Some(move_to) = path_next_pos {
+        if let Some(move_to) = path_next_pos {
+            let distance = pos.get_pos().dist(move_to);
 
-			let distance = pos.get_pos().dist(move_to);
+            if distance == 0 {
+                next_pos.set_pos(*move_to);
+                continue 'query_loop;
+            }
 
+            let dx = (*pos.get_pos() - *move_to) / distance;
+            println!("dx: {:?} \n", dx);
+            let n_next_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
 
+            next_pos.set_pos(n_next_pos);
+            let msg = EngineMessage::ObjNextPos(*id, n_next_pos);
+            sim.send_batch.push(msg)
+        }
 
-			if distance == 0 {
-				next_pos.set_pos(*move_to);
-				continue 'query_loop;
-			}
+        /*
+                //let distance = Pos::dist(pos.get_pos(), dest.get_dest());
+                //let distance = pos.get_pos().dist(dest.get_dest());
+                let distance = pos.get_pos().dist(dest.get_dest());
 
-			let dx = (*pos.get_pos() - *move_to) / distance;
-			println!("dx: {:?} \n", dx);
-			let n_next_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
+                if distance == 0 {
+                    next_pos.set_pos(*dest.get_dest());
+                    continue 'query_loop;
+                }
 
-			next_pos.set_pos(n_next_pos);
-			let msg = EngineMessage::ObjNextPos(*id, n_next_pos);
-			sim.send_batch.push(msg)
-		}
+                let dx = (*pos.get_pos() - *dest.get_dest()) / distance;
+                let n_next_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
 
-/*
-		//let distance = Pos::dist(pos.get_pos(), dest.get_dest());
-		//let distance = pos.get_pos().dist(dest.get_dest());
-		let distance = pos.get_pos().dist(dest.get_dest());
-
-		if distance == 0 {
-			next_pos.set_pos(*dest.get_dest());
-			continue 'query_loop;
-		}
-
-		let dx = (*pos.get_pos() - *dest.get_dest()) / distance;
-		let n_next_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
-
-		next_pos.set_pos(n_next_pos);
-		let msg = EngineMessage::ObjNextPos(*id, n_next_pos);
-		sim.send_batch.push(msg)
-*/
-	}
+                next_pos.set_pos(n_next_pos);
+                let msg = EngineMessage::ObjNextPos(*id, n_next_pos);
+                sim.send_batch.push(msg)
+        */
+    }
 }
 
-pub fn sys_collision_pred(sim: &mut SimState){
-	// brute force collision detection. Should probably optimize this sometime in the future
-	// basically go over every entity with collision and position and make sure it doesnt collide with anything on next move
-	type ToQuery0<'a> = (
-		&'a NextPosComp, 
-		&'a CollComp,
-		);
+pub fn sys_collision_pred(sim: &mut SimState) {
+    // brute force collision detection. Should probably optimize this sometime in the future
+    // basically go over every entity with collision and position and make sure it doesnt collide with anything on next move
+    type ToQuery0<'a> = (&'a NextPosComp, &'a CollComp);
 
-	let ecs = &mut sim.ecs;
+    let ecs = &mut sim.ecs;
 
-	let mut non_move_entities: Vec<Entity> = vec![];
+    let mut non_move_entities: Vec<Entity> = vec![];
 
-	'parent_loop: for (id0, (next_pos0, coll0)) in &mut ecs.query::<ToQuery0>(){
-		'child_loop: for (id1, (next_pos1, coll1)) in &mut ecs.query::<ToQuery0>(){
+    'parent_loop: for (id0, (next_pos0, coll0)) in &mut ecs.query::<ToQuery0>() {
+        'child_loop: for (id1, (next_pos1, coll1)) in &mut ecs.query::<ToQuery0>() {
+            if id1 == id0 {
+                continue 'child_loop;
+            }
+            // does id0 collide with anything?
+            let dist = Pos::dist(next_pos0.get_pos(), next_pos1.get_pos());
+            if dist <= (coll0.get_r() + coll1.get_r()) {
+                //next_pos0.set_pos(*pos0.get_pos());
+                non_move_entities.push(id0.clone());
+            }
+        }
+    }
 
-			if id1==id0{
-				continue 'child_loop;
-			}
-			// does id0 collide with anything?
-			let dist = Pos::dist(next_pos0.get_pos(), next_pos1.get_pos());
-			if dist <= (coll0.get_r() + coll1.get_r()){
-				//next_pos0.set_pos(*pos0.get_pos());
-				non_move_entities.push(id0.clone());
-			}
-		}
-	}
+    type ToQuery1<'a> = (&'a PositionComp, &'a mut NextPosComp);
 
-	type ToQuery1<'a> = ( 
-		&'a PositionComp,
-		&'a mut NextPosComp,
-		);
+    for i in 0..non_move_entities.len() {
+        let entity = non_move_entities[i];
 
-	for i in 0..non_move_entities.len(){
-		let entity = non_move_entities[i];
+        let mut query = ecs.query_one::<ToQuery1>(entity).unwrap();
+        let (pos, next_pos) = query.get().unwrap();
 
-		let mut query =  ecs.query_one::<ToQuery1>(entity).unwrap();
-		let (pos, next_pos) =query.get().unwrap();
-
-		// set next pos to current position:u
-		next_pos.set_pos(*pos.get_pos());
-	}
-
+        // set next pos to current position:u
+        next_pos.set_pos(*pos.get_pos());
+    }
 }
 
 // Move to valid next position
-pub fn sys_set_pos(sim: &mut SimState){
-	// Updates unit positions to next position
-	// Also generates engine messages
-	type ToQuery<'a> = (
-		&'a IdComp, 
-		&'a mut PositionComp, 
-		&'a NextPosComp, 
-		);
+pub fn sys_set_pos(sim: &mut SimState) {
+    // Updates unit positions to next position
+    // Also generates engine messages
+    type ToQuery<'a> = (&'a IdComp, &'a mut PositionComp, &'a NextPosComp);
 
-	let ecs = &mut sim.ecs;
+    let ecs = &mut sim.ecs;
 
-	'query_loop: for (_, (id, pos, next_pos)) in &mut ecs.query::<ToQuery>(){
-		
-		if next_pos.get_pos() == pos.get_pos() {
-			continue 'query_loop;
-		}
+    'query_loop: for (_, (id, pos, next_pos)) in &mut ecs.query::<ToQuery>() {
+        if next_pos.get_pos() == pos.get_pos() {
+            continue 'query_loop;
+        }
 
-		let msg: EngineMessage;
+        let msg: EngineMessage;
 
-		pos.set_pos(*next_pos.get_pos());
-		msg = EngineMessage::ObjMove(*id, *pos.get_pos());
+        pos.set_pos(*next_pos.get_pos());
+        msg = EngineMessage::ObjMove(*id, *pos.get_pos());
 
-		sim.send_batch.push(msg);
-	}
+        sim.send_batch.push(msg);
+    }
 }
