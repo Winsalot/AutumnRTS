@@ -1,4 +1,5 @@
 
+use crate::sim_sys_pathfinding::sys_pathfinding_astar;
 use crate::messenger::*;
 
 use std::thread::JoinHandle;
@@ -39,6 +40,7 @@ pub fn start_loop(fps: u32) ->
 
 			input_spawn_unit(&mut sim);
 			sys_input_dest(&mut sim);
+			sys_pathfinding_astar(&mut sim);
 			sys_collision_pred(&mut sim);
 			sys_set_pos(&mut sim);
 			sys_set_next_pos(&mut sim);

@@ -40,6 +40,10 @@ config/icon="res://Assets/godot-ferris.png"
 
 PresentationParams="*res://Presentation_Godot/scripts/Presentation_Params.gd"
 
+[debug]
+
+settings/fps/force_fps=2
+
 [input]
 
 presentation_spawn_unit={

@@ -3,6 +3,7 @@ use crate::sim_fix_math::{Pos, FixF};
 use crate::messenger::*;
 use crate::sim_unit_base_components::IdComp;
 use crate::sim_map;
+use itertools::Itertools;
 
 // this small module offers functions to process Simulation messages 
 // and prepaes them for godot
@@ -214,3 +215,36 @@ pub fn inbox_drain_map_layout(inbox: &mut Vec<EngineMessage>) ->
 	return ret;
 
 	} 
+
+pub fn inbox_drain_pathfinding_tmp(inbox: &mut Vec<EngineMessage>) -> 
+	Vec<(u64, Vec<Vector2>)> {
+
+	let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) = inbox
+		.clone()
+		.iter()
+		.partition(|&msg| match msg {
+			EngineMessage::ObjPathTmp(..) => true,
+			_ => false,
+		});
+
+	*inbox = rest;
+
+	let mut ret: Vec<(u64, Vec<Vector2>)> = vec![]; 
+
+	for i in 0..target.len(){
+		if let EngineMessage::ObjPathTmp(id, positions) = target[i] {
+			ret.push(
+				(
+					id.get().clone(),
+					positions.iter()
+						.map(|pos| pos_to_vector2(*pos))
+						.dedup()
+						.collect()
+					)
+				);
+		}
+	}
+
+	return ret;
+
+	}

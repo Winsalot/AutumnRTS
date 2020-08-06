@@ -126,8 +126,8 @@ There is lon way to go, but it can be like this:
 	+ Nope. regular structs have more readability and have private variables by default.
 16. Add pathfinding.
 	+ Use pathfinding crate.
-	- only 4 movement directions.
-	- Make pathfinding run on Pos and not on Tile.
+	x only 4 movement directions.
+	+ Make pathfinding run on Pos and not on Tile.
 	- Workflow:
 		- Multiple map calls are oK. Should be only a single ECS query.
 		- The system itself should query position/destination and run pathfinding only on those that have destination and position different.
@@ -139,6 +139,12 @@ There is lon way to go, but it can be like this:
 			+ Find a way to test it.
 			+ All good, it work. Me smart.
 		+ Make pathfinding function. It works!
+		- Make pathfinding SYSTEM!:
+			+ Query Position, Destination and Pathfinding components.
+			- If position != destination uopdate path component.
+			- Generate message of first 10 nodes to walk on.
+			- Display path on Godot.
+		- Make next pos use path component instead of destination.
 17. Add collision avodance. 
 	- Dumb way. Instead of stopping unit goes 90 degrees to the side.
 

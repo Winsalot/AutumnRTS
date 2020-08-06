@@ -60,6 +60,7 @@ pub fn plc_unit(pos: Pos, speed: FixF, id_counter: &mut u64) -> EntityBuilder {
 	unit_builder.add(SpeedComponent::new(speed));
 	unit_builder.add(CollComp::new(FixF::from_num(0.5)));
 	unit_builder.add(IdComp::new(id_counter));
+	unit_builder.add(PathComp::new());
 
 	unit_builder
 }
@@ -82,6 +83,8 @@ impl PositionComp {
 	pub fn get_pos(&self) -> &Pos {
 		&self.pos
 	}
+
+
 }
 
 impl NextPosComp {
@@ -157,15 +160,23 @@ impl IdComp {
 impl PathComp {
 	pub fn new() -> Self{
 		PathComp{
-			positions: VecDeque::new(),	
+			positions: VecDeque::new(),
 		}
 	}
 
-	pub fn get_all(&self) -> Vec<Pos> {
-		Vec::from(self.positions.clone())
+	pub fn get(&self) -> &VecDeque<Pos> {
+		&self.positions
 	}
 
-	pub fn set(&mut self, path: Vec<Pos>) {
+	pub fn get_mut(&mut self) -> &mut VecDeque<Pos> {
+		&mut self.positions
+	}
+
+	pub fn set(&mut self, path: VecDeque<Pos>) {
+		self.positions = path;
+	}
+
+	pub fn from_vec(&mut self, path: Vec<Pos>) {
 		self.positions = VecDeque::from(path);
 	}
 }

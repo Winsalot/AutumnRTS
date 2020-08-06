@@ -5,6 +5,7 @@ use crate::sim_map::*;
 use crate::sim_ecs::SimState;
 use crate::sim_fix_math::*;
 use std::collections::VecDeque;
+use crate::messenger::*;
 
 // Note: assumes that destination is pointing to walkable tile.
 // Otherwise will fail.
@@ -91,7 +92,7 @@ impl PathfindingHelper {
 	}
 
 	// returns vector of points to visit. Includes current position and final position
-	fn find_path(map: &Map, start: Pos, goal: Pos) -> Option<VecDeque<Pos>> {
+	fn find_path(map: &Map, start: Pos, goal: Pos) -> VecDeque<Pos> {
 
 		let path_helper = PathfindingHelper::new(start.round(), goal.round());
 
@@ -103,19 +104,78 @@ impl PathfindingHelper {
 	    );
 
 	    match result{
-	    	None => return None,
+	    	None => return VecDeque::new(),
 	    	Some((path, ..)) => {
 	    		let mut ret: VecDeque<Pos> = VecDeque::from(path);
 	    		ret.push_back(goal);
 	    		ret.push_front(start);
 
-	    		return Some(ret);
+	    		return ret;
 	    	}
 	    }
+	}
+
+	// Exact pathfinding hsould not be rendered. Remove later.
+	fn path_to_message_tmp(id: &IdComp, path: &VecDeque<Pos>) -> EngineMessage {
+		let mut path1 = path.clone();
+		let end = path1.back();
+		match end {
+			None => return EngineMessage::None,
+			Some(goal) => {
+				let mut ret = [*goal;10];
+				for i in 0..path1.len().min(10){
+					ret[i] = path1.pop_front().unwrap();
+				}
+				return EngineMessage::ObjPathTmp(id.clone(), ret);
+			}
+		}
+		
 	}
 }
 
 
+
+/// Should compute the path towards the destination
+// Also should generate path message
+pub fn sys_pathfinding_astar(sim: &mut SimState){
+
+	type ToQuery<'a> = (
+		&'a IdComp, 
+		&'a PositionComp, 
+		&'a DestinationComp, 
+		&'a mut PathComp
+		);
+
+	let ecs = &mut sim.ecs;
+	let map = &sim.map;
+
+	//println!("Running pathfinding system");
+
+	'query_loop: for (_, (id, pos, dest, path_comp)) in &mut ecs.query::<ToQuery>(){
+
+		//println!("Calculating path for {:?}", id);
+		if pos.get_pos() == dest.get_dest(){
+			continue 'query_loop;
+		}
+
+		let path = PathfindingHelper::find_path(
+			map, 
+			*pos.get_pos(), 
+			*dest.get_dest()
+			);
+
+		//println!("Path for {:?} found: {:?}",id, path);
+
+
+		// TODO: remove this later sometime:
+		{
+			let msg = PathfindingHelper::path_to_message_tmp(id, &path);
+			sim.send_batch.push(msg);
+			}
+
+		path_comp.set(path);
+	}
+}
 
 
 

@@ -128,6 +128,11 @@ impl RustBridge {
 	}
 
 	#[export]
+	fn get_msg_path_tmp(&mut self, _owner: gdnative::Node) -> Variant {
+		inbox_drain_pathfinding_tmp(&mut self.message_inbox).to_variant()
+	}
+
+	#[export]
 	fn clear_inbox(&mut self, _owner: gdnative::Node) -> usize {
 		let ret = self.message_inbox.len();
 		if ret > 0 {

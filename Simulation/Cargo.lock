@@ -284,6 +284,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "itertools"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "284f18f85651fe11e8a991b2adb42cb078325c996ed026d994719efcfca1d54b"
+dependencies = [
+ "either",
+]
+
+[[package]]
 name = "itoa"
 version = "0.4.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -385,7 +394,7 @@ checksum = "86f4d8cc85ca67860ef4324faf86973a39e4e1c78338987eda29a8e6b6ec0c0e"
 dependencies = [
  "fixedbitset",
  "indexmap",
- "itertools",
+ "itertools 0.8.2",
  "num-traits",
 ]
 
@@ -571,6 +580,7 @@ dependencies = [
  "fixed-sqrt",
  "gdnative",
  "hecs",
+ "itertools 0.9.0",
  "pathfinding",
  "rand",
 ]
