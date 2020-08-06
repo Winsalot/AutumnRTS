@@ -110,3 +110,37 @@ fn run_astar(map: &mut Map) {
 }
 
 */
+
+#[cfg(test)]
+mod pathfinding_tests {
+	// run with:
+	// cargo test --release -- --nocapture
+
+	#[test]
+	fn adjacent_test(){
+		use crate::sim_ecs::*;
+		use crate::messenger::*;
+		use crate::sim_map::Map;
+		use crate::sim_sys_pathfinding::PathfindingHelper;
+		use crate::sim_fix_math::*;
+
+
+
+		let (sim_messenger, _rend_messenger) = create_messenger();
+
+		let messenger = sim_messenger;
+		let map = Map::make_test_map();
+		let sim = SimState::new(map, messenger, 10);
+
+		let pos1 = Pos::from_num(2,2);
+		let pos2 = Pos::from_num(3,3);
+		let pos3 = Pos::from_num(4,4);
+		let pos4 = Pos::from_num(5,2);
+
+		println!("{:?} adjacent: {:?}",pos1, PathfindingHelper::adjacent(&sim.map, pos1));
+		println!("{:?} adjacent: {:?}",pos2, PathfindingHelper::adjacent(&sim.map, pos2));
+		println!("{:?} adjacent: {:?}",pos3, PathfindingHelper::adjacent(&sim.map, pos3));
+		println!("{:?} adjacent: {:?}",pos4, PathfindingHelper::adjacent(&sim.map, pos4));
+		
+	}
+}
