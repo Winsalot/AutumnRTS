@@ -55,6 +55,10 @@ pub fn input_spawn_unit(sim: &mut SimState) {
                     continue;
                 }
 
+                if sim.map.tile_from_pos(pos).blocks_path(){
+                	continue;
+                }
+
                 //TODO: coll_rad_tmp should not be hardcoded
                 let coll_rad_tmp = FixF::from_num(0.5);
 

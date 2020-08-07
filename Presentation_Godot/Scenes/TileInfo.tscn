@@ -20,6 +20,7 @@ func _ready():
 	self.position = real_pos * pixel_scale
 	
 	$Details.set_begin(Vector2(1- pixel_scale.x/2, 1 - pixel_scale.y/2))
+	#$Details.set_begin(Vector2(1, 1))
 	
 	#self.get_node(\"Z level\").set_text(\"z:\" + String(z_level))
 	#self.get_node(\"Z level\").set_begin(Vector2(1 - pixel_scale.x/2, 5))
@@ -38,6 +39,7 @@ func _ready():
 
 func _draw():
 	var rect = Rect2(1 - pixel_scale.x/2, 1 - pixel_scale.y/2,pixel_scale.x -2 , pixel_scale.y -2)
+	#var rect = Rect2(1, 1, pixel_scale.x -2 , pixel_scale.y -2)
 	var col = Color(0.349, 0.690, 0.250)   
 	if z_level > 0:
 		col = Color(0.850, 0.8, 0.211)

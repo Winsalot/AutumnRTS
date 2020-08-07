@@ -111,6 +111,8 @@ impl PathfindingHelper {
                     .dedup()
                     .map(|x| *x + start.fractional_part())
                     .collect();
+                ret.pop_back();    
+                ret.pop_front();    
                 ret.push_back(goal);
                 //ret = ret.iter().dedup().map(|x| *x).collect();
 
