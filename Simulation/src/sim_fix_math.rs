@@ -5,9 +5,11 @@ use std::ops::{Add, Div, Mul, Sub};
 
 pub type FixF = I28F4; //fixed float
 
+/*
 pub fn zero() -> FixF {
     FixF::from_num(0)
 }
+*/
 
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, Copy)]
 pub struct Pos {

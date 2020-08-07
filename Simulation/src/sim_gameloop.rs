@@ -22,7 +22,7 @@ pub fn start_loop(fps: u32) -> (JoinHandle<()>, RendMessenger) {
         update_fps_info(&mut sim);
         sys_init_send_map(&mut sim);
         send_messages(&mut sim);
-        end_tick(&mut sim);
+        sim.end_tick();
 
         // Run game loop & systems
         'running: loop {
@@ -41,7 +41,7 @@ pub fn start_loop(fps: u32) -> (JoinHandle<()>, RendMessenger) {
             sys_set_next_pos(&mut sim);
             clear_inbox(&mut sim);
             send_messages(&mut sim);
-            end_tick(&mut sim);
+            sim.end_tick();
         }
     });
 

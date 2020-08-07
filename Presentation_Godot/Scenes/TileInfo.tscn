@@ -51,7 +51,8 @@ func _draw():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if params.detailed_info:
-		$Details.set_text(\"b_path: \" + String(int(block_path)) + \"\\n\" + \"z_lvl: \" + String(z_level) + \"\\n\" + \"pos:\" + String(real_pos))
+		#$Details.set_text(\"b_path: \" + String(int(block_path)) + \"\\n\" + \"z_lvl: \" + String(z_level) + \"\\n\" + \"pos:\" + String(real_pos))
+		$Details.set_text(String(int(block_path)) + \"\\n\" + String(z_level) + \"\\n\" + String(real_pos))
 	else:
 		$Details.set_text(\"\")
 	pass

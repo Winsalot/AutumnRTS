@@ -12,7 +12,7 @@ pub struct SimState {
     pub fps_counter: FpsCounter,
     pub fps_limit: u32,
     pub break_loop: bool,
-    pub current_tick: u64,
+    current_tick: u64,
     pub id_counter: u64,
     pub map: Map,
 }
@@ -31,5 +31,15 @@ impl SimState {
             id_counter: 0,
             map: game_map,
         }
+    }
+
+    pub fn current_tick(&self) -> u64 {
+    	self.current_tick
+    }
+
+    pub fn end_tick(&mut self) {
+    	self.current_tick += 1;
+    	self.fps_counter.limit_fps(self.fps_limit);
+    	self.fps_counter.tick();
     }
 }

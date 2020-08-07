@@ -1,4 +1,5 @@
 use pathfinding::prelude::astar;
+use num_traits::identities::Zero;
 
 use crate::messenger::*;
 use crate::sim_ecs::SimState;
@@ -75,8 +76,8 @@ impl PathfindingHelper {
         .filter(|x| map.within(**x + pos))
         .filter(|x| !map.tile_from_pos(**x + pos).blocks_path())
         .filter(|x| {
-            let adj1 = pos + Pos::from_num(x.x, zero());
-            let adj2 = pos + Pos::from_num(zero(), x.y);
+            let adj1 = pos + Pos::from_num(x.x, FixF::zero());
+            let adj2 = pos + Pos::from_num(FixF::zero(), x.y);
             (!map.tile_from_pos(adj1).blocks_path()) &
              (!map.tile_from_pos(adj2).blocks_path()) 
         })
@@ -145,14 +146,14 @@ pub fn sys_pathfinding_astar(sim: &mut SimState) {
         &'a mut PathComp,
     );
 
-    let ecs = &mut sim.ecs;
-    let map = &sim.map;
+    //let ecs = &mut sim.ecs;
+    //let map = &sim.map;
 
     //println!("Running pathfinding system");
 
-    'query_loop: for (_, (id, pos, dest, path_comp)) in &mut ecs.query::<ToQuery>() {
+    'query_loop: for (_, (id, pos, dest, path_comp)) in &mut sim.ecs.query::<ToQuery>() {
         //println!("Calculating path for {:?}", id);
-        if dest.last_set() != sim.current_tick {
+        if dest.last_set() != sim.current_tick() {
             continue 'query_loop;
         }
 
@@ -160,7 +161,7 @@ pub fn sys_pathfinding_astar(sim: &mut SimState) {
             continue 'query_loop;
         }
 
-        let path = PathfindingHelper::find_path(map, *pos.get_pos(), *dest.get_dest());
+        let path = PathfindingHelper::find_path(&sim.map, *pos.get_pos(), *dest.get_dest());
 
         //println!("Path for {:?} found: {:?}",id, path);
 

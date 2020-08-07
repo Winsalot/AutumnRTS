@@ -147,8 +147,13 @@ There is lon way to go, but it can be like this:
 			- Display path on Godot.
 		+ Make next pos use path component instead of destination.
 		+ Make it run only after destination has been updated. I mean once.
-17. Add collision avodance. 
-	- Dumb way. Instead of stopping unit goes 90 degrees to the side.
+17. Small changes.
+	+ Make simstate tick private.
+	+ Change collision prediction to use on next_pos <-> pos collisions.
+	+ Make bigger map +2 cells/side.
+	+ add small details
+	+ Allow to set sim fps from godot.
+	- Decide on next changes.
 
 	
 
@@ -156,6 +161,8 @@ Long term:
 	+ Rework messaging system. I don't like the fact that I use enums now. [DONE. Now it uses lots of small enums]
 	+ Fix simulation to only send object messages after something changed. [DONE with small message rework]
 	x Add static typing to GDscript. It will save my life
+	- Refactor sim_fix_math::Pos into external vector crate.
+	- Add collision avoidance. (In collision scenario move to the side or something)
 	
 	
 

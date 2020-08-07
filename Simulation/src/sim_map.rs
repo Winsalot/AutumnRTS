@@ -100,16 +100,17 @@ impl Map {
 
     pub fn make_test_map() -> Self {
         //makes 8x8 map with walls and multiple z levels
-        let mut map = Map::empty_map(8, 8);
+        let size = 12;
+        let mut map = Map::empty_map(size, size);
 
         //map.set_tile(3, 3, MapTile::wall_tile(1));
 
         //println!("{:?}", map);
 
-        for y in 0..8 {
-            'lower: for x in 0..8 {
+        for y in 0..size {
+            'lower: for x in 0..size {
                 // Add exterior walls:
-                if (y == 0) | (y == 7) | (x == 0) | (x == 7) {
+                if (y == 0) | (y == size -1) | (x == 0) | (x == size -1) {
                     map.set_tile(x, y, MapTile::wall_tile(1));
                     continue 'lower;
                 }
@@ -130,6 +131,18 @@ impl Map {
                     (3, 4) => map.set_tile(x, y, MapTile::wall_tile(1)),
                     (4, 4) => map.set_tile(x, y, MapTile::wall_tile(1)),
                     (4, 3) => map.set_tile(x, y, MapTile::wall_tile(1)),
+
+                    (7, 3) => map.set_tile(x, y, MapTile::wall_tile(0)),
+                    (7, 4) => map.set_tile(x, y, MapTile::wall_tile(0)),
+                    (6, 4) => map.set_tile(x, y, MapTile::wall_tile(0)),
+                    (8, 4) => map.set_tile(x, y, MapTile::wall_tile(0)),
+                    (7, 5) => map.set_tile(x, y, MapTile::wall_tile(0)),
+
+                    (9, 9) => map.set_tile(x, y, MapTile::wall_tile(0)),
+                    (9, 10) => map.set_tile(x, y, MapTile::wall_tile(0)),
+
+                    (10, 9) => map.set_tile(x, y, MapTile::ground_tile(-1)),
+                    (10, 10) => map.set_tile(x, y, MapTile::ground_tile(-1)),
 
                     _ => {}
                 }

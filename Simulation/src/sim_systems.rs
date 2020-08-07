@@ -91,9 +91,10 @@ pub fn send_messages(sim: &mut SimState) {
     sim.messenger.send(sim.send_batch.clone());
     sim.send_batch = vec![];
 }
-
+/*
 pub fn end_tick(sim: &mut SimState) {
-    sim.current_tick += 1;
+    sim.tick()
     sim.fps_counter.limit_fps(sim.fps_limit);
     sim.fps_counter.tick();
 }
+*/

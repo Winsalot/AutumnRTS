@@ -27,7 +27,7 @@ pub fn sys_input_dest(sim: &mut SimState) {
                     // Prevent destination from happening outside mapo
                     sim.map.constrain_pos(&mut pos);
 
-                    dest_comp.set_dest(pos, sim.current_tick);
+                    dest_comp.set_dest(pos, sim.current_tick());
                     let msg = EngineMessage::ObjDest(id, pos);
                     sim.send_batch.push(msg);
                 }
@@ -103,13 +103,14 @@ pub fn sys_collision_pred(sim: &mut SimState) {
     // brute force collision detection. Should probably optimize this sometime in the future
     // basically go over every entity with collision and position and make sure it doesnt collide with anything on next move
     type ToQuery0<'a> = (&'a NextPosComp, &'a CollComp);
+    type ToQuery1<'a> = (&'a PositionComp, &'a CollComp);
 
     let ecs = &mut sim.ecs;
 
     let mut non_move_entities: Vec<Entity> = vec![];
 
-    'parent_loop: for (id0, (next_pos0, coll0)) in &mut ecs.query::<ToQuery0>() {
-        'child_loop: for (id1, (next_pos1, coll1)) in &mut ecs.query::<ToQuery0>() {
+    for (id0, (next_pos0, coll0)) in &mut ecs.query::<ToQuery0>() {
+        'child_loop: for (id1, (next_pos1, coll1)) in &mut ecs.query::<ToQuery1>() {
             if id1 == id0 {
                 continue 'child_loop;
             }
@@ -122,12 +123,12 @@ pub fn sys_collision_pred(sim: &mut SimState) {
         }
     }
 
-    type ToQuery1<'a> = (&'a PositionComp, &'a mut NextPosComp);
+    type ToQuery2<'a> = (&'a PositionComp, &'a mut NextPosComp);
 
     for i in 0..non_move_entities.len() {
         let entity = non_move_entities[i];
 
-        let mut query = ecs.query_one::<ToQuery1>(entity).unwrap();
+        let mut query = ecs.query_one::<ToQuery2>(entity).unwrap();
         let (pos, next_pos) = query.get().unwrap();
 
         // set next pos to current position:u

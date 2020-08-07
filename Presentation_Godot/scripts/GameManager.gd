@@ -23,7 +23,7 @@ func _ready():
 	# rustbridge: RustBridge = self.get_parent()	
 	params = self.get_node("/root/PresentationParams")
 	rustbridge = self.get_node("/root/RustBridge")
-	rustbridge.start_loop(1, 2) 
+	rustbridge.start_loop(1, params.sim_fps_target) 
 	
 	pass 
 

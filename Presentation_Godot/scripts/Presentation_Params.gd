@@ -3,10 +3,11 @@ extends Node
 # This is a singleton which holds presentation parameters. 
 # Right now it is just scale factor between Presentation and simulation
 
-var scale = Vector2(64.0, 64.0)
+var scale = Vector2(48.0, 48.0)
 var unit_name_prefix = "unit_id"
 var sim_fps = 0
 var detailed_info = false
+var sim_fps_target = 10
 
 
 

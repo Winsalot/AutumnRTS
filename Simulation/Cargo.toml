@@ -16,6 +16,7 @@ gdnative = "0.8.1"
 hecs = "0.2.12"
 pathfinding = "2.0.4"
 itertools = "0.9.0"
+num-traits = "0.2.12"
 
 [dependencies.fixed]
 version = "1.1.0" # for fixed sqrt to work
