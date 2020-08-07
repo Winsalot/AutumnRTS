@@ -153,16 +153,50 @@ There is lon way to go, but it can be like this:
 	+ Make bigger map +2 cells/side.
 	+ add small details
 	+ Allow to set sim fps from godot.
+	- Fix the fucking offset.
 	- Decide on next changes.
 
 	
 
-Long term:
+SHORT term:
 	+ Rework messaging system. I don't like the fact that I use enums now. [DONE. Now it uses lots of small enums]
 	+ Fix simulation to only send object messages after something changed. [DONE with small message rework]
 	x Add static typing to GDscript. It will save my life
-	- Refactor sim_fix_math::Pos into external vector crate.
 	- Add collision avoidance. (In collision scenario move to the side or something)
+	- Add player & alliance logic (not lore factions). Basically every entity should have player component (with id).
+		- Also includes: Mutable Alliance Matrix. So that players can form and break alliances midgame. Alliance matrix tells who is allied with who.
+	- Start using data files.
+		- For map.
+		- For unit builder.
+	- Godot working camera.
+	- Select/deselect, drag (group) unit select.
+	- Line of sight system.
+		- Separate for alliances of players.
+	- Buildings & Unit production
+		- Maybe long term, as building of structures should be special ability from items (see long term).
+
+
+LONG term:
+	- Inventory/weapon system.
+		- No idea how this will work.
+		- But I want lots of flexibility. To allow for scenarios like:
+			- Weapons are items.
+			- Units can have multiple weapons (shoot both on same tick).
+			- Items have passive effect (boost armor, boost health, give flying pathing).
+			- Items can have active effect (cast spells & special attacks)
+			- Special effects are configurable in data files (spawn projectile -> hit something -> spawn weaker projectile (bounce) -> hit new target -> explode with splash).
+			-  Upgrades are items. Eg. +movement speed, + range, + whatever.
+	- Input commands for groups (not individual units).
+	- Add movement with acceleration and turn rates (both should be infinite for most units) 
+
+REFACTOR to do SOMEDAY:
+	- sim_fix_math::Pos into external vector crate. Something like vek or nalgebra
+	- Refactor colisions and positions and shit to be in r*-tree storage. https://docs.rs/rstar/0.8.2/rstar/
+	- Write my own pathfinding A* or some worse.
+	- Refactor whole collisions. So that there is less hiccup and if units get stacked on each other they will eventually separate.
+	- Id component to hold unique id AND entity id.
+	X [NOPE] Hecs -> Legion refactor? Risky, and unnecesarry?
+	- Pathfinding & movement to account for different types of pathing (normal, flying, ignoring terrain but not units/buildings).
 	
 	
 
