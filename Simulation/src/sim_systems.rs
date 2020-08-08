@@ -104,6 +104,51 @@ pub fn input_spawn_unit(sim: &mut SimState) {
     }
 }
 
+
+pub fn input_spawn_structure(sim: &mut SimState) {
+    // Reads messages, removes spawn messages from inbox. Spawns units and egnerates messages
+
+    let inbox = &mut sim.inbox;
+
+    let (spawn_msg, rest): (Vec<RenderMessage>, Vec<RenderMessage>) =
+        inbox.iter().partition(|&msg| match msg {
+            RenderMessage::SpawnStructureTmp(..) => true,
+            _ => false,
+        });
+
+    *inbox = rest;
+
+    for i in 0..spawn_msg.len() {
+        match spawn_msg[i] {
+            RenderMessage::SpawnStructureTmp(pos) => {
+                // Prevent from spawning outside map:
+                if !sim.map.within(pos) {
+                    continue;
+                }
+
+                if sim.map.tile_from_pos(pos).blocks_path(){
+                    continue;
+                }
+
+                if sim.map.map_mem.get_blocked().contains(&pos.round()){
+                    continue;
+                }
+
+                let mut new_structure = plc_building(pos, &mut sim.id_counter);
+                let e = sim.ecs.spawn(new_structure.build());
+
+                sim.map.add_structure(vec![pos]);
+
+                let id = sim.ecs.get::<IdComp>(e).unwrap();
+
+                let msg = EngineMessage::StructurePosTmp(*id.get(), pos.round());
+                sim.send_batch.push(msg);
+            }
+            _ => {}
+        }
+    }
+}
+
 pub fn clear_inbox(sim: &mut SimState) -> Option<Vec<RenderMessage>> {
     // clears unread rendermessages.
     // Sends returns unused messages

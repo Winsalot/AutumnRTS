@@ -83,6 +83,11 @@ impl RustBridge {
     }
 
     #[export]
+    fn get_msg_spawn_structure(&mut self, _owner: gdnative::Node) -> Variant {
+        inbox_drain_spawn_structure(&mut self.message_inbox).to_variant()
+    }
+
+    #[export]
     fn get_msg_move(&mut self, _owner: gdnative::Node) -> Variant {
         inbox_drain_move(&mut self.message_inbox).to_variant()
     }
@@ -134,6 +139,13 @@ impl RustBridge {
     fn tmp_spawn_obj(&mut self, _owner: gdnative::Node, xy: Vector2) {
         let pos: Pos = Pos::from_num(xy.x, xy.y);
         let msg = RenderMessage::Spawn(pos);
+        self.message_batch.push(msg);
+    }
+
+    #[export]
+    fn tmp_spawn_structure(&mut self, _owner: gdnative::Node, xy: Vector2) {
+        let pos: Pos = Pos::from_num(xy.x, xy.y);
+        let msg = RenderMessage::SpawnStructureTmp(pos);
         self.message_batch.push(msg);
     }
 }

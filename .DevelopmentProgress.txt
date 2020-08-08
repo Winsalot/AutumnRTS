@@ -168,20 +168,37 @@ There is lon way to go, but it can be like this:
 		+ Update godot side. Fuck godot side.
 	+ Don't mess with messenger yet. yet.
 	+ Fix the fucken offset bug from (17)
-[DONE]18.1 Start using folders.
+[DONE] 18.1 Start using folders.
 	+ Sim component folder.
 	+ From now every components has separate file
-19. Add buildings.
+[DONE] 19. Add buildings.
 	+ Make component.
 	+ plc function.
-	- create Messages.
-	- Create system.
-	- Implement on godot side.
-	- Incorporate into pathfinding.
+	+ create Messages.
+	+ Create system.
+	+ Implement on godot side.
+	+ Incorporate into pathfinding.
+		+ Create memory state.
+		+ Pathfinding checks memory.
+		+ Memory updated on structure spawn.
+20. Weapons. 
+	- Basically:
+		- Signle component to hold weapons.
+		- Weapon is an enum.
+		- Some system iterates over weapons.
+		- Every weapon enum variant has dedicated function with effects. (burrow checker will fuck me)
+	- Add weapon [ BUILDER ]: Allows to build structures.
+	- Incorporate it into Godot to allow units to build structures like that.
 
 
 GENERAL IDEAS:
 	- Fuck unnecerasy refactoring. I should avoid it. Better messy code & game than general good code and no game.
+	- Get some basic features working. Then add graphics & fix Godot side. Then attract contributors. Features to get:
+		- Structure building.
+		- Unit training.
+		- Working teams.
+		- Mindless enemies.
+		- Basic weapons.
 	
 
 SHORT term:

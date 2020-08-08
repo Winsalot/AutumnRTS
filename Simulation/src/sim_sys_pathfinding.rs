@@ -63,6 +63,7 @@ impl PathfindingHelper {
         .iter()
         .filter(|x| map.within(**x))
         .filter(|x| !map.tile_from_pos(**x).blocks_path())
+        .filter(|x| !map.map_mem.get_blocked().contains(x))
         .map(|x| *x)
         .map(|x| (x, FixF::from_num(10)))
         .collect();
@@ -79,11 +80,18 @@ impl PathfindingHelper {
         .iter()
         .filter(|x| map.within(**x + pos))
         .filter(|x| !map.tile_from_pos(**x + pos).blocks_path())
+        .filter(|x| !map.map_mem.get_blocked().contains(&(**x + pos)))
         .filter(|x| {
             let adj1 = pos + Pos::from_num(x.x, FixF::zero());
             let adj2 = pos + Pos::from_num(FixF::zero(), x.y);
             (!map.tile_from_pos(adj1).blocks_path()) &
              (!map.tile_from_pos(adj2).blocks_path()) 
+        })
+        .filter(|x| {
+            let adj1 = pos + Pos::from_num(x.x, FixF::zero());
+            let adj2 = pos + Pos::from_num(FixF::zero(), x.y);
+            (!map.map_mem.get_blocked().contains(&adj1)) &
+             (!map.map_mem.get_blocked().contains(&adj2)) 
         })
         .map(|x| *x + pos)
         .map(|x| (x, FixF::from_num(14)))

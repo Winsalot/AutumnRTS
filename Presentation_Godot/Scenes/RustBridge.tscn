@@ -52,11 +52,17 @@ __meta__ = {
 }
 
 [node name="Controls info" type="Label" parent="GUI"]
-margin_left = 108.08
-margin_top = 576.776
-margin_right = 938.08
-margin_bottom = 590.776
-text = "SPACE to spawn unit, LEFT MOUSE to select, RIGHT MOUSE to give move order; ESC to deselect all units; Hold Tab for detailed info; Q to quit"
+margin_left = 641.0
+margin_top = 21.0
+margin_right = 1013.0
+margin_bottom = 361.0
+text = "SPACE to spawn unit;
+LEFT MOUSE to select;
+RIGHT MOUSE to give move order;
+ESC to deselect all units; 
+Hold Tab for detailed info;
+B to spawn structure;
+Q to quit"
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -1,5 +1,6 @@
 use crate::messenger::EngineMessage;
 use crate::sim_fix_math::*;
+use crate::sim_player_alliances::*;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct MapTile {
@@ -7,11 +8,24 @@ pub struct MapTile {
     z_level: i32,
 }
 
+// Structures visible to and remembered by particular player:
 #[derive(Debug, PartialEq, Clone)]
+pub struct StructureMemory{
+    player: PlayerId,
+    blocked_tiles: Vec<Pos>
+}
+
+#[derive(Debug, PartialEq)]
 pub struct Map {
     size: (usize, usize),
     tilemap: Vec<MapTile>,
+    pub map_mem: StructureMemory,
 }
+
+
+
+
+
 
 impl MapTile {
     fn ground_tile(z_level: i32) -> Self {
@@ -37,6 +51,29 @@ impl MapTile {
     }
 }
 
+
+
+impl StructureMemory{
+    pub fn new(player: PlayerId) -> Self{
+        StructureMemory {
+            player: player,
+            blocked_tiles: vec![]
+        }
+    }
+
+    pub fn get_blocked(&self) -> &Vec<Pos> {
+        &self.blocked_tiles
+    }
+
+    pub fn add(&mut self, tiles: Vec<Pos>) {
+        let mut tiles1: Vec<Pos> = tiles.iter()
+            .map(|x| x.round())
+            .collect();
+        self.blocked_tiles.append(&mut tiles1);
+    }
+}
+
+
 impl Map {
     pub fn empty_map(width: u32, height: u32) -> Self {
         let mut map: Vec<MapTile> = vec![];
@@ -48,6 +85,7 @@ impl Map {
         Map {
             size: (width as usize, height as usize),
             tilemap: map,
+            map_mem: StructureMemory::new(PlayerId::new(1, TeamAlliance::Alliance(1))),
         }
     }
 
@@ -83,6 +121,10 @@ impl Map {
             pos.x.min(FixF::from_num(self.size().0 - 1)),
             pos.y.min(FixF::from_num(self.size().1 - 1)),
         );
+    }
+
+    pub fn add_structure(&mut self, pos: Vec<Pos>){
+        self.map_mem.add(pos);
     }
 
     pub fn to_message(&self) -> Vec<EngineMessage> {

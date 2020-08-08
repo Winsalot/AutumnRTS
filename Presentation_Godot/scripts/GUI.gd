@@ -24,6 +24,10 @@ func _unhandled_input(event):
 		var xy = rustbridge.get_viewport().get_mouse_position()/params.scale
 		print(xy)
 		rustbridge.tmp_spawn_obj(xy)
+	if event.is_action_pressed("presentation_spawn_structure"):
+		var xy = rustbridge.get_viewport().get_mouse_position()/params.scale
+		print(xy)
+		rustbridge.tmp_spawn_structure(xy)
 	if event.is_action_pressed("tmp_receive_messages"):
 		pass
 	if event.is_action_pressed("deselect_all"):

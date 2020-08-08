@@ -1,3 +1,4 @@
+//use crate::sim_map::StructureMemory;
 use crate::fpscounter::*;
 use crate::messenger::*;
 use crate::sim_map::Map;
@@ -17,6 +18,7 @@ pub struct SimState {
     pub id_counter: u64,
     pub map: Map,
     players: PlayerList,
+    //map_mem: StructureMemory,
 }
 
 impl SimState {
@@ -38,6 +40,7 @@ impl SimState {
             id_counter: 0,
             map: game_map,
             players: PlayerList::ffa(n_players),
+            //map_mem: StructureMemory::new(PlayerId::new(1, TeamAlliance::Alliance(1)))
         }
     }
 

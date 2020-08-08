@@ -11,6 +11,7 @@ var rustbridge;
 
 var plc_unit; # placeholder unit. Will use dictionary with multiple units
 var plc_tile;
+var plc_building;
 var params;
 
 
@@ -19,6 +20,7 @@ var params;
 func _ready():
 	plc_unit = preload("res://Presentation_Godot/Scenes/Placeholder_Unit.tscn")
 	plc_tile = preload("res://Presentation_Godot/Scenes/TileInfo.tscn")
+	plc_building = preload("res://Presentation_Godot/Scenes/StructureTmp.tscn")
 	self.set_process_input(false)
 	# rustbridge: RustBridge = self.get_parent()	
 	params = self.get_node("/root/PresentationParams")
@@ -34,6 +36,7 @@ func _process(delta):
 	
 	spawn_map()
 	spawn_units()
+	spawn_structures()
 	get_next_pos()
 	move_units()
 	get_engine_fps()
@@ -58,6 +61,18 @@ func spawn_units():
 		unit.unique_id = unit_spawn[0]
 		unit.coll_radius = unit_spawn[3]
 		self.add_child(unit)
+	pass
+
+func spawn_structures():
+	var spawn_info = rustbridge.get_msg_spawn_structure()
+	for building_spawn in spawn_info:
+		print("Spawning structure: " + String(building_spawn))
+		var building = plc_building.instance()
+		var xy = Vector2(building_spawn[1], building_spawn[2]) #* params.scale
+		building.set_real_pos(xy)
+		building.set_name(unit_name(building_spawn[0]))
+		building.unique_id = building_spawn[0]
+		self.add_child(building)
 	pass
 
 func spawn_map():

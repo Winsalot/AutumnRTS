@@ -14,6 +14,7 @@ pub enum EngineMessage {
     ObjDest(u64, Pos),
     ObjPathTmp(u64, [Pos; 20]), // To visualise pathfinding. Sends next 10 steps.
     MapTile(Pos, MapTile),
+    StructurePosTmp(u64, Pos),
     Fps(u64),
     None, // this message sucks
     //Break,
@@ -24,6 +25,7 @@ pub enum EngineMessage {
 pub enum RenderMessage {
     Destination(u64, Pos),
     Spawn(Pos),
+    SpawnStructureTmp(Pos),
     //None,
     Break,
 }
