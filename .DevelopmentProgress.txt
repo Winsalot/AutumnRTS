@@ -168,10 +168,11 @@ There is lon way to go, but it can be like this:
 		+ Update godot side. Fuck godot side.
 	+ Don't mess with messenger yet. yet.
 	+ Fix the fucken offset bug from (17)
-18.1 Start using folders.
-	- Sim component folder.
-	
+[DONE]18.1 Start using folders.
+	+ Sim component folder.
+	+ From now every components has separate file
 19. Add buildings.
+	+ Make component.
 	- Basically a different kind of entity.Has:
 		- Has id and alll that bullshit.
 		- cant move
@@ -181,14 +182,20 @@ There is lon way to go, but it can be like this:
 		- Can occupy multiple tiles.
 		- Discree position.
 
+
+GENERAL IDEAS:
+	- Fuck unnecerasy refactoring. I should avoid it. Better messy code & game than general good code and no game.
 	
 
 SHORT term:
 	+ Rework messaging system. I don't like the fact that I use enums now. [DONE. Now it uses lots of small enums]
 	+ Fix simulation to only send object messages after something changed. [DONE with small message rework]
 	x Add static typing to GDscript. It will save my life
-	- Add collision avoidance. (In collision scenario move to the side or something)
 	+ Add player & alliance logic (not lore factions). Basically every entity should have player component (with id).
+	- Buildings.
+	- Units making buildings.
+	- Buildings making units.
+	- Add collision avoidance. (In collision scenario move to the side or something)
 	- Start using player & alliance logic. Adapt messaging system for it.
 	- Start using data files.
 		- For map.
@@ -197,8 +204,6 @@ SHORT term:
 	- Select/deselect, drag (group) unit select.
 	- Line of sight system.
 		- Separate for alliances of players.
-	- Buildings & Unit production
-		- Maybe long term, as building of structures should be special ability from items (see long term).
 	- Move to isometric 3D on godot side.
 
 
