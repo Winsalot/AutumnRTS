@@ -2,6 +2,7 @@ use hecs::*;
 use std::collections::VecDeque;
 
 use crate::sim_fix_math::*;
+use crate::sim_player_alliances::*;
 
 /// Unit type name
 pub struct TypeNameComp {
@@ -15,6 +16,7 @@ pub struct TypeNameComp {
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct IdComp {
     id: u64,
+    owner: PlayerId,
 }
 
 /// Location component
@@ -147,16 +149,21 @@ impl IdComp {
     pub fn new(id_counter: &mut u64) -> Self {
         let id = std::mem::replace(id_counter, *id_counter + 1);
 
-        IdComp { id: id }
+        IdComp {
+        	id: id,
+        	owner: PlayerId::new(1, TeamAlliance::Alliance(1))
+        }
     }
 
     pub fn get(&self) -> &u64 {
         &self.id
     }
 
+/*
     pub fn from(id: u64) -> Self {
         IdComp { id: id }
     }
+*/    
 }
 
 impl PathComp {

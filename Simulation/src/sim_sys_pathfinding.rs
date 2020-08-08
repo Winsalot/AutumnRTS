@@ -132,7 +132,7 @@ impl PathfindingHelper {
                 for i in 0..path1.len().min(20) {
                     ret[i] = path1.pop_front().unwrap();
                 }
-                return EngineMessage::ObjPathTmp(id.clone(), ret);
+                return EngineMessage::ObjPathTmp(*id.get(), ret);
             }
         }
     }
@@ -194,7 +194,7 @@ mod pathfinding_tests {
 
         let messenger = sim_messenger;
         let map = Map::make_test_map();
-        let sim = SimState::new(map, messenger, 10);
+        let sim = SimState::new(map, messenger,1, 10);
 
         let pos1 = Pos::from_num(2, 2);
         let pos2 = Pos::from_num(3, 3);
@@ -235,7 +235,7 @@ mod pathfinding_tests {
 
         let messenger = sim_messenger;
         let map = Map::make_test_map();
-        let sim = SimState::new(map, messenger, 10);
+        let sim = SimState::new(map, messenger,1, 10);
 
         let start = Pos::from_num(5, 3);
         let goal = Pos::from_num(3, 3);

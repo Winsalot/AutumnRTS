@@ -147,14 +147,27 @@ There is lon way to go, but it can be like this:
 			- Display path on Godot.
 		+ Make next pos use path component instead of destination.
 		+ Make it run only after destination has been updated. I mean once.
-17. Small changes.
+[DONE]17. Small changes.
 	+ Make simstate tick private.
 	+ Change collision prediction to use on next_pos <-> pos collisions.
 	+ Make bigger map +2 cells/side.
 	+ add small details
 	+ Allow to set sim fps from godot.
-	- Fix the fucking offset.
-	- Decide on next changes.
+	x Fix the fucking offset. [Later lol]
+		+ But it's a problem on sim side. Probably soehting with Pos -> Tile
+	+ Decide on next changes. [Alliances & Playes matrix]
+[DONE]18. Player Alliances matrix.
+	+ Basically simstate varible.
+		+ Ez. Just a list of player ids. Every player id contains player id and team.
+		+ So no alliance matrix. Just separate teams.
+	+ Add new() function for it. Maybe only FFA right now.
+	+ Incorporate it all into SimState and IdComp.
+		+ Add to Id COmp
+		+ Update unit builder
+		+ Update unit spawn message
+		+ Update godot side. Fuck godot side.
+	+ Don't mess with messenger yet. yet.
+	+ Fix the fucken offset bug from (17)
 
 	
 
@@ -163,8 +176,8 @@ SHORT term:
 	+ Fix simulation to only send object messages after something changed. [DONE with small message rework]
 	x Add static typing to GDscript. It will save my life
 	- Add collision avoidance. (In collision scenario move to the side or something)
-	- Add player & alliance logic (not lore factions). Basically every entity should have player component (with id).
-		- Also includes: Mutable Alliance Matrix. So that players can form and break alliances midgame. Alliance matrix tells who is allied with who.
+	+ Add player & alliance logic (not lore factions). Basically every entity should have player component (with id).
+	- Start using player & alliance logic. Adapt messaging system for it.
 	- Start using data files.
 		- For map.
 		- For unit builder.

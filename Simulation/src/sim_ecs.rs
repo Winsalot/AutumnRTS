@@ -1,6 +1,7 @@
 use crate::fpscounter::*;
 use crate::messenger::*;
 use crate::sim_map::Map;
+use crate::sim_player_alliances::*;
 use hecs::*;
 
 // Basically a struct that contains ECS system and system state.
@@ -15,10 +16,16 @@ pub struct SimState {
     current_tick: u64,
     pub id_counter: u64,
     pub map: Map,
+    players: PlayerList,
 }
 
 impl SimState {
-    pub fn new(game_map: Map, sim_messenger: SimMessenger, fps_limit: u32) -> Self {
+    pub fn new(
+    	game_map: Map, 
+    	sim_messenger: SimMessenger, 
+    	n_players: u32, 
+    	fps_limit: u32
+    	) -> Self {
         SimState {
             ecs: World::new(),
             messenger: sim_messenger,
@@ -30,6 +37,7 @@ impl SimState {
             current_tick: 0,
             id_counter: 0,
             map: game_map,
+            players: PlayerList::ffa(n_players),
         }
     }
 

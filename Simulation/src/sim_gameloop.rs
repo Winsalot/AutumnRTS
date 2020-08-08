@@ -9,14 +9,14 @@ use std::thread::JoinHandle;
 
 // Starts game loop and returns all the control handles
 
-pub fn start_loop(fps: u32) -> (JoinHandle<()>, RendMessenger) {
+pub fn start_loop(n_players: u32, fps: u32) -> (JoinHandle<()>, RendMessenger) {
     let (sim_messenger, rend_messenger) = create_messenger();
 
     let sim_handle = std::thread::spawn(move || {
         // Initialise kay parts of the simulation:
         let messenger = sim_messenger;
         let map = Map::make_test_map();
-        let mut sim = SimState::new(map, messenger, fps);
+        let mut sim = SimState::new(map, messenger, n_players, fps);
 
         // Run init systems:
         update_fps_info(&mut sim);

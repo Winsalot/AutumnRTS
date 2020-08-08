@@ -22,7 +22,7 @@ pub fn sys_input_dest(sim: &mut SimState) {
             RenderMessage::Destination(id, mut pos) => {
                 let dest_comp = sim
                     .ecs
-                    .get_mut::<DestinationComp>(Entity::from_bits(id.get().clone()));
+                    .get_mut::<DestinationComp>(Entity::from_bits(id));
                 if let Ok(mut dest_comp) = dest_comp {
                     // Prevent destination from happening outside mapo
                     sim.map.constrain_pos(&mut pos);
@@ -75,7 +75,7 @@ pub fn sys_set_next_pos(sim: &mut SimState) {
             let n_next_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
 
             next_pos.set_pos(n_next_pos);
-            let msg = EngineMessage::ObjNextPos(*id, n_next_pos);
+            let msg = EngineMessage::ObjNextPos(*id.get(), n_next_pos);
             sim.send_batch.push(msg)
         }
 
@@ -152,7 +152,7 @@ pub fn sys_set_pos(sim: &mut SimState) {
         let msg: EngineMessage;
 
         pos.set_pos(*next_pos.get_pos());
-        msg = EngineMessage::ObjMove(*id, *pos.get_pos());
+        msg = EngineMessage::ObjMove(*id.get(), *pos.get_pos());
 
         sim.send_batch.push(msg);
     }

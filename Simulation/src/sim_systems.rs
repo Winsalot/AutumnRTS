@@ -67,7 +67,7 @@ pub fn input_spawn_unit(sim: &mut SimState) {
 
                 let id = sim.ecs.get::<IdComp>(e).unwrap();
 
-                let msg = EngineMessage::ObjPosColl(*id, pos, coll_rad_tmp);
+                let msg = EngineMessage::ObjPosColl(*id.get(), pos, coll_rad_tmp);
                 sim.send_batch.push(msg);
             }
             _ => {}

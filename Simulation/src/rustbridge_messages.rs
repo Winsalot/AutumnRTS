@@ -60,7 +60,8 @@ pub fn inbox_drain_spawn(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f32, 
     for i in 0..target.len() {
         if let EngineMessage::ObjPosColl(id, pos, radius) = target[i] {
             ret.push((
-                id.get().clone(),
+                //id.get().clone(),
+                id,
                 pos.x.to_num::<f32>(),
                 pos.y.to_num::<f32>(),
                 radius.to_num::<f32>(),
@@ -85,7 +86,8 @@ pub fn inbox_drain_move(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f32)> 
     for i in 0..target.len() {
         if let EngineMessage::ObjMove(id, pos) = target[i] {
             ret.push((
-                id.get().clone(),
+                //id.get().clone(),
+                id,
                 pos.x.to_num::<f32>(),
                 pos.y.to_num::<f32>(),
             ));
@@ -109,7 +111,8 @@ pub fn inbox_drain_next_pos(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f3
     for i in 0..target.len() {
         if let EngineMessage::ObjNextPos(id, pos) = target[i] {
             ret.push((
-                id.get().clone(),
+                //id.get().clone(),
+                id,
                 pos.x.to_num::<f32>(),
                 pos.y.to_num::<f32>(),
             ));
@@ -153,7 +156,8 @@ pub fn inbox_drain_dest(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f32)> 
     for i in 0..target.len() {
         if let EngineMessage::ObjDest(id, pos) = target[i] {
             ret.push((
-                id.get().clone(),
+                //id.get().clone(),
+                id,
                 pos.x.to_num::<f32>(),
                 pos.y.to_num::<f32>(),
             ));
@@ -202,7 +206,8 @@ pub fn inbox_drain_pathfinding_tmp(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, 
     for i in 0..target.len() {
         if let EngineMessage::ObjPathTmp(id, positions) = target[i] {
             ret.push((
-                id.get().clone(),
+                //id.get().clone(),
+                id,
                 positions
                     .iter()
                     .map(|pos| pos_to_vector2(*pos))

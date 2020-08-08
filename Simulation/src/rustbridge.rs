@@ -30,8 +30,8 @@ impl RustBridge {
     fn _ready(&mut self, _owner: gdnative::Node) {}
 
     #[export]
-    fn start_loop(&mut self, _owner: gdnative::Node, n_fps_avg: i32, fps_limit: i32) {
-        let (sim_handle, rend_messenger) = sim_gameloop::start_loop(fps_limit as u32);
+    fn start_loop(&mut self, _owner: gdnative::Node, n_players: u32, fps_limit: i32) {
+        let (sim_handle, rend_messenger) = sim_gameloop::start_loop(n_players, fps_limit as u32);
 
         self.sim_handle = Some(sim_handle);
         self.messenger = Some(rend_messenger);
@@ -39,7 +39,7 @@ impl RustBridge {
         // Debug part:
         godot_print!(
             "Game loop succesfully started with params {:?}, {:?}",
-            n_fps_avg,
+            n_players,
             fps_limit
         );
     }
@@ -100,7 +100,8 @@ impl RustBridge {
     #[export]
     fn send_msg_move(&mut self, _owner: gdnative::Node, id: u64, xy: Vector2) {
         let pos: Pos = Pos::from_num(xy.x, xy.y);
-        let msg = RenderMessage::Destination(IdComp::from(id), pos);
+        //let msg = RenderMessage::Destination(IdComp::from(id), pos);
+        let msg = RenderMessage::Destination(id, pos);
         self.message_batch.push(msg);
     }
 

@@ -69,7 +69,7 @@ impl Map {
 
     pub fn tile_from_pos(&self, pos: Pos) -> &MapTile {
         let pos1 = pos.round();
-        self.get_tile(pos.x.to_num::<u32>(), pos.y.to_num::<u32>())
+        self.get_tile(pos1.x.to_num::<u32>(), pos1.y.to_num::<u32>())
     }
 
     // Checks wether position is within the map:
@@ -138,8 +138,11 @@ impl Map {
                     (8, 4) => map.set_tile(x, y, MapTile::wall_tile(0)),
                     (7, 5) => map.set_tile(x, y, MapTile::wall_tile(0)),
 
-                    (9, 9) => map.set_tile(x, y, MapTile::wall_tile(0)),
-                    (9, 10) => map.set_tile(x, y, MapTile::wall_tile(0)),
+                    (9, 9) => map.set_tile(x, y, MapTile::wall_tile(-1)),
+                    (9, 10) => map.set_tile(x, y, MapTile::wall_tile(-1)),
+
+                    (1, 9) => map.set_tile(x, y, MapTile::wall_tile(-1)),
+                    (2, 10) => map.set_tile(x, y, MapTile::wall_tile(-1)),
 
                     (10, 9) => map.set_tile(x, y, MapTile::ground_tile(-1)),
                     (10, 10) => map.set_tile(x, y, MapTile::ground_tile(-1)),
@@ -150,5 +153,34 @@ impl Map {
         }
 
         map
+    }
+}
+
+
+#[cfg(test)]
+mod mapo_tests {
+    use crate::sim_map::*;
+    
+    // run with:
+    // cargo test mapo_tests
+
+
+    #[test]
+    fn pos_to_tile(){
+        let mapo = Map::make_test_map();
+
+        assert_eq!( 
+            mapo.tile_from_pos(Pos::from_num(3,3)),
+            mapo.get_tile(3,3)
+            );
+
+        assert_eq!( 
+            mapo.tile_from_pos(Pos::from_num(2.8,2.8)),
+            mapo.get_tile(3,3)
+            );  
+        assert_eq!( 
+            mapo.tile_from_pos(Pos::from_num(4.729167, 3.0)),
+            mapo.get_tile(5,3)
+            );
     }
 }
