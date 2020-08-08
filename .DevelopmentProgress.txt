@@ -168,6 +168,18 @@ There is lon way to go, but it can be like this:
 		+ Update godot side. Fuck godot side.
 	+ Don't mess with messenger yet. yet.
 	+ Fix the fucken offset bug from (17)
+18.1 Start using folders.
+	- Sim component folder.
+	
+19. Add buildings.
+	- Basically a different kind of entity.Has:
+		- Has id and alll that bullshit.
+		- cant move
+		- Taken into account in the pathfinding.
+			- For this sim state should store every player's structure memoryy.
+				- Eg. If Player sees enemy base, It should taken it into account even if it is in FoW. Also if the base is destroyed, but player is unaware, pathfinding should act like buildings are still there. 
+		- Can occupy multiple tiles.
+		- Discree position.
 
 	
 
@@ -187,6 +199,7 @@ SHORT term:
 		- Separate for alliances of players.
 	- Buildings & Unit production
 		- Maybe long term, as building of structures should be special ability from items (see long term).
+	- Move to isometric 3D on godot side.
 
 
 LONG term:
@@ -201,16 +214,16 @@ LONG term:
 			-  Upgrades are items. Eg. +movement speed, + range, + whatever.
 	- Input commands for groups (not individual units).
 	- Add movement with acceleration and turn rates (both should be infinite for most units) 
+	- Pathfinding & movement to account for different types of pathing (normal, flying, ignoring terrain but not units/buildings).
+
 
 REFACTOR to do SOMEDAY:
 	- sim_fix_math::Pos into external vector crate. Something like vek or nalgebra
 	- Refactor colisions and positions and shit to be in r*-tree storage. https://docs.rs/rstar/0.8.2/rstar/
-	- Write my own pathfinding A* or some worse.
+	- Write my own pathfinding A* or something worse.
 	- Refactor whole collisions. So that there is less hiccup and if units get stacked on each other they will eventually separate.
 	- Id component to hold unique id AND entity id.
 	X [NOPE] Hecs -> Legion refactor? Risky, and unnecesarry?
-	- Pathfinding & movement to account for different types of pathing (normal, flying, ignoring terrain but not units/buildings).
-	
-	
 
-So basic idea: Every object Godot spawns is a scene. Therefore it's good if there is some general entity scene (units)
+	
+	
