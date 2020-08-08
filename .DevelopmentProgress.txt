@@ -173,14 +173,11 @@ There is lon way to go, but it can be like this:
 	+ From now every components has separate file
 19. Add buildings.
 	+ Make component.
-	- Basically a different kind of entity.Has:
-		- Has id and alll that bullshit.
-		- cant move
-		- Taken into account in the pathfinding.
-			- For this sim state should store every player's structure memoryy.
-				- Eg. If Player sees enemy base, It should taken it into account even if it is in FoW. Also if the base is destroyed, but player is unaware, pathfinding should act like buildings are still there. 
-		- Can occupy multiple tiles.
-		- Discree position.
+	+ plc function.
+	- create Messages.
+	- Create system.
+	- Implement on godot side.
+	- Incorporate into pathfinding.
 
 
 GENERAL IDEAS:

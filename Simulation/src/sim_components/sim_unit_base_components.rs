@@ -1,4 +1,4 @@
-use hecs::*;
+
 use std::collections::VecDeque;
 
 use crate::sim_fix_math::*;
@@ -52,20 +52,6 @@ pub struct PathComp {
     positions: VecDeque<Pos>,
 }
 
-pub fn plc_unit(pos: Pos, speed: FixF, id_counter: &mut u64) -> EntityBuilder {
-    let mut unit_builder = EntityBuilder::new();
-
-    unit_builder.add(TypeNameComp::new("placeholder"));
-    unit_builder.add(PositionComp::new(pos));
-    unit_builder.add(NextPosComp::new(pos));
-    unit_builder.add(DestinationComp::new(pos));
-    unit_builder.add(SpeedComponent::new(speed));
-    unit_builder.add(CollComp::new(FixF::from_num(0.5)));
-    unit_builder.add(IdComp::new(id_counter));
-    unit_builder.add(PathComp::new());
-
-    unit_builder
-}
 
 impl TypeNameComp {
     pub fn new(name: &str) -> Self {

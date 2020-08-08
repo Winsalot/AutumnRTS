@@ -10,10 +10,10 @@ pub struct StructureComp {
 }
 
 impl StructureComp {
-	pub fn new(pos: &Pos) -> Self {
+	pub fn new(pos: Pos) -> Self {
 		StructureComp {
-			pos: pos.clone(),
-			tiles: vec![pos.clone()]
+			pos: pos,
+			tiles: vec![pos]
 		}
 	}
 }

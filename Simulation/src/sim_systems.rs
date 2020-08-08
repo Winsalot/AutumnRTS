@@ -1,5 +1,7 @@
-use crate::sim_components::sim_unit_base_components::plc_unit;
-use crate::sim_components::sim_unit_base_components::IdComp;
+use crate::sim_fix_math::Pos;
+use hecs::*;
+use crate::sim_components::sim_unit_base_components::*;
+use crate::sim_components::structure_comp::*;
 
 //use crate::sim_state_components::*;
 use crate::messenger::*;
@@ -34,6 +36,31 @@ pub fn input_break_check(sim: &mut SimState) -> bool {
     }
 
     false
+}
+
+pub fn plc_unit(pos: Pos, speed: FixF, id_counter: &mut u64) -> EntityBuilder {
+    let mut unit_builder = EntityBuilder::new();
+
+    unit_builder.add(TypeNameComp::new("placeholder"));
+    unit_builder.add(PositionComp::new(pos));
+    unit_builder.add(NextPosComp::new(pos));
+    unit_builder.add(DestinationComp::new(pos));
+    unit_builder.add(SpeedComponent::new(speed));
+    unit_builder.add(CollComp::new(FixF::from_num(0.5)));
+    unit_builder.add(IdComp::new(id_counter));
+    unit_builder.add(PathComp::new());
+
+    unit_builder
+}
+
+pub fn plc_building(pos: Pos, id_counter: &mut u64) -> EntityBuilder {
+	let mut unit_builder = EntityBuilder::new();
+
+    unit_builder.add(TypeNameComp::new("placeholder_building"));
+    unit_builder.add(IdComp::new(id_counter));
+    unit_builder.add(StructureComp::new(pos));
+
+    unit_builder
 }
 
 pub fn input_spawn_unit(sim: &mut SimState) {
