@@ -1,9 +1,11 @@
-use crate::sim_unit_base_components::*;
+use crate::sim_components::sim_unit_base_components::plc_unit;
+use crate::sim_components::sim_unit_base_components::IdComp;
+
 //use crate::sim_state_components::*;
 use crate::messenger::*;
 use crate::sim_ecs::*;
-use crate::sim_fix_math::{FixF, Pos};
-use hecs::*;
+use crate::sim_fix_math::{FixF};
+//use hecs::*;
 
 // this module contains ALL used systems (for now)
 

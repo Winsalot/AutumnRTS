@@ -1,8 +1,23 @@
 // File contains main movement syustems
+use crate::sim_components::sim_unit_base_components::DestinationComp;
+use crate::sim_components::sim_unit_base_components::IdComp;
+use crate::sim_components::sim_unit_base_components::PositionComp;
+use crate::sim_components::sim_unit_base_components::NextPosComp;
+use crate::sim_components::sim_unit_base_components::PathComp;
+use crate::sim_components::sim_unit_base_components::SpeedComponent;
+
+use crate::sim_components::sim_unit_base_components::CollComp;
+
+
+
+
+
+
+
 use crate::messenger::*;
 use crate::sim_ecs::*;
 use crate::sim_fix_math::*;
-use crate::sim_unit_base_components::*;
+
 use hecs::*;
 
 /// Simple destination update from messages

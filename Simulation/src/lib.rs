@@ -11,7 +11,8 @@ mod sim_map;
 mod sim_sys_movement;
 mod sim_sys_pathfinding;
 mod sim_systems;
-mod sim_unit_base_components;
+//mod sim_unit_base_components;
+mod sim_components;
 mod sim_player_alliances;
 
 use rustbridge::*;

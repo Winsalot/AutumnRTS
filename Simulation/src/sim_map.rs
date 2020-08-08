@@ -55,9 +55,9 @@ impl Map {
         &self.tilemap[(x + (self.size.0 as u32 * y)) as usize]
     }
 
-    pub fn get_tile_mut(&mut self, x: u32, y: u32) -> &mut MapTile {
+/*    pub fn get_tile_mut(&mut self, x: u32, y: u32) -> &mut MapTile {
         &mut self.tilemap[(x + (self.size.0 as u32 * y)) as usize]
-    }
+    }*/
 
     fn set_tile(&mut self, x: u32, y: u32, new_tile: MapTile) {
         self.tilemap[(x + (self.size.0 as u32 * y)) as usize] = new_tile;

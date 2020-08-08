@@ -1,3 +1,8 @@
+use crate::sim_components::sim_unit_base_components::IdComp;
+
+use crate::sim_components::sim_unit_base_components::PositionComp;
+use crate::sim_components::sim_unit_base_components::DestinationComp;
+use crate::sim_components::sim_unit_base_components::PathComp;
 use pathfinding::prelude::astar;
 use num_traits::identities::Zero;
 
@@ -5,7 +10,6 @@ use crate::messenger::*;
 use crate::sim_ecs::SimState;
 use crate::sim_fix_math::*;
 use crate::sim_map::*;
-use crate::sim_unit_base_components::*;
 use itertools::Itertools;
 use std::collections::VecDeque;
 

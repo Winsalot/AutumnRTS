@@ -2,7 +2,7 @@ use crate::messenger::*;
 use crate::rustbridge_messages::*;
 use crate::sim_fix_math::Pos;
 use crate::sim_gameloop;
-use crate::sim_unit_base_components::IdComp;
+//use crate::sim_unit_base_components::IdComp;
 use gdnative::*;
 use std::thread::JoinHandle;
 
