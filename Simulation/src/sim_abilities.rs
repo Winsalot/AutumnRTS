@@ -1,29 +1,25 @@
 //Chill my dude. This file contains list of abilities and subsystems that "cast" them. subsystems Themselves are called from within systems in main game loop.
 
 // Fuck me. I forgot that I need to pass aditional arguments to subsystems. One more Enum? This is getting crazy tbh.
+use crate::common::*;
 use crate::sim_components::sim_unit_base_components::PositionComp;
-use crate::sim_components::sim_unit_base_components::IdComp;
 use crate::sim_systems::plc_building;
 use crate::sim_fix_math::*;
 use crate::sim_ecs::*;
-use crate::messenger::*;
+
 use hecs::*;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Ability {
 	Mundane,
 	BuildSimpleStructure,
-	GenericAbility{pw_cost: i32, cooldown_end_at: u64, range: FixF, damage: i32},
-}
-
-pub enum AbilityTarget {
-	Position(Pos)
+	GenericAbility{pw_cost: i32, cooldown_end_at: TickNum, range: FixF, damage: i32},
 }
 
 pub fn use_ability(
 	sim: &mut SimState,
-	entity: u64,
-	target: AbilityTarget,
+	entity: UId,
+	target: ObjTarget,
 	ability: &mut Ability){
 
 	match ability {
@@ -38,11 +34,11 @@ pub fn use_ability(
 
 fn build_simple_structure(
 	sim: &mut SimState,
-	id: u64,
-	target: AbilityTarget,
+	id: UId,
+	target: ObjTarget,
 	) {
 
-	if let AbilityTarget::Position(pos) = target {
+	if let ObjTarget::Position(pos) = target {
 		// Now find the rounded position (tile) of caster
 		// And rounded position (tile) of target
 		// If tiles are adjacent then spawn_structure.
@@ -81,10 +77,11 @@ fn build_simple_structure(
 
 fn generic_ability(
 	_sim: &mut SimState, 
-	cooldown_end_at: &mut u64, 
+	cooldown_end_at: &mut TickNum, 
 	damage: &i32) {
 
 
 	println!("Casting ability! Deals {:?} damage!", damage); 
 	*cooldown_end_at += 30; // 30 ticks cooldown.
 }
+

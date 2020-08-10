@@ -10,8 +10,9 @@ And engine informs renderer of ability by sending index and enum value. But that
 */
 
 use crate::sim_abilities::*;
+use crate::common::N_ABILITY_CAP;
 
-const N_ABILITY_CAP: usize = 3;
+//const N_ABILITY_CAP: usize = 3;
 
 
 pub struct ActiveAbilityComp {

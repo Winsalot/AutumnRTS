@@ -3,32 +3,11 @@ use crate::sim_fix_math::{FixF, Pos};
 use std::sync::mpsc::{channel, Receiver, Sender};
 //use gdnative::{ToVariant, FromVariant};
 use crate::sim_map::MapTile;
+use crate::common::*;
 
 
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub enum EngineMessage {
-    //ObjSpawn(IdComp, Pos), // Deprecated
-    ObjPosColl(u64, Pos, FixF), // Message carrying position and collision radius info
-    ObjMove(u64, Pos),
-    ObjNextPos(u64, Pos),
-    ObjDest(u64, Pos),
-    ObjPathTmp(u64, [Pos; 20]), // To visualise pathfinding. Sends next 10 steps.
-    MapTile(Pos, MapTile),
-    StructurePosTmp(u64, Pos),
-    Fps(u64),
-    None, // this message sucks
-    //Break,
-    //Object(ObjectID, Pos, Pos), // TODO remove this variant
-}
 
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub enum RenderMessage {
-    Destination(u64, Pos),
-    Spawn(Pos),
-    SpawnStructureTmp(Pos),
-    //None,
-    Break,
-}
+
 // this struct communicates between simulation and renderer
 pub struct SimMessenger {
     sim_send: Sender<Vec<EngineMessage>>,

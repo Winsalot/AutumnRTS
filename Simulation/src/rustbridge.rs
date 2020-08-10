@@ -1,3 +1,4 @@
+use crate::common::*;
 use crate::messenger::*;
 use crate::rustbridge_messages::*;
 use crate::sim_fix_math::Pos;
@@ -103,7 +104,7 @@ impl RustBridge {
     }
 
     #[export]
-    fn send_msg_move(&mut self, _owner: gdnative::Node, id: u64, xy: Vector2) {
+    fn send_msg_move(&mut self, _owner: gdnative::Node, id: UId, xy: Vector2) {
         let pos: Pos = Pos::from_num(xy.x, xy.y);
         //let msg = RenderMessage::Destination(IdComp::from(id), pos);
         let msg = RenderMessage::Destination(id, pos);

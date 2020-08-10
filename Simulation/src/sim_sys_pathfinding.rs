@@ -7,6 +7,7 @@ use pathfinding::prelude::astar;
 use num_traits::identities::Zero;
 
 use crate::messenger::*;
+use crate::common::*;
 use crate::sim_ecs::SimState;
 use crate::sim_fix_math::*;
 use crate::sim_map::*;

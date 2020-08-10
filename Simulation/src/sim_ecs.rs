@@ -1,4 +1,5 @@
 //use crate::sim_map::StructureMemory;
+use crate::common::*;
 use crate::fpscounter::*;
 use crate::messenger::*;
 use crate::sim_map::Map;
@@ -14,8 +15,8 @@ pub struct SimState {
     pub fps_counter: FpsCounter,
     pub fps_limit: u32,
     pub break_loop: bool,
-    current_tick: u64,
-    pub id_counter: u64,
+    current_tick: TickNum,
+    pub id_counter: UId,
     pub map: Map,
     players: PlayerList,
     //map_mem: StructureMemory,
@@ -44,7 +45,7 @@ impl SimState {
         }
     }
 
-    pub fn current_tick(&self) -> u64 {
+    pub fn current_tick(&self) -> TickNum {
     	self.current_tick
     }
 

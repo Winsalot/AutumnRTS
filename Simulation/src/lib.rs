@@ -15,6 +15,7 @@ mod sim_systems;
 mod sim_components;
 mod sim_player_alliances;
 mod sim_abilities;
+mod common;
 
 use rustbridge::*;
 

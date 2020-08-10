@@ -1,3 +1,4 @@
+use crate::common::*;
 use crate::messenger::*;
 use crate::sim_fix_math::{FixF, Pos};
 use crate::sim_map;
@@ -17,7 +18,7 @@ pub fn vector2_to_pos(vec: Vector2) -> Pos {
     Pos::from_num(vec.x, vec.y)
 }
 
-pub fn inbox_drain_spawn(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f32, f32)> {
+pub fn inbox_drain_spawn(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, f32, f32, f32)> {
     let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
         inbox.clone().iter().partition(|&msg| match msg {
             EngineMessage::ObjPosColl(..) => true,
@@ -27,7 +28,7 @@ pub fn inbox_drain_spawn(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f32, 
     *inbox = rest;
 
     // turn messages into tuples:
-    let mut ret: Vec<(u64, f32, f32, f32)> = vec![];
+    let mut ret: Vec<(UId, f32, f32, f32)> = vec![];
     for i in 0..target.len() {
         if let EngineMessage::ObjPosColl(id, pos, radius) = target[i] {
             ret.push((
@@ -43,7 +44,7 @@ pub fn inbox_drain_spawn(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f32, 
     return ret;
 }
 
-pub fn inbox_drain_spawn_structure(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f32)> {
+pub fn inbox_drain_spawn_structure(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, f32, f32)> {
     let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
         inbox.clone().iter().partition(|&msg| match msg {
             EngineMessage::StructurePosTmp(..) => true,
@@ -53,7 +54,7 @@ pub fn inbox_drain_spawn_structure(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, 
     *inbox = rest;
 
     // turn messages into tuples:
-    let mut ret: Vec<(u64, f32, f32)> = vec![];
+    let mut ret: Vec<(UId, f32, f32)> = vec![];
     for i in 0..target.len() {
         if let EngineMessage::StructurePosTmp(id, pos) = target[i] {
             ret.push((
@@ -67,7 +68,7 @@ pub fn inbox_drain_spawn_structure(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, 
     return ret;
 }
 
-pub fn inbox_drain_move(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f32)> {
+pub fn inbox_drain_move(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, f32, f32)> {
     let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
         inbox.clone().iter().partition(|&msg| match msg {
             EngineMessage::ObjMove(..) => true,
@@ -77,7 +78,7 @@ pub fn inbox_drain_move(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f32)> 
     *inbox = rest;
 
     // turn messages into tuples:
-    let mut ret: Vec<(u64, f32, f32)> = vec![];
+    let mut ret: Vec<(UId, f32, f32)> = vec![];
     for i in 0..target.len() {
         if let EngineMessage::ObjMove(id, pos) = target[i] {
             ret.push((
@@ -92,7 +93,7 @@ pub fn inbox_drain_move(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f32)> 
     return ret;
 }
 
-pub fn inbox_drain_next_pos(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f32)> {
+pub fn inbox_drain_next_pos(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, f32, f32)> {
     let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
         inbox.clone().iter().partition(|&msg| match msg {
             EngineMessage::ObjNextPos(..) => true,
@@ -102,7 +103,7 @@ pub fn inbox_drain_next_pos(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f3
     *inbox = rest;
 
     // turn messages into tuples:
-    let mut ret: Vec<(u64, f32, f32)> = vec![];
+    let mut ret: Vec<(UId, f32, f32)> = vec![];
     for i in 0..target.len() {
         if let EngineMessage::ObjNextPos(id, pos) = target[i] {
             ret.push((
@@ -117,7 +118,7 @@ pub fn inbox_drain_next_pos(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f3
     return ret;
 }
 
-pub fn inbox_drain_fps(inbox: &mut Vec<EngineMessage>) -> Vec<u64> {
+pub fn inbox_drain_fps(inbox: &mut Vec<EngineMessage>) -> Vec<(u64,u64)> {
     let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
         inbox.clone().iter().partition(|&msg| match msg {
             EngineMessage::Fps(..) => true,
@@ -127,17 +128,17 @@ pub fn inbox_drain_fps(inbox: &mut Vec<EngineMessage>) -> Vec<u64> {
     *inbox = rest;
 
     // turn messages into tuples:
-    let mut ret: Vec<u64> = vec![];
+    let mut ret: Vec<(u64,u64)> = vec![];
     for i in 0..target.len() {
-        if let EngineMessage::Fps(fps) = target[i] {
-            ret.push(fps);
+        if let EngineMessage::Fps(fps, fps_r) = target[i] {
+            ret.push((fps, fps_r));
         }
     }
 
     return ret;
 }
 
-pub fn inbox_drain_dest(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f32)> {
+pub fn inbox_drain_dest(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, f32, f32)> {
     let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
         inbox.clone().iter().partition(|&msg| match msg {
             EngineMessage::ObjDest(..) => true,
@@ -147,7 +148,7 @@ pub fn inbox_drain_dest(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, f32, f32)> 
     *inbox = rest;
 
     // turn messages into tuples:
-    let mut ret: Vec<(u64, f32, f32)> = vec![];
+    let mut ret: Vec<(UId, f32, f32)> = vec![];
     for i in 0..target.len() {
         if let EngineMessage::ObjDest(id, pos) = target[i] {
             ret.push((
@@ -187,7 +188,7 @@ pub fn inbox_drain_map_layout(inbox: &mut Vec<EngineMessage>) -> Vec<(f32, f32, 
     return ret;
 }
 
-pub fn inbox_drain_pathfinding_tmp(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, Vec<Vector2>)> {
+pub fn inbox_drain_pathfinding_tmp(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, Vec<Vector2>)> {
     let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
         inbox.clone().iter().partition(|&msg| match msg {
             EngineMessage::ObjPathTmp(..) => true,
@@ -196,7 +197,7 @@ pub fn inbox_drain_pathfinding_tmp(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, 
 
     *inbox = rest;
 
-    let mut ret: Vec<(u64, Vec<Vector2>)> = vec![];
+    let mut ret: Vec<(UId, Vec<Vector2>)> = vec![];
 
     for i in 0..target.len() {
         if let EngineMessage::ObjPathTmp(id, positions) = target[i] {

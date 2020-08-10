@@ -8,13 +8,14 @@ use crate::sim_components::active_ability_comp::*;
 use crate::messenger::*;
 use crate::sim_ecs::*;
 use crate::sim_fix_math::{FixF};
+use crate::common::*;
 //use hecs::*;
 
 // this module contains ALL used systems (for now)
 
 pub fn update_fps_info(sim: &mut SimState) {
-    let fps = sim.fps_counter.get_fps_simple();
-    sim.send_batch.push(EngineMessage::Fps(fps));
+    let fps = sim.fps_counter.get_fps();
+    sim.send_batch.push(EngineMessage::Fps(fps.0, fps.1));
 }
 
 pub fn receive_messages(sim: &mut SimState) {
@@ -39,7 +40,7 @@ pub fn input_break_check(sim: &mut SimState) -> bool {
     false
 }
 
-pub fn plc_unit(pos: Pos, speed: FixF, id_counter: &mut u64) -> EntityBuilder {
+pub fn plc_unit(pos: Pos, speed: FixF, id_counter: &mut UId) -> EntityBuilder {
     let mut unit_builder = EntityBuilder::new();
 
     unit_builder.add(TypeNameComp::new("placeholder"));
@@ -55,7 +56,7 @@ pub fn plc_unit(pos: Pos, speed: FixF, id_counter: &mut u64) -> EntityBuilder {
     unit_builder
 }
 
-pub fn plc_building(pos: Pos, id_counter: &mut u64) -> EntityBuilder {
+pub fn plc_building(pos: Pos, id_counter: &mut UId) -> EntityBuilder {
 	let mut unit_builder = EntityBuilder::new();
 
     unit_builder.add(TypeNameComp::new("placeholder_building"));

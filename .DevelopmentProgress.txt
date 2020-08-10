@@ -181,7 +181,7 @@ There is lon way to go, but it can be like this:
 		+ Create memory state.
 		+ Pathfinding checks memory.
 		+ Memory updated on structure spawn.
-20. Abilities. 
+[DONE] 20. Prepare to implement Abilities. 
 	- Basically:
 		+ Signle component to hold abilities.
 		+ Ability is an enum.
@@ -191,10 +191,12 @@ There is lon way to go, but it can be like this:
 	- Incorporate it into Godot to allow units to build structures like that:
 		+ Add component.
 		+ Subsystem that casts ability and performa all checks inside.
-		- Create system to handle unit ability use inputs:
-			- Like ability input is index of ability and relevant info. 
-		- Add messages for input.
-
+21. Minor refactor. Right now code is a mess and I need to place every bit of code into their locations.
+	- Separate systems folder.
+	+ common file. With:
+		+ Common type aliases (id)
+		+ Enums that are used by systems, components AND messenger.
+		+ Whatever else.
 
 GENERAL IDEAS:
 	- Separate abilities from weapons. 

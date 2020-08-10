@@ -1,4 +1,5 @@
 
+use crate::common::*;
 use std::collections::VecDeque;
 
 use crate::sim_fix_math::*;
@@ -15,7 +16,7 @@ pub struct TypeNameComp {
 ///Id component should be perfectly unique in game context
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct IdComp {
-    id: u64,
+    id: UId,
     owner: PlayerId,
 }
 
@@ -33,7 +34,7 @@ pub struct NextPosComp {
 // Unit's destination component
 pub struct DestinationComp {
     dest: Pos,
-    updated_on: u64,
+    updated_on: TickNum,
 }
 
 /// Unit's speed component
@@ -97,7 +98,7 @@ impl DestinationComp {
         }
     }
 
-    pub fn set_dest(&mut self, pos: Pos, tick: u64) {
+    pub fn set_dest(&mut self, pos: Pos, tick: TickNum) {
         self.dest = pos;
         self.updated_on = tick;
     }
@@ -106,7 +107,7 @@ impl DestinationComp {
         &self.dest
     }
 
-    pub fn last_set(&self) -> u64 {
+    pub fn last_set(&self) -> TickNum {
         self.updated_on
     }
 }
@@ -143,13 +144,7 @@ impl IdComp {
 
     pub fn get(&self) -> &u64 {
         &self.id
-    }
-
-/*
-    pub fn from(id: u64) -> Self {
-        IdComp { id: id }
-    }
-*/    
+    } 
 }
 
 impl PathComp {
@@ -159,11 +154,11 @@ impl PathComp {
         }
     }
 
-    pub fn get(&self) -> &VecDeque<Pos> {
+    pub fn _get(&self) -> &VecDeque<Pos> {
         &self.positions
     }
 
-    pub fn get_mut(&mut self) -> &mut VecDeque<Pos> {
+    pub fn _get_mut(&mut self) -> &mut VecDeque<Pos> {
         &mut self.positions
     }
 
@@ -171,11 +166,11 @@ impl PathComp {
         self.positions = path;
     }
 
-    pub fn from_vec(&mut self, path: Vec<Pos>) {
+    pub fn _from_vec(&mut self, path: Vec<Pos>) {
         self.positions = VecDeque::from(path);
     }
 
-    pub fn is_empty(&self) -> bool {
+    pub fn _is_empty(&self) -> bool {
         self.positions.len() == 0
     }
 
