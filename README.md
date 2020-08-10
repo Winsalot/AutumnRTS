@@ -1,12 +1,12 @@
 # AutumnRTS
 
-Real time strategy game/engine written in Rust and Godot. Project is in very early stage of developement and it is not playable yet. 
+Real time strategy game/engine written in Rust and Godot. Project is in very early stage of development and it is not playable yet. 
 
 When will it be playable? Nobody knows.
 
 ## Why another Open Source RTS project?
 
-Short answer: Because I want to play RTS game in spirit of SCBW/SC:R on linux.
+Short answer: Because I want to play RTS game in spirit of [SC:BW](https://en.m.wikipedia.org/wiki/StarCraft:_Brood_War)/[SC:R](https://en.m.wikipedia.org/wiki/StarCraft:_Remastered) on linux.
 
 Long answer: Yes, there are already multiple successful Open Source RTS projects such as OpenRA and ZeroK. However, neither of those games scratch my itch for a RTS that is similar to SC:BW gameplay wise. 
 
@@ -27,9 +27,9 @@ Regarding lore, setting and graphics, this is too early to say. Probably some sc
 
 ## Goals for this engine and what will set it apart
 
-Currently the game logic (simulation) is written in Rust, and rendering as well as user input is done in Godot (renderer). Currently renderer and simulation are already decoupled and run in separate threads. I believe that this architecture gives me a lot of freedom on future developement.
+Currently the game logic (simulation) is written in Rust, and rendering as well as user input is done in Godot (renderer). Currently renderer and simulation are already decoupled and run in separate threads. I believe that this architecture gives me a lot of freedom on future development.
 
-For example, the game state could be rendered in either 2d or 3d, with only changes done in Godot, leving Rust code completely unchanged. 
+For example, the game state could be rendered in either 2d or 3d, with only changes done in Godot, leaving Rust code completely unchanged. 
 
 In theory, someday even bots and mods could be written purely in Godot.
 
@@ -56,13 +56,13 @@ Therefore with this game I want to get back to the good old SC1 formula of:
 - Heavy micromanagement. 
 - "Winning because 300+ APM".
 - Multiple units with multiple active abilities.
-- Asymetric factions. 
+- Asymmetric factions. 
 - Good UI (you would be surprised how many other open source RTS games have horrible UI)
 
 
 ## Current state of project
 
-Developement is rather slow. You can check when the last commit happened to see if it is still going.  
+Development is rather slow. You can check when the last commit happened to see if it is still going.  
 
 Also at the moment the game is made of colored rectangles and circles, which looks kinda ugly.
 
