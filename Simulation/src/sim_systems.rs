@@ -2,6 +2,7 @@ use crate::sim_fix_math::Pos;
 use hecs::*;
 use crate::sim_components::sim_unit_base_components::*;
 use crate::sim_components::structure_comp::*;
+use crate::sim_components::active_ability_comp::*;
 
 //use crate::sim_state_components::*;
 use crate::messenger::*;
@@ -49,6 +50,7 @@ pub fn plc_unit(pos: Pos, speed: FixF, id_counter: &mut u64) -> EntityBuilder {
     unit_builder.add(CollComp::new(FixF::from_num(0.5)));
     unit_builder.add(IdComp::new(id_counter));
     unit_builder.add(PathComp::new());
+    unit_builder.add(ActiveAbilityComp::builder());
 
     unit_builder
 }

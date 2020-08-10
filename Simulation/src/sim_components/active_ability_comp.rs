@@ -15,5 +15,15 @@ const N_ABILITY_CAP: usize = 3;
 
 
 pub struct ActiveAbilityComp {
-	abilities: [Option<Ability>; N_ABILITY_CAP],
+	abilities: [Ability; N_ABILITY_CAP],
+}
+
+impl ActiveAbilityComp {
+	pub fn builder() -> Self {
+		let mut abil = [Ability::Mundane; N_ABILITY_CAP];
+		abil[0] = Ability::BuildSimpleStructure;
+		ActiveAbilityComp{
+			abilities: abil
+		}
+	}
 }

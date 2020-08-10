@@ -185,13 +185,15 @@ There is lon way to go, but it can be like this:
 	- Basically:
 		+ Signle component to hold abilities.
 		+ Ability is an enum.
-		- Some system iterates over weapons.
+		- Some system iterates over abilities.
 		- Every weapon enum variant has dedicated function with effects. (burrow checker will fuck me)
 	- Add weapon [ BUILDER ]: Allows to build structures.
 	- Incorporate it into Godot to allow units to build structures like that:
-		- Add component.
+		+ Add component.
+		+ Subsystem that casts ability and performa all checks inside.
 		- Create system to handle unit ability use inputs:
 			- Like ability input is index of ability and relevant info. 
+		- Add messages for input.
 
 
 GENERAL IDEAS:
@@ -211,9 +213,10 @@ SHORT term:
 	+ Fix simulation to only send object messages after something changed. [DONE with small message rework]
 	x Add static typing to GDscript. It will save my life
 	+ Add player & alliance logic (not lore factions). Basically every entity should have player component (with id).
-	- Buildings.
+	+ Buildings.
 	- Units making buildings.
-	- Buildings making units.
+	- Warning message (message variant containing enum warning type. For cases like out of map, out of range, unavailable and so on).
+	x Buildings making units.
 	- Add collision avoidance. (In collision scenario move to the side or something)
 	- Start using player & alliance logic. Adapt messaging system for it.
 	- Start using data files.

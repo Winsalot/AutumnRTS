@@ -14,6 +14,7 @@ Therefore as a subset of traditional RTS this type of game won't implement these
 - Multiplayer (maybe someday).
 - Bots (enemy units can be spawned with existing order to attack move the player).
 - Unit upgrades.
+- Fog of war.
  
  Instead the game format could look something like this.
  
