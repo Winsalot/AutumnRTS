@@ -22,12 +22,12 @@ func _ready():
 
 
 func _draw():
-	var rect = Rect2(4 - pixel_scale.x/2, \\
-	4 - pixel_scale.y/2, \\
-	pixel_scale.x -8 , \\
-	pixel_scale.y -8)
+	var rect = Rect2(8 - pixel_scale.x/2, \\
+	8 - pixel_scale.y/2, \\
+	pixel_scale.x -16 , \\
+	pixel_scale.y -16)
 	#var rect = Rect2(1, 1, pixel_scale.x -2 , pixel_scale.y -2)
-	var col = Color(0.1, 0.3, 0.1, 0.9)  
+	var col = Color(0.1, 0.1, 0.1, 0.6)  
 	draw_rect(rect, col, true)
 	pass
 

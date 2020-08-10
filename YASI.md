@@ -1,6 +1,6 @@
 # YASI == Yet Another Stupid Idea
 
-###What the game should have and what it shouldn't have:
+### What the game should have and what it shouldn't have:
 	
 It should be very similar to SC1/SCBW/SC:R gameplay wise.
 
@@ -54,9 +54,9 @@ Very advanced. Highest mobility, swarm units and powerful hard-hitters. Don't ha
 
 ### Map features:
 
-> Arbitrary number of z-levels
-> Teleporters in map
-> Neutral buildings (teleporters & destructible obstacles)
+- Arbitrary number of z-levels
+- Teleporters in map
+- Neutral buildings (teleporters & destructible obstacles)
 
 ### Additional nice to have features:
 
@@ -73,3 +73,31 @@ Very advanced. Highest mobility, swarm units and powerful hard-hitters. Don't ha
 - - Figure out a way to attract AI students to build smart bots for this game (probably won't happen in early developement).
 - - Single player campaign, with missions where player controls or has access to a limited number of units.
 - - Epic multiplayer team vs team battles with big armies and lots of units (imagine ZeroK 7v7 games that last for ~1 hour or more)
+
+### Cool building/structure ideas
+
+- Buildings that block FoW. So that enemies don't peek into your base.
+- Neutral destructible bridges. Want to delay your enemy? Destroy the bridge. Would mean that in early game (while neithe rplayer has army big enough to efficiently destroy bridge) the map would be effectively smaller than after the bridge is destroyed and all the distances become greter.
+- Flying buildings from like SC terran.
+- Mech buildings (think elves from WC3).
+- Players can build neutral buildings (they produce them, but buildings provide no vision).
+- Buildings that can teleport themselves and units/structures around them. (This one is totally badass. If this allows structures to be teleported on top of each other, whis would result in impressive fireworks with structure with more hp&armour surviving).
+
+### Totally awesome unit ideas
+
+- SC2 Colossus type unit. No ground collisions, but can be targeted by both ground and anti air.
+- Jetpack upgrade for infantry units. To allow moving through small cliffs.
+- Infantry XOR upgrade for either movement speed or range.
+- Units that transform from flying (no weapons) into ground (some weapons). I think SC2 has something like this.
+- Unit that summons randomly placed non-expiring neutral buildings.
+- SC2 broodlord type units (where attack spawns temporary unit) **must** happen. They are just amazing.
+- Heavily armoured, light weapon unit that has active AOE damage ability that: is centered around caster, has friendly fire, multiple casts in short duration increase radius and damage.
+- Artillery units with delay between fire and impact. They target ground so attacks can be dodged.
+- Artillery units with homing projectile that can still miss.
+- Melee units with MASSIVE (long and narrow) cone of cleave (think that sword from NOiSE and used by knights in end of BLAME!)
+- Big Mechs with multiple weapons. Think Dante from ZeroK.
+- Carriers from SC.
+- Ling equivalent unit. Fast and numerous. 
+- Temp unit spawning units. Like those turtles from SC2.
+- Production buildings that irreversibly transform into powerful but expiring units.
+- XXI century era tanks. Because ancient technology.

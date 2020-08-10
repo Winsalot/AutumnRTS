@@ -181,17 +181,21 @@ There is lon way to go, but it can be like this:
 		+ Create memory state.
 		+ Pathfinding checks memory.
 		+ Memory updated on structure spawn.
-20. Weapons. 
+20. Abilities. 
 	- Basically:
-		- Signle component to hold weapons.
-		- Weapon is an enum.
+		+ Signle component to hold abilities.
+		+ Ability is an enum.
 		- Some system iterates over weapons.
 		- Every weapon enum variant has dedicated function with effects. (burrow checker will fuck me)
 	- Add weapon [ BUILDER ]: Allows to build structures.
-	- Incorporate it into Godot to allow units to build structures like that.
+	- Incorporate it into Godot to allow units to build structures like that:
+		- Add component.
+		- Create system to handle unit ability use inputs:
+			- Like ability input is index of ability and relevant info. 
 
 
 GENERAL IDEAS:
+	- Separate abilities from weapons. 
 	- Fuck unnecerasy refactoring. I should avoid it. Better messy code & game than general good code and no game.
 	- Get some basic features working. Then add graphics & fix Godot side. Then attract contributors. Features to get:
 		- Structure building.
@@ -199,6 +203,7 @@ GENERAL IDEAS:
 		- Working teams.
 		- Mindless enemies.
 		- Basic weapons.
+	- I finally got disillusioned about my ability to finish this project solo. Therefore I will aim to make a smaller game and engine that is tailored to support this game. Description in the MicroTournament.md file.
 	
 
 SHORT term:
