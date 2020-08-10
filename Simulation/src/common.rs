@@ -18,7 +18,7 @@ pub type UId = u64;
 
 pub type TickNum = u32; 
 
-pub const N_ABILITY_CAP: usize = 3;
+pub const N_ABILITY_CAP: u32 = 3;
 
 
 // Target. Either posiion or entity.
@@ -50,7 +50,7 @@ pub enum RenderMessage {
     Spawn(Pos),
     SpawnStructureTmp(Pos),
     //UnitSpawnStructureTmp(UId,Pos),
-    UseAbility(UId, ObjTarget),
+    UseAbility(UId, u32, ObjTarget),
     //None,
     Break,
 }

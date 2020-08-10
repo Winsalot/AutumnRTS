@@ -13,7 +13,7 @@ mod sim_sys_movement;
 mod sim_systems;
 mod sim_components;
 mod sim_player_alliances;
-mod sim_abilities;
+mod sim_abilities_list;
 mod common;
 
 

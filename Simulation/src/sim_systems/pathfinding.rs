@@ -6,7 +6,7 @@ use crate::sim_components::sim_unit_base_components::PathComp;
 use pathfinding::prelude::astar;
 use num_traits::identities::Zero;
 
-use crate::messenger::*;
+
 use crate::common::*;
 use crate::sim_ecs::SimState;
 use crate::sim_fix_math::*;
@@ -201,7 +201,7 @@ mod pathfinding_tests {
         use crate::sim_ecs::*;
         use crate::sim_fix_math::*;
         use crate::sim_map::Map;
-        use crate::sim_sys_pathfinding::PathfindingHelper;
+        use crate::sim_systems::pathfinding::PathfindingHelper;
 
         let (sim_messenger, _rend_messenger) = create_messenger();
 
@@ -242,7 +242,7 @@ mod pathfinding_tests {
         use crate::sim_ecs::*;
         use crate::sim_fix_math::*;
         use crate::sim_map::Map;
-        use crate::sim_sys_pathfinding::PathfindingHelper;
+        use crate::sim_systems::pathfinding::PathfindingHelper;
 
         let (sim_messenger, _rend_messenger) = create_messenger();
 

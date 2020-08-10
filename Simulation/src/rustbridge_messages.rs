@@ -1,7 +1,7 @@
 use crate::common::*;
-use crate::messenger::*;
-use crate::sim_fix_math::{FixF, Pos};
-use crate::sim_map;
+
+use crate::sim_fix_math::{Pos};
+
 //use crate::sim_unit_base_components::IdComp;
 use gdnative::*;
 use itertools::Itertools;

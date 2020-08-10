@@ -1,4 +1,4 @@
-use fixed::traits::{ToFixed, Fixed};
+use fixed::traits::{ToFixed};
 use fixed::types::*;
 use fixed_sqrt::FixedSqrt;
 use std::ops::{Add, Div, Mul, Sub};

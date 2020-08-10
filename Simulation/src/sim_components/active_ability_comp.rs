@@ -9,22 +9,26 @@ So I guess idea is that rend sends index of ability to use.
 And engine informs renderer of ability by sending index and enum value. But that means Ability enum should be decoupled from the component itself.
 */
 
-use crate::sim_abilities::*;
+use crate::sim_abilities_list::*;
 use crate::common::N_ABILITY_CAP;
 
 //const N_ABILITY_CAP: usize = 3;
 
 
 pub struct ActiveAbilityComp {
-	abilities: [Ability; N_ABILITY_CAP],
+	abilities: [Ability; N_ABILITY_CAP as usize],
 }
 
 impl ActiveAbilityComp {
 	pub fn builder() -> Self {
-		let mut abil = [Ability::Mundane; N_ABILITY_CAP];
+		let mut abil = [Ability::Mundane; N_ABILITY_CAP as usize];
 		abil[0] = Ability::BuildSimpleStructure;
 		ActiveAbilityComp{
 			abilities: abil
 		}
+	}
+
+	pub fn get_ability(&self, id: u32) -> Ability {
+		self.abilities[id as usize].clone()
 	}
 }

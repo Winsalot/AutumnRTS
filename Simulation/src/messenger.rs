@@ -1,8 +1,8 @@
-use crate::sim_fix_math::{FixF, Pos};
+
 //use crate::sim_object::*;
 use std::sync::mpsc::{channel, Receiver, Sender};
 //use gdnative::{ToVariant, FromVariant};
-use crate::sim_map::MapTile;
+
 use crate::common::*;
 
 

@@ -68,8 +68,8 @@ pub fn sys_set_next_pos(sim: &mut SimState) {
                     continue 'query_loop;
                 }
         */
-        println!("own pos {:?}", pos.clone());
-        println!("{:?}", path.clone());
+        //println!("own pos {:?}", pos.clone());
+        //println!("{:?}", path.clone());
         let path_next_pos = path.get_next_pos(pos.get_pos());
 
         if let Some(move_to) = path_next_pos {
@@ -81,31 +81,13 @@ pub fn sys_set_next_pos(sim: &mut SimState) {
             }
 
             let dx = (*pos.get_pos() - *move_to) / distance;
-            println!("dx: {:?} \n", dx);
+            //println!("dx: {:?} \n", dx);
             let n_next_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
 
             next_pos.set_pos(n_next_pos);
             let msg = EngineMessage::ObjNextPos(*id.get(), n_next_pos);
             sim.send_batch.push(msg)
         }
-
-        /*
-                //let distance = Pos::dist(pos.get_pos(), dest.get_dest());
-                //let distance = pos.get_pos().dist(dest.get_dest());
-                let distance = pos.get_pos().dist(dest.get_dest());
-
-                if distance == 0 {
-                    next_pos.set_pos(*dest.get_dest());
-                    continue 'query_loop;
-                }
-
-                let dx = (*pos.get_pos() - *dest.get_dest()) / distance;
-                let n_next_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
-
-                next_pos.set_pos(n_next_pos);
-                let msg = EngineMessage::ObjNextPos(*id, n_next_pos);
-                sim.send_batch.push(msg)
-        */
     }
 }
 
