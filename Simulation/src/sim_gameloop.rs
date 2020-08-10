@@ -1,10 +1,12 @@
+use crate::sim_systems::pathfinding::*;
+use crate::sim_systems::input_systems::*;
 use crate::messenger::*;
-use crate::sim_sys_pathfinding::sys_pathfinding_astar;
+//use crate::sim_sys_pathfinding::sys_pathfinding_astar;
 
 use crate::sim_ecs::*;
 use crate::sim_map::Map;
 use crate::sim_sys_movement::*;
-use crate::sim_systems::*;
+
 use std::thread::JoinHandle;
 
 // Starts game loop and returns all the control handles

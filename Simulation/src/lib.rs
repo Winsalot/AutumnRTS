@@ -1,4 +1,5 @@
 use gdnative::*;
+use rustbridge::*;
 
 mod fpscounter;
 mod messenger;
@@ -9,15 +10,13 @@ mod sim_fix_math;
 mod sim_gameloop;
 mod sim_map;
 mod sim_sys_movement;
-mod sim_sys_pathfinding;
 mod sim_systems;
-//mod sim_unit_base_components;
 mod sim_components;
 mod sim_player_alliances;
 mod sim_abilities;
 mod common;
 
-use rustbridge::*;
+
 
 // Function that registers all exposed classes to Godot
 fn init(handle: gdnative::init::InitHandle) {

@@ -22,6 +22,7 @@ pub const N_ABILITY_CAP: usize = 3;
 
 
 // Target. Either posiion or entity.
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum ObjTarget {
 	Position(Pos),
 	Entity(UId),
@@ -34,11 +35,10 @@ pub enum EngineMessage {
     ObjMove(UId, Pos),
     ObjNextPos(UId, Pos),
     ObjDest(UId, Pos),
-    ObjPathTmp(UId, [Pos; 20]), // To visualise pathfinding. Sends next 10 steps.
+    ObjPathTmp(UId, [Pos; 20]), // To visualise pathfinding. Sends next n steps.
     MapTile(Pos, MapTile),
     StructurePosTmp(UId, Pos),
     Fps(u64, u64),
-    //FpsFull(u64, u64),
     None, // this message sucks
     //Break,
     //Object(ObjectID, Pos, Pos), // TODO remove this variant
@@ -49,7 +49,8 @@ pub enum RenderMessage {
     Destination(UId, Pos),
     Spawn(Pos),
     SpawnStructureTmp(Pos),
-    UnitSpawnStructureTmp(UId,Pos),
+    //UnitSpawnStructureTmp(UId,Pos),
+    UseAbility(UId, ObjTarget),
     //None,
     Break,
 }
