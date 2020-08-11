@@ -31,13 +31,13 @@ So yeah, something like this.
 
 ### Roadmap of features needed to finish this game:
 
-At the moment of writing none of these are implemented haha.
+
 
  - Simulation features:
 	- Spawn units of different teams.
 	- Functional unit collision.
 	- Implemented weapons.
-	- Implemented active abilities.
+	- ✔️ Implemented active abilities.
 	- Win/lose condition.
 	- Interactive map features (teleport units that walk too far away).
 	- Advanced unit & group control:

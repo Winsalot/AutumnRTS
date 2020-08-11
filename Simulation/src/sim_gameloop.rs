@@ -1,3 +1,5 @@
+use crate::sim_systems::movement::*;
+use crate::sim_systems::abilities::sys_abilities;
 use crate::sim_systems::pathfinding::*;
 use crate::sim_systems::input_systems::*;
 use crate::messenger::*;
@@ -5,7 +7,7 @@ use crate::messenger::*;
 
 use crate::sim_ecs::*;
 use crate::sim_map::Map;
-use crate::sim_sys_movement::*;
+
 
 use std::thread::JoinHandle;
 
@@ -38,6 +40,7 @@ pub fn start_loop(n_players: u32, fps: u32) -> (JoinHandle<()>, RendMessenger) {
             input_spawn_unit(&mut sim);
             input_spawn_structure(&mut sim);
             sys_input_dest(&mut sim);
+            sys_abilities(&mut sim);
             sys_pathfinding_astar(&mut sim);
             sys_collision_pred(&mut sim);
             sys_set_pos(&mut sim);

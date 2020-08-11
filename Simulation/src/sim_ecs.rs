@@ -41,7 +41,6 @@ impl SimState {
             id_counter: 0,
             map: game_map,
             players: PlayerList::ffa(n_players),
-            //map_mem: StructureMemory::new(PlayerId::new(1, TeamAlliance::Alliance(1)))
         }
     }
 

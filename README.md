@@ -6,7 +6,7 @@ When will it be playable? Nobody knows.
 
 ## Why another Open Source RTS project?
 
-Short answer: Because I want to play RTS game in spirit of [SC:BW](https://en.m.wikipedia.org/wiki/StarCraft:_Brood_War)/[SC:R](https://en.m.wikipedia.org/wiki/StarCraft:_Remastered) on linux.
+Short answer: Because I want to play RTS game in spirit of [SC:BW](https://en.wikipedia.org/wiki/StarCraft:_Brood_War)/[SC:R](https://en.wikipedia.org/wiki/StarCraft:_Remastered) on linux.
 
 Long answer: Yes, there are already multiple successful Open Source RTS projects such as OpenRA and ZeroK. However, neither of those games scratch my itch for a RTS that is similar to SC:BW gameplay wise. 
 
@@ -59,6 +59,9 @@ Therefore with this game I want to get back to the good old SC1 formula of:
 - Asymmetric factions. 
 - Good UI (you would be surprised how many other open source RTS games have horrible UI)
 
+## Why name it "AutumnRTS"?
+
+Simply because there already exists [SpringRTS](https://en.wikipedia.org/wiki/Spring_Engine). Since I am also making a RTS engine I wanted to continue the theme of seasons of the year. However, my engine has very different design goals from Spring engine in terms of game features, so I chose the opposite season to Spring: Autumn.
 
 ## Current state of project
 

@@ -197,20 +197,16 @@ There is lon way to go, but it can be like this:
 		+ Common type aliases (id)
 		+ Enums that are used by systems, components AND messenger.
 		+ Whatever else.
-22. implement first ability.
-	- Debug the test and shit.
-	- Also move movement system script into systems folder
+[DONE] 22. implement first ability. Continue refactor.
+	+ Debug the test and shit.
+	+ Also move movement system script into systems folder
+	+ Implement into Godot.
 
 GENERAL IDEAS:
 	- Separate abilities from weapons. 
 	- Fuck unnecerasy refactoring. I should avoid it. Better messy code & game than general good code and no game.
 	- Get some basic features working. Then add graphics & fix Godot side. Then attract contributors. Features to get:
-		- Structure building.
-		- Unit training.
-		- Working teams.
-		- Mindless enemies.
-		- Basic weapons.
-	- I finally got disillusioned about my ability to finish this project solo. Therefore I will aim to make a smaller game and engine that is tailored to support this game. Description in the MicroTournament.md file.
+		- Everything in MicroTournament file.
 	
 
 SHORT term:
@@ -219,7 +215,10 @@ SHORT term:
 	x Add static typing to GDscript. It will save my life
 	+ Add player & alliance logic (not lore factions). Basically every entity should have player component (with id).
 	+ Buildings.
-	- Units making buildings.
+	+ Units making structures.
+	- Rework id factor and SimState struct.
+		- Add resource variable
+		- Use hashmap for persistent id mapping?
 	- Warning message (message variant containing enum warning type. For cases like out of map, out of range, unavailable and so on).
 	x Buildings making units.
 	- Add collision avoidance. (In collision scenario move to the side or something)

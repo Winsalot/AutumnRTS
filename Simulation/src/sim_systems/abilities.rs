@@ -150,14 +150,14 @@ mod ability_test {
 
 		let inbox = rend_msg.rec();
 
-		// for i in 0..inbox.len(){
-		// 	match inbox[i] {
-		// 		EngineMessage::StructurePosTmp(..) => {
-		// 			println!("{:?}", inbox[i]);
-		// 		}
-		// 		_ => (),
-		// 	}
-		// }
+		for i in 0..inbox.len(){
+			match inbox[i] {
+				EngineMessage::StructurePosTmp(..) => {
+					println!("{:?}", inbox[i]);
+				}
+				_ => (),
+			}
+		}
 
 		//println!("{:?}", inbox);
 

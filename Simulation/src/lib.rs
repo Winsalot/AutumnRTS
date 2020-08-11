@@ -9,7 +9,6 @@ mod sim_ecs;
 mod sim_fix_math;
 mod sim_gameloop;
 mod sim_map;
-mod sim_sys_movement;
 mod sim_systems;
 mod sim_components;
 mod sim_player_alliances;

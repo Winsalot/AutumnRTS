@@ -20,16 +20,22 @@ func _ready():
 func _unhandled_input(event):
 	if event.is_action_pressed("quit"):
 		get_tree().quit()
+	
 	if event.is_action_pressed("presentation_spawn_unit"):
 		var xy = rustbridge.get_viewport().get_mouse_position()/params.scale
 		print(xy)
 		rustbridge.tmp_spawn_obj(xy)
+	
 	if event.is_action_pressed("presentation_spawn_structure"):
 		var xy = rustbridge.get_viewport().get_mouse_position()/params.scale
-		print(xy)
-		rustbridge.tmp_spawn_structure(xy)
+		#print(xy)
+		#rustbridge.tmp_spawn_structure(xy)
+		for unit in selected_units:
+			rustbridge.use_ability_pos(unit.unique_id, 0, xy)
+	
 	if event.is_action_pressed("tmp_receive_messages"):
 		pass
+	
 	if event.is_action_pressed("deselect_all"):
 		#print("deselect event registered")
 		#self.get_tree().set_input_as_handled()
@@ -38,13 +44,16 @@ func _unhandled_input(event):
 			unit.update()
 		selected_units = []
 		pass
+	
 	if event.is_action_pressed("right_click"):
 		for unit in selected_units:
 			#print("orer move for ", unit.get_name())
 			var xy = rustbridge.get_viewport().get_mouse_position()/params.scale
 			rustbridge.send_msg_move(unit.unique_id, xy)
+	
 	if event.is_action_pressed("show_more_info"):
 		params.detailed_info = true
+	
 	if event.is_action_released("show_more_info"):
 		params.detailed_info = false
 
