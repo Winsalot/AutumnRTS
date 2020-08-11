@@ -1,11 +1,10 @@
 use crate::sim_components::sim_unit_base_components::IdComp;
 
-use crate::sim_components::sim_unit_base_components::PositionComp;
 use crate::sim_components::sim_unit_base_components::DestinationComp;
 use crate::sim_components::sim_unit_base_components::PathComp;
-use pathfinding::prelude::astar;
+use crate::sim_components::sim_unit_base_components::PositionComp;
 use num_traits::identities::Zero;
-
+use pathfinding::prelude::astar;
 
 use crate::common::*;
 use crate::sim_ecs::SimState;
@@ -85,14 +84,13 @@ impl PathfindingHelper {
         .filter(|x| {
             let adj1 = pos + Pos::from_num(x.x, FixF::zero());
             let adj2 = pos + Pos::from_num(FixF::zero(), x.y);
-            (!map.tile_from_pos(adj1).blocks_path()) &
-             (!map.tile_from_pos(adj2).blocks_path()) 
+            (!map.tile_from_pos(adj1).blocks_path()) & (!map.tile_from_pos(adj2).blocks_path())
         })
         .filter(|x| {
             let adj1 = pos + Pos::from_num(x.x, FixF::zero());
             let adj2 = pos + Pos::from_num(FixF::zero(), x.y);
-            (!map.map_mem.get_blocked().contains(&adj1)) &
-             (!map.map_mem.get_blocked().contains(&adj2)) 
+            (!map.map_mem.get_blocked().contains(&adj1))
+                & (!map.map_mem.get_blocked().contains(&adj2))
         })
         .map(|x| *x + pos)
         .map(|x| (x, FixF::from_num(14)))
@@ -124,8 +122,8 @@ impl PathfindingHelper {
                     .dedup()
                     .map(|x| *x + start.fractional_part())
                     .collect();
-                ret.pop_back();    
-                ret.pop_front();    
+                ret.pop_back();
+                ret.pop_front();
                 ret.push_back(goal);
                 //ret = ret.iter().dedup().map(|x| *x).collect();
 
@@ -207,7 +205,7 @@ mod pathfinding_tests {
 
         let messenger = sim_messenger;
         let map = Map::make_test_map();
-        let sim = SimState::new(map, messenger,1, 10);
+        let sim = SimState::new(map, messenger, 1, 10);
 
         let pos1 = Pos::from_num(2, 2);
         let pos2 = Pos::from_num(3, 3);
@@ -248,7 +246,7 @@ mod pathfinding_tests {
 
         let messenger = sim_messenger;
         let map = Map::make_test_map();
-        let sim = SimState::new(map, messenger,1, 10);
+        let sim = SimState::new(map, messenger, 1, 10);
 
         let start = Pos::from_num(5, 3);
         let goal = Pos::from_num(3, 3);

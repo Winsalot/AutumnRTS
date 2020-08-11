@@ -23,12 +23,7 @@ pub struct SimState {
 }
 
 impl SimState {
-    pub fn new(
-    	game_map: Map, 
-    	sim_messenger: SimMessenger, 
-    	n_players: u32, 
-    	fps_limit: u32
-    	) -> Self {
+    pub fn new(game_map: Map, sim_messenger: SimMessenger, n_players: u32, fps_limit: u32) -> Self {
         SimState {
             ecs: World::new(),
             messenger: sim_messenger,
@@ -45,12 +40,12 @@ impl SimState {
     }
 
     pub fn current_tick(&self) -> TickNum {
-    	self.current_tick
+        self.current_tick
     }
 
     pub fn end_tick(&mut self) {
-    	self.current_tick += 1;
-    	self.fps_counter.limit_fps(self.fps_limit);
-    	self.fps_counter.tick();
+        self.current_tick += 1;
+        self.fps_counter.limit_fps(self.fps_limit);
+        self.fps_counter.tick();
     }
 }

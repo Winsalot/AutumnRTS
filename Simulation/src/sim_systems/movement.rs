@@ -1,9 +1,9 @@
 // File contains main movement syustems
 use crate::sim_components::sim_unit_base_components::DestinationComp;
 use crate::sim_components::sim_unit_base_components::IdComp;
-use crate::sim_components::sim_unit_base_components::PositionComp;
 use crate::sim_components::sim_unit_base_components::NextPosComp;
 use crate::sim_components::sim_unit_base_components::PathComp;
+use crate::sim_components::sim_unit_base_components::PositionComp;
 use crate::sim_components::sim_unit_base_components::SpeedComponent;
 
 use crate::sim_components::sim_unit_base_components::CollComp;
@@ -30,9 +30,7 @@ pub fn sys_input_dest(sim: &mut SimState) {
     for i in 0..dest_msg.len() {
         match dest_msg[i] {
             RenderMessage::Destination(id, mut pos) => {
-                let dest_comp = sim
-                    .ecs
-                    .get_mut::<DestinationComp>(Entity::from_bits(id));
+                let dest_comp = sim.ecs.get_mut::<DestinationComp>(Entity::from_bits(id));
                 if let Ok(mut dest_comp) = dest_comp {
                     // Prevent destination from happening outside mapo
                     sim.map.constrain_pos(&mut pos);

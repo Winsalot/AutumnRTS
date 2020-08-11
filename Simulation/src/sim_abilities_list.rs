@@ -5,12 +5,12 @@ use crate::sim_fix_math::*;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Ability {
-	Mundane,
-	BuildSimpleStructure,
-	GenericAbility{
-		pw_cost: i32, 
-		cooldown_end_at: TickNum, 
-		range: FixF, 
-		damage: i32},
+    Mundane,
+    BuildSimpleStructure,
+    GenericAbility {
+        pw_cost: i32,
+        cooldown_end_at: TickNum,
+        range: FixF,
+        damage: i32,
+    },
 }
-

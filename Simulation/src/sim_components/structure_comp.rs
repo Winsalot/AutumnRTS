@@ -5,15 +5,15 @@ use crate::sim_fix_math::*;
 // Location should not be float.
 
 pub struct StructureComp {
-	pos: Pos, // centre of the structure
-	tiles: Vec<Pos> // occupied tiles as vectors from centre.
+    pos: Pos,        // centre of the structure
+    tiles: Vec<Pos>, // occupied tiles as vectors from centre.
 }
 
 impl StructureComp {
-	pub fn new(pos: Pos) -> Self {
-		StructureComp {
-			pos: pos,
-			tiles: vec![pos]
-		}
-	}
+    pub fn new(pos: Pos) -> Self {
+        StructureComp {
+            pos: pos,
+            tiles: vec![pos],
+        }
+    }
 }

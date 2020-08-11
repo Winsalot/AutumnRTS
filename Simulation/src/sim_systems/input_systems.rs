@@ -1,14 +1,14 @@
-use crate::sim_fix_math::Pos;
-use hecs::*;
+use crate::sim_components::active_ability_comp::*;
 use crate::sim_components::sim_unit_base_components::*;
 use crate::sim_components::structure_comp::*;
-use crate::sim_components::active_ability_comp::*;
+use crate::sim_fix_math::Pos;
+use hecs::*;
 
 //use crate::sim_state_components::*;
+use crate::common::*;
 use crate::messenger::*;
 use crate::sim_ecs::*;
-use crate::sim_fix_math::{FixF};
-use crate::common::*;
+use crate::sim_fix_math::FixF;
 //use hecs::*;
 
 // this module contains ALL used systems (for now)
@@ -57,7 +57,7 @@ pub fn plc_unit(pos: Pos, speed: FixF, id_counter: &mut UId) -> EntityBuilder {
 }
 
 pub fn plc_building(pos: Pos, id_counter: &mut UId) -> EntityBuilder {
-	let mut unit_builder = EntityBuilder::new();
+    let mut unit_builder = EntityBuilder::new();
 
     unit_builder.add(TypeNameComp::new("placeholder_building"));
     unit_builder.add(IdComp::new(id_counter));
@@ -87,8 +87,8 @@ pub fn input_spawn_unit(sim: &mut SimState) {
                     continue;
                 }
 
-                if sim.map.tile_from_pos(pos).blocks_path(){
-                	continue;
+                if sim.map.tile_from_pos(pos).blocks_path() {
+                    continue;
                 }
 
                 //TODO: coll_rad_tmp should not be hardcoded
@@ -106,7 +106,6 @@ pub fn input_spawn_unit(sim: &mut SimState) {
         }
     }
 }
-
 
 pub fn input_spawn_structure(sim: &mut SimState) {
     // Reads messages, removes spawn messages from inbox. Spawns units and egnerates messages
@@ -129,11 +128,11 @@ pub fn input_spawn_structure(sim: &mut SimState) {
                     continue;
                 }
 
-                if sim.map.tile_from_pos(pos).blocks_path(){
+                if sim.map.tile_from_pos(pos).blocks_path() {
                     continue;
                 }
 
-                if sim.map.map_mem.get_blocked().contains(&pos.round()){
+                if sim.map.map_mem.get_blocked().contains(&pos.round()) {
                     continue;
                 }
 

@@ -1,6 +1,6 @@
 use crate::common::*;
 
-use crate::sim_fix_math::{Pos};
+use crate::sim_fix_math::Pos;
 
 //use crate::sim_unit_base_components::IdComp;
 use gdnative::*;
@@ -57,11 +57,7 @@ pub fn inbox_drain_spawn_structure(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, 
     let mut ret: Vec<(UId, f32, f32)> = vec![];
     for i in 0..target.len() {
         if let EngineMessage::StructurePosTmp(id, pos) = target[i] {
-            ret.push((
-                id,
-                pos.x.to_num::<f32>(),
-                pos.y.to_num::<f32>(),
-            ));
+            ret.push((id, pos.x.to_num::<f32>(), pos.y.to_num::<f32>()));
         }
     }
 
@@ -118,7 +114,7 @@ pub fn inbox_drain_next_pos(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, f32, f3
     return ret;
 }
 
-pub fn inbox_drain_fps(inbox: &mut Vec<EngineMessage>) -> Vec<(u64,u64)> {
+pub fn inbox_drain_fps(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, u64)> {
     let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
         inbox.clone().iter().partition(|&msg| match msg {
             EngineMessage::Fps(..) => true,
@@ -128,7 +124,7 @@ pub fn inbox_drain_fps(inbox: &mut Vec<EngineMessage>) -> Vec<(u64,u64)> {
     *inbox = rest;
 
     // turn messages into tuples:
-    let mut ret: Vec<(u64,u64)> = vec![];
+    let mut ret: Vec<(u64, u64)> = vec![];
     for i in 0..target.len() {
         if let EngineMessage::Fps(fps, fps_r) = target[i] {
             ret.push((fps, fps_r));

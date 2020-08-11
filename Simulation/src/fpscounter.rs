@@ -1,5 +1,5 @@
-use std::time::{Duration, Instant};
 use std::collections::VecDeque;
+use std::time::{Duration, Instant};
 
 pub struct FpsCounter {
     t0: Instant,
@@ -23,13 +23,13 @@ impl FpsCounter {
         self.delta.pop_front();
         self.delta.push_back(d);
     }
-/*
-    pub fn get_fps_simple(&self) -> u64 {
-        let sum = self.delta.iter().map(|x| x.as_nanos()).sum::<u128>() as f64;
-        let len = self.delta.len() as f64;
-        (1000000000.0 / (sum / len)) as u64
-    }
-*/
+    /*
+        pub fn get_fps_simple(&self) -> u64 {
+            let sum = self.delta.iter().map(|x| x.as_nanos()).sum::<u128>() as f64;
+            let len = self.delta.len() as f64;
+            (1000000000.0 / (sum / len)) as u64
+        }
+    */
     pub fn get_fps(&self) -> (u64, u64) {
         let sum = self.delta.iter().map(|x| x.as_nanos()).sum::<u128>() as f64;
         let len = self.delta.len() as f64;
@@ -40,7 +40,6 @@ impl FpsCounter {
         let real = (1000000000.0 / (sum / len)) as u64;
 
         (current, real)
-
     }
 
     pub fn limit_fps(&mut self, limit: u32) {

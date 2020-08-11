@@ -1,4 +1,3 @@
-
 use crate::common::*;
 use std::collections::VecDeque;
 
@@ -52,7 +51,6 @@ pub struct CollComp {
 pub struct PathComp {
     positions: VecDeque<Pos>,
 }
-
 
 impl TypeNameComp {
     pub fn new(name: &str) -> Self {
@@ -137,14 +135,14 @@ impl IdComp {
         let id = std::mem::replace(id_counter, *id_counter + 1);
 
         IdComp {
-        	id: id,
-        	owner: PlayerId::new(1, TeamAlliance::Alliance(1))
+            id: id,
+            owner: PlayerId::new(1, TeamAlliance::Alliance(1)),
         }
     }
 
     pub fn get(&self) -> &u64 {
         &self.id
-    } 
+    }
 }
 
 impl PathComp {

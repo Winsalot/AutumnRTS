@@ -152,12 +152,12 @@ impl RustBridge {
 
     #[export]
     fn use_ability_pos(
-        &mut self, 
-        _owner: gdnative::Node, 
+        &mut self,
+        _owner: gdnative::Node,
         unit: UId,
         ability: u32,
-        target: Vector2
-        ){
+        target: Vector2,
+    ) {
         let pos: Pos = Pos::from_num(target.x, target.y);
         let target = ObjTarget::Position(pos);
         let msg = RenderMessage::UseAbility(unit, ability as u32, target);

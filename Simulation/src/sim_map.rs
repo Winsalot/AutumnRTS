@@ -11,9 +11,9 @@ pub struct MapTile {
 
 // Structures visible to and remembered by particular player:
 #[derive(Debug, PartialEq, Clone)]
-pub struct StructureMemory{
+pub struct StructureMemory {
     player: PlayerId,
-    blocked_tiles: Vec<Pos>
+    blocked_tiles: Vec<Pos>,
 }
 
 #[derive(Debug, PartialEq)]
@@ -22,11 +22,6 @@ pub struct Map {
     tilemap: Vec<MapTile>,
     pub map_mem: StructureMemory,
 }
-
-
-
-
-
 
 impl MapTile {
     fn ground_tile(z_level: i32) -> Self {
@@ -52,13 +47,11 @@ impl MapTile {
     }
 }
 
-
-
-impl StructureMemory{
-    pub fn new(player: PlayerId) -> Self{
+impl StructureMemory {
+    pub fn new(player: PlayerId) -> Self {
         StructureMemory {
             player: player,
-            blocked_tiles: vec![]
+            blocked_tiles: vec![],
         }
     }
 
@@ -67,13 +60,10 @@ impl StructureMemory{
     }
 
     pub fn add(&mut self, tiles: Vec<Pos>) {
-        let mut tiles1: Vec<Pos> = tiles.iter()
-            .map(|x| x.round())
-            .collect();
+        let mut tiles1: Vec<Pos> = tiles.iter().map(|x| x.round()).collect();
         self.blocked_tiles.append(&mut tiles1);
     }
 }
-
 
 impl Map {
     pub fn empty_map(width: u32, height: u32) -> Self {
@@ -94,7 +84,7 @@ impl Map {
         &self.tilemap[(x + (self.size.0 as u32 * y)) as usize]
     }
 
-/*    pub fn get_tile_mut(&mut self, x: u32, y: u32) -> &mut MapTile {
+    /*    pub fn get_tile_mut(&mut self, x: u32, y: u32) -> &mut MapTile {
         &mut self.tilemap[(x + (self.size.0 as u32 * y)) as usize]
     }*/
 
@@ -124,7 +114,7 @@ impl Map {
         );
     }
 
-    pub fn add_structure(&mut self, pos: Vec<Pos>){
+    pub fn add_structure(&mut self, pos: Vec<Pos>) {
         self.map_mem.add(pos);
     }
 
@@ -153,7 +143,7 @@ impl Map {
         for y in 0..size {
             'lower: for x in 0..size {
                 // Add exterior walls:
-                if (y == 0) | (y == size -1) | (x == 0) | (x == size -1) {
+                if (y == 0) | (y == size - 1) | (x == 0) | (x == size - 1) {
                     map.set_tile(x, y, MapTile::wall_tile(1));
                     continue 'lower;
                 }
@@ -199,31 +189,26 @@ impl Map {
     }
 }
 
-
 #[cfg(test)]
 mod mapo_tests {
     use crate::sim_map::*;
-    
+
     // run with:
     // cargo test mapo_tests
 
-
     #[test]
-    fn pos_to_tile(){
+    fn pos_to_tile() {
         let mapo = Map::make_test_map();
 
-        assert_eq!( 
-            mapo.tile_from_pos(Pos::from_num(3,3)),
-            mapo.get_tile(3,3)
-            );
+        assert_eq!(mapo.tile_from_pos(Pos::from_num(3, 3)), mapo.get_tile(3, 3));
 
-        assert_eq!( 
-            mapo.tile_from_pos(Pos::from_num(2.8,2.8)),
-            mapo.get_tile(3,3)
-            );  
-        assert_eq!( 
+        assert_eq!(
+            mapo.tile_from_pos(Pos::from_num(2.8, 2.8)),
+            mapo.get_tile(3, 3)
+        );
+        assert_eq!(
             mapo.tile_from_pos(Pos::from_num(4.729167, 3.0)),
-            mapo.get_tile(5,3)
-            );
+            mapo.get_tile(5, 3)
+        );
     }
 }

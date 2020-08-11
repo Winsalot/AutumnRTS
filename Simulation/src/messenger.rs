@@ -1,12 +1,8 @@
-
 //use crate::sim_object::*;
 use std::sync::mpsc::{channel, Receiver, Sender};
 //use gdnative::{ToVariant, FromVariant};
 
 use crate::common::*;
-
-
-
 
 // this struct communicates between simulation and renderer
 pub struct SimMessenger {

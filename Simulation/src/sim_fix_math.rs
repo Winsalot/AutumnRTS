@@ -1,21 +1,15 @@
-use fixed::traits::{ToFixed};
+use fixed::traits::ToFixed;
 use fixed::types::*;
 use fixed_sqrt::FixedSqrt;
 use std::ops::{Add, Div, Mul, Sub};
 
-
 pub type FixF = I28F4; //fixed float
-
-
-
 
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, Copy)]
 pub struct Pos {
     pub x: FixF, // FixedI32 with 24 integer bits and eight fractional bits.
     pub y: FixF,
 }
-
-
 
 impl Pos {
     pub fn new(x: FixF, y: FixF) -> Pos {
