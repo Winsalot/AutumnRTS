@@ -201,14 +201,35 @@ There is lon way to go, but it can be like this:
 	+ Debug the test and shit.
 	+ Also move movement system script into systems folder
 	+ Implement into Godot.
-	- Rework id factor and SimState struct.
+	+ Rework id factor and SimState struct.
 		+ Add resource variable
 		+ add hashmap and all other resources to res variable.
 		- Refactor systems to use hashmap.
 			+ Spawn unit.
 			+ Spawn structure
-			- Every input order system.
+			+ Every input order system.
 		+ "you need a hash table mapping stable IDs to ECS IDs, and a component for the other direction" - Ralith, 2020
+23. Refactor messaging system to accomodate multiple players.
+	x Are there alternatives to mpsc?
+	+ Fuck it, do I really need to separate channels to accomodate multiple payers? Lets consider this:
+		- Player vs bot. Bots have full vision.
+			- Everything happens locally.
+			- Somehow bots should receive information about game state.
+			- Player and bots could receive different messages. Or every message with specific parameter. Ez.
+			- Rustbridge & messages would validate & have separate calls.
+			- Then it's up for me (developer) to not mess everything up.
+		- player vs player. Both run simulation locally and exchange just inputs.
+			- In this case single mpsc channel is all I need at all.
+			- And if they want to cheat, then they will get to cheat.
+		- Player vs player. Simulation runs on server.
+			- In this case there is all that networking thing I have no idea how it works.
+			- But I can assume that server can do message validation.
+			- It can also send appropriate packets.
+	- Thus it seems like all i need to have a big message rework. Ez.
+	- input (rend) message should show which player sent it (player or bot).
+	- Engine (sim) should have just single `visible_to_player: bool` field for validation. Then renderer spawns invisible units lmao.
+		x Fuck this maybe? No FoW in MicroTourney.
+		- But I will need this in full RTS. So do it.
 
 GENERAL IDEAS:
 	- Separate abilities from weapons. 
@@ -224,17 +245,17 @@ SHORT term:
 	+ Add player & alliance logic (not lore factions). Basically every entity should have player component (with id).
 	+ Buildings.
 	+ Units making structures.
-	- Warning message (message variant containing enum warning type. For cases like out of map, out of range, unavailable and so on).
 	x Buildings making units.
+	- Warning message (message variant containing enum warning type. For cases like out of map, out of range, unavailable and so on).
+	- Use quadtrees or something for all spatial logic instead of fucking grid search.
 	- Add collision avoidance. (In collision scenario move to the side or something)
 	- Start using player & alliance logic. Adapt messaging system for it.
+	- (Good idea) Whole map data defined inside godot. Just initialise the game by supplying map layout as one of arguments for SimState.
 	- Start using data files.
 		- For map.
 		- For unit builder.
 	- Godot working camera.
 	- Select/deselect, drag (group) unit select.
-	- Line of sight system.
-		- Separate for alliances of players.
 	- Move to isometric 3D on godot side.
 
 

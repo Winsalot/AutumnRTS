@@ -35,8 +35,10 @@ So yeah, something like this.
 
  - Simulation features:
 	- Spawn units of different teams.
+	- Use data files to store maps & unit descriptions.
 	- Functional unit collision.
 	- Implemented weapons.
+	- Use efficient algorithms for spatial logic instead of grid search.
 	- ✔️ Implemented active abilities.
 	- Win/lose condition.
 	- Interactive map features (teleport units that walk too far away).
@@ -46,7 +48,7 @@ So yeah, something like this.
 		- Schedule orders (shift-orders).
 		- A-move, M-move, Follow, stop, hold position commands.
 - Renderer features:
-	- Everything. Current godot implementation will need to be rewritten entirely.
+	- Everything. Current godot implementation will need to be rewritten entirely. (I am not looking forward to it)
 - Content features:
 	- Lots of cool maps. 
 	- Lots of badass units.
