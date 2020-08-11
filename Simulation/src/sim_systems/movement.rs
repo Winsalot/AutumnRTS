@@ -1,23 +1,12 @@
-// File contains main movement syustems
-use crate::sim_components::sim_unit_base_components::DestinationComp;
-use crate::sim_components::sim_unit_base_components::IdComp;
-use crate::sim_components::sim_unit_base_components::NextPosComp;
-use crate::sim_components::sim_unit_base_components::PathComp;
-use crate::sim_components::sim_unit_base_components::PositionComp;
-use crate::sim_components::sim_unit_base_components::SpeedComponent;
-
-use crate::sim_components::sim_unit_base_components::CollComp;
-
+use crate::sim_components::sim_unit_base_components::*;
 use crate::common::*;
-
 use crate::sim_ecs::*;
 use crate::sim_fix_math::*;
-
 use hecs::*;
 
-/// Simple destination update from messages
+
 pub fn sys_input_dest(sim: &mut SimState) {
-    let inbox = &mut sim.inbox;
+    let inbox = &mut sim.res.inbox;
 
     let (dest_msg, rest): (Vec<RenderMessage>, Vec<RenderMessage>) =
         inbox.clone().iter().partition(|&msg| match msg {
@@ -30,14 +19,23 @@ pub fn sys_input_dest(sim: &mut SimState) {
     for i in 0..dest_msg.len() {
         match dest_msg[i] {
             RenderMessage::Destination(id, mut pos) => {
-                let dest_comp = sim.ecs.get_mut::<DestinationComp>(Entity::from_bits(id));
+
+                let entity = sim.res.id_map.get(&id);
+
+                if entity.is_none(){
+                    // This makes sure that .unwrap() won't panic
+                    continue;
+                }
+
+                let dest_comp = sim.ecs.get_mut::<DestinationComp>(*entity.unwrap());
                 if let Ok(mut dest_comp) = dest_comp {
                     // Prevent destination from happening outside mapo
                     sim.map.constrain_pos(&mut pos);
 
                     dest_comp.set_dest(pos, sim.current_tick());
                     let msg = EngineMessage::ObjDest(id, pos);
-                    sim.send_batch.push(msg);
+                    sim.res.send_batch.push(msg);
+
                 }
             }
             _ => {}
@@ -52,39 +50,30 @@ pub fn sys_set_next_pos(sim: &mut SimState) {
         &'a PositionComp,
         &'a mut NextPosComp,
         &'a mut PathComp,
-        //&'a DestinationComp,
         &'a SpeedComponent,
     );
 
     let ecs = &mut sim.ecs;
 
-    //'query_loop: for (_, (id, pos, next_pos, path, _dest, speed)) in &mut ecs.query::<ToQuery>(){
     'query_loop: for (_, (id, pos, next_pos, path, speed)) in &mut ecs.query::<ToQuery>() {
-        /*
-                // is there somewhere to move?
-                if dest.get_dest() == pos.get_pos() {
-                    continue 'query_loop;
-                }
-        */
-        //println!("own pos {:?}", pos.clone());
-        //println!("{:?}", path.clone());
+
         let path_next_pos = path.get_next_pos(pos.get_pos());
 
         if let Some(move_to) = path_next_pos {
             let distance = pos.get_pos().dist(move_to);
 
+            // This can happen because fixed point math is used.
             if distance == 0 {
                 next_pos.set_pos(*move_to);
                 continue 'query_loop;
             }
 
             let dx = (*pos.get_pos() - *move_to) / distance;
-            //println!("dx: {:?} \n", dx);
             let n_next_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
 
             next_pos.set_pos(n_next_pos);
             let msg = EngineMessage::ObjNextPos(*id.get(), n_next_pos);
-            sim.send_batch.push(msg)
+            sim.res.send_batch.push(msg)
         }
     }
 }
@@ -121,7 +110,6 @@ pub fn sys_collision_pred(sim: &mut SimState) {
         let mut query = ecs.query_one::<ToQuery2>(entity).unwrap();
         let (pos, next_pos) = query.get().unwrap();
 
-        // set next pos to current position:u
         next_pos.set_pos(*pos.get_pos());
     }
 }
@@ -144,6 +132,6 @@ pub fn sys_set_pos(sim: &mut SimState) {
         pos.set_pos(*next_pos.get_pos());
         msg = EngineMessage::ObjMove(*id.get(), *pos.get_pos());
 
-        sim.send_batch.push(msg);
+        sim.res.send_batch.push(msg);
     }
 }

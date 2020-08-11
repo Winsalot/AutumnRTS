@@ -201,6 +201,14 @@ There is lon way to go, but it can be like this:
 	+ Debug the test and shit.
 	+ Also move movement system script into systems folder
 	+ Implement into Godot.
+	- Rework id factor and SimState struct.
+		+ Add resource variable
+		+ add hashmap and all other resources to res variable.
+		- Refactor systems to use hashmap.
+			+ Spawn unit.
+			+ Spawn structure
+			- Every input order system.
+		+ "you need a hash table mapping stable IDs to ECS IDs, and a component for the other direction" - Ralith, 2020
 
 GENERAL IDEAS:
 	- Separate abilities from weapons. 
@@ -216,9 +224,6 @@ SHORT term:
 	+ Add player & alliance logic (not lore factions). Basically every entity should have player component (with id).
 	+ Buildings.
 	+ Units making structures.
-	- Rework id factor and SimState struct.
-		- Add resource variable
-		- Use hashmap for persistent id mapping?
 	- Warning message (message variant containing enum warning type. For cases like out of map, out of range, unavailable and so on).
 	x Buildings making units.
 	- Add collision avoidance. (In collision scenario move to the side or something)

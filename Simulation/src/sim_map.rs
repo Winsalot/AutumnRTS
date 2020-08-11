@@ -9,10 +9,11 @@ pub struct MapTile {
     z_level: i32,
 }
 
-// Structures visible to and remembered by particular player:
+// Structures visible to and remembered. Currently global.
+/// TODO: move this struct into sim_ecs::SimResources and make every player have its own.
 #[derive(Debug, PartialEq, Clone)]
 pub struct StructureMemory {
-    player: PlayerId,
+    //player: PlayerId,
     blocked_tiles: Vec<Pos>,
 }
 
@@ -48,9 +49,10 @@ impl MapTile {
 }
 
 impl StructureMemory {
-    pub fn new(player: PlayerId) -> Self {
+    //pub fn new(player: PlayerId) -> Self {
+    pub fn new(_player: PlayerId) -> Self {
         StructureMemory {
-            player: player,
+            //player: player,
             blocked_tiles: vec![],
         }
     }
@@ -84,9 +86,9 @@ impl Map {
         &self.tilemap[(x + (self.size.0 as u32 * y)) as usize]
     }
 
-    /*    pub fn get_tile_mut(&mut self, x: u32, y: u32) -> &mut MapTile {
+    pub fn _get_tile_mut(&mut self, x: u32, y: u32) -> &mut MapTile {
         &mut self.tilemap[(x + (self.size.0 as u32 * y)) as usize]
-    }*/
+    }
 
     fn set_tile(&mut self, x: u32, y: u32, new_tile: MapTile) {
         self.tilemap[(x + (self.size.0 as u32 * y)) as usize] = new_tile;
@@ -132,13 +134,8 @@ impl Map {
     }
 
     pub fn make_test_map() -> Self {
-        //makes 8x8 map with walls and multiple z levels
         let size = 12;
         let mut map = Map::empty_map(size, size);
-
-        //map.set_tile(3, 3, MapTile::wall_tile(1));
-
-        //println!("{:?}", map);
 
         for y in 0..size {
             'lower: for x in 0..size {

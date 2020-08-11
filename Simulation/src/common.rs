@@ -26,7 +26,6 @@ pub enum ObjTarget {
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum EngineMessage {
-    //ObjSpawn(IdComp, Pos), // Deprecated
     ObjPosColl(UId, Pos, FixF), // Message carrying position and collision radius info
     ObjMove(UId, Pos),
     ObjNextPos(UId, Pos),
@@ -35,9 +34,7 @@ pub enum EngineMessage {
     MapTile(Pos, MapTile),
     StructurePosTmp(UId, Pos),
     Fps(u64, u64),
-    None, // this message sucks
-          //Break,
-          //Object(ObjectID, Pos, Pos), // TODO remove this variant
+    None, // this message sucks, but whatever
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]

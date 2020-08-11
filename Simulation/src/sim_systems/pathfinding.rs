@@ -181,7 +181,7 @@ pub fn sys_pathfinding_astar(sim: &mut SimState) {
         // TODO: remove this later sometime:
         {
             let msg = PathfindingHelper::path_to_message_tmp(id, &path);
-            sim.send_batch.push(msg);
+            sim.res.send_batch.push(msg);
         }
 
         path_comp.set(path);
