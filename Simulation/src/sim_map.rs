@@ -1,7 +1,8 @@
 //use crate::messenger::EngineMessage;
+use crate::common::PlayerId;
+use crate::common::TeamAlliance;
 use crate::common::EngineMessage;
 use crate::sim_fix_math::*;
-use crate::sim_player_alliances::*;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct MapTile {
@@ -49,7 +50,6 @@ impl MapTile {
 }
 
 impl StructureMemory {
-    //pub fn new(player: PlayerId) -> Self {
     pub fn new(_player: PlayerId) -> Self {
         StructureMemory {
             //player: player,

@@ -1,34 +1,7 @@
-//use std::collections::HashMap;
+use crate::common::PlayerId;
+use crate::common::TeamAlliance;
 
-// Possible teams for every entity to belong to.
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub enum TeamAlliance {
-    Neutral,
-    Alliance(u32),
-    Spectator,
-}
 
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub struct PlayerId {
-    id: u32,
-    team: TeamAlliance,
-}
-
-impl PlayerId {
-    pub fn new(id: u32, team: TeamAlliance) -> Self {
-        PlayerId { id: id, team: team }
-    }
-
-    pub fn get_id(&self) -> u32 {
-        self.id
-    }
-
-    pub fn get_team(&self) -> TeamAlliance {
-        self.team
-    }
-}
-
-// Holds information of every player's team.
 pub struct PlayerList {
     player_count: u32,
     teams_count: u32,

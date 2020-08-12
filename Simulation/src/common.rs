@@ -25,16 +25,43 @@ pub enum ObjTarget {
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
+pub enum TeamAlliance {
+    Neutral,
+    Alliance(u32),
+    Spectator,
+}
+
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub struct PlayerId {
+    id: u32,
+    team: TeamAlliance,
+}
+
+impl PlayerId {
+    pub fn new(id: u32, team: TeamAlliance) -> Self {
+        PlayerId { id: id, team: team }
+    }
+
+    pub fn get_id(&self) -> u32 {
+        self.id
+    }
+
+    pub fn get_team(&self) -> TeamAlliance {
+        self.team
+    }
+}
+
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum EngineMessage {
     ObjPosColl(UId, Pos, FixF), // Message carrying position and collision radius info
     ObjMove(UId, Pos),
     ObjNextPos(UId, Pos),
     ObjDest(UId, Pos),
     ObjPathTmp(UId, [Pos; 20]), // To visualise pathfinding. Sends next n steps.
-    MapTile(Pos, MapTile),
     StructurePosTmp(UId, Pos),
+    MapTile(Pos, MapTile),
     Fps(u64, u64),
-    None, // this message sucks, but whatever
+    //None, // this message sucks, but whatever
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -46,4 +73,37 @@ pub enum RenderMessage {
     UseAbility(UId, u32, ObjTarget),
     //None,
     Break,
+}
+
+/// New engine messages
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub enum  SimMsg {
+    Warn(PlayerId, SimWarnMsg), // PlayerId because player shouldn't hear bot's warnings.
+    StateChange(SimStateChng),
+    // StateChange(PlayerId, SimStateInfo), // Someday when we have FoW.
+    SimInfo(SimStateInfo)
+}
+
+/// Simulation warning messages variants
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub enum SimWarnMsg{
+    AbilTrgInvalid,
+    AbilUnavailable, // on cooldown
+}
+
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub enum SimStateChng {
+    ObjPosColl(UId, Pos, FixF), 
+    ObjMove(UId, Pos),
+    ObjNextPos(UId, Pos),
+    ObjDest(UId, Pos),
+    ObjPathTmp(UId, [Pos; 20]), 
+    StructurePosTmp(UId, Pos),
+}
+
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub enum SimStateInfo {
+    Fps(u64, u64),
+    GameTick(TickNum),
+    MapTile(Pos, MapTile),
 }

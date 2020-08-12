@@ -64,15 +64,15 @@ Very advanced. Highest mobility, swarm units and powerful hard-hitters. Don't ha
 - Soft cap on army size (aka. reduced resource extraction after hitting soft ceiling)
 - Soft cap on resource extraction (eg. 90% less resources extracted in depleted areas, but never zero).
 - 2 main resources. Choose one:
-- - SC/WC style minerals & gas / gold & lumber. Both extracted similar way.
-- - ZeroK/ OpenRA style: one traditional (minerals) and another produced by dedicated buildings (energy)
-- - Mix of both (eg. geothermal extractors in ZeroK)?
+	- SC/WC style minerals & gas / gold & lumber. Both extracted similar way.
+	- ZeroK/ OpenRA style: one traditional (minerals) and another produced by dedicated buildings (energy)
+	- Mix of both (eg. geothermal extractors in ZeroK)?
 - Make game playable and interesting early into developement by adding gamemodes:
-- - Defense from waves of enemies (eg. ZeroK chickens)
-- - Siege gamemode (attack defending and fortified bot player).
-- - Figure out a way to attract AI students to build smart bots for this game (probably won't happen in early developement).
-- - Single player campaign, with missions where player controls or has access to a limited number of units.
-- - Epic multiplayer team vs team battles with big armies and lots of units (imagine ZeroK 7v7 games that last for ~1 hour or more)
+	- Defense from waves of enemies (eg. ZeroK chickens)
+	- Siege gamemode (attack defending and fortified bot player).
+	- Figure out a way to attract AI students to build smart bots for this game (probably won't happen in early developement).
+	- Single player campaign, with missions where player controls or has access to a limited number of units.
+	- Epic multiplayer team vs team battles with big armies and lots of units (imagine ZeroK 7v7 games that last for ~1 hour or more)
 
 ### Cool building/structure ideas
 
@@ -101,3 +101,7 @@ Very advanced. Highest mobility, swarm units and powerful hard-hitters. Don't ha
 - Temp unit spawning units. Like those turtles from SC2.
 - Production buildings that irreversibly transform into powerful but expiring units.
 - XXI century era tanks. Because ancient technology.
+
+### Random awesome ideas:
+
+- At the game end the units of winning player start dabbing and flossing.

@@ -17,7 +17,6 @@ impl SimMessenger {
 
     pub fn rec(&self) -> Vec<RenderMessage> {
         let mut msg = self.sim_rec.try_iter();
-        //let mut ret: Vec<RenderMessage> = vec![RenderMessage::None];
         let mut ret: Vec<RenderMessage> = vec![];
         while let Some(mut x) = msg.next() {
             ret.append(&mut x);
@@ -38,7 +37,6 @@ impl RendMessenger {
 
     pub fn rec(&self) -> Vec<EngineMessage> {
         let mut msg = self.rend_rec.try_iter();
-        //let mut ret: Vec<EngineMessage> = vec![EngineMessage::None];
         let mut ret: Vec<EngineMessage> = vec![];
         while let Some(mut x) = msg.next() {
             ret.append(&mut x);

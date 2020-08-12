@@ -225,11 +225,26 @@ There is lon way to go, but it can be like this:
 			- In this case there is all that networking thing I have no idea how it works.
 			- But I can assume that server can do message validation.
 			- It can also send appropriate packets.
-	- Thus it seems like all i need to have a big message rework. Ez.
-	- input (rend) message should show which player sent it (player or bot).
-	- Engine (sim) should have just single `visible_to_player: bool` field for validation. Then renderer spawns invisible units lmao.
+	+ Thus it seems like all i need to have a big message rework. Ez.
+	+ input (rend) message should show which player sent it (player or bot).
+	+ Engine (sim) should have just single `visible_to_player: bool` field for validation. Then renderer spawns invisible units lmao.
 		x Fuck this maybe? No FoW in MicroTourney.
 		- But I will need this in full RTS. So do it.
+	+ Also what about chedule and group messages? Good time to think abou them now.
+	+ Fuck this for now. Lets just refactor one type of message:
+		- Warning messages:
+			- Cant build, ability on cooldown, cant go there, not enough gold, etc.
+		- Game state changes.
+			- changin pos and all that other stuff.
+			- resources.
+			- New units.
+			- Dead units.
+		- Generic game state info:
+			- Tick number.
+			- Fps.
+			- Game end.
+		- Therefore: Use nested enum.
+	- Now delet old engine message.
 
 GENERAL IDEAS:
 	- Separate abilities from weapons. 

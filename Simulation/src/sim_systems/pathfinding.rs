@@ -133,17 +133,18 @@ impl PathfindingHelper {
     }
 
     // Exact pathfinding hsould not be rendered. Remove later.
-    fn path_to_message_tmp(id: &IdComp, path: &VecDeque<Pos>) -> EngineMessage {
+    fn path_to_message_tmp(id: &IdComp, path: &VecDeque<Pos>) -> Vec<EngineMessage> {
         let mut path1 = path.clone();
         let end = path1.back();
         match end {
-            None => return EngineMessage::None,
+            //None => return EngineMessage::None,
+            None => return vec![],
             Some(goal) => {
                 let mut ret = [*goal; 20];
                 for i in 0..path1.len().min(20) {
                     ret[i] = path1.pop_front().unwrap();
                 }
-                return EngineMessage::ObjPathTmp(*id.get(), ret);
+                return vec![EngineMessage::ObjPathTmp(*id.get(), ret)];
             }
         }
     }
@@ -178,10 +179,10 @@ pub fn sys_pathfinding_astar(sim: &mut SimState) {
 
         //println!("Path for {:?} found: {:?}",id, path);
 
-        // TODO: remove this later sometime:
+        // TODO: remove this later sometime. Player doesnt need to see pathfinding details.
         {
-            let msg = PathfindingHelper::path_to_message_tmp(id, &path);
-            sim.res.send_batch.push(msg);
+            let mut msg = PathfindingHelper::path_to_message_tmp(id, &path);
+            sim.res.send_batch.append(&mut msg);
         }
 
         path_comp.set(path);
