@@ -1,3 +1,5 @@
+use crate::common::SimMsg::StateChange;
+use crate::common::SimStateChng::ObjPathTmp;
 use crate::sim_components::sim_unit_base_components::IdComp;
 
 use crate::sim_components::sim_unit_base_components::DestinationComp;
@@ -133,7 +135,8 @@ impl PathfindingHelper {
     }
 
     // Exact pathfinding hsould not be rendered. Remove later.
-    fn path_to_message_tmp(id: &IdComp, path: &VecDeque<Pos>) -> Vec<EngineMessage> {
+    // fn path_to_message_tmp(id: &IdComp, path: &VecDeque<Pos>) -> Vec<EngineMessage> {
+    fn path_to_message_tmp(id: &IdComp, path: &VecDeque<Pos>) -> Vec<SimMsg> {
         let mut path1 = path.clone();
         let end = path1.back();
         match end {
@@ -144,7 +147,8 @@ impl PathfindingHelper {
                 for i in 0..path1.len().min(20) {
                     ret[i] = path1.pop_front().unwrap();
                 }
-                return vec![EngineMessage::ObjPathTmp(*id.get(), ret)];
+                // return vec![EngineMessage::ObjPathTmp(*id.get(), ret)];
+                return vec![StateChange(ObjPathTmp(*id.get(), ret))];
             }
         }
     }

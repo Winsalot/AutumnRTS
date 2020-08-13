@@ -13,7 +13,8 @@ pub struct RustBridge {
     sim_handle: Option<JoinHandle<()>>,
     messenger: Option<RendMessenger>,
     message_batch: Vec<RenderMessage>,
-    message_inbox: Vec<EngineMessage>,
+    // message_inbox: Vec<EngineMessage>,
+    message_inbox: Vec<SimMsg>,
 }
 
 #[gdnative::methods]

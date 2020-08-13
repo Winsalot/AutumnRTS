@@ -46,7 +46,8 @@ pub struct SimResources {
     pub players: PlayerList,
     pub current_tick: TickNum,
     pub inbox: Vec<RenderMessage>,
-    pub send_batch: Vec<EngineMessage>,
+    //pub send_batch: Vec<EngineMessage>,
+    pub send_batch: Vec<SimMsg>,
     pub fps_counter: FpsCounter,
     pub fps_limit: u32,
 }

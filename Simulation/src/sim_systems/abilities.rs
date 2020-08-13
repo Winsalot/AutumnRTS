@@ -6,7 +6,7 @@ use crate::sim_ecs::SimState;
 use crate::sim_fix_math::*;
 use crate::sim_systems::input_systems::plc_building;
 use num_traits::identities::Zero;
-use hecs::*;
+//use hecs::*;
 
 pub fn use_ability(sim: &mut SimState, entity: UId, target: ObjTarget, ability: &mut Ability) {
     match ability {
@@ -112,12 +112,14 @@ fn generic_ability(_sim: &mut SimState, cooldown_end_at: &mut TickNum, damage: &
 #[cfg(test)]
 mod ability_test {
 
-    #[test]
-    fn structure_ability() {
+#[test]
+fn structure_ability() {
         use crate::common::*;
         use crate::sim_fix_math::*;
         use crate::sim_gameloop::*;
         use std::time::Duration;
+        use crate::common::SimMsg::StateChange;
+        use crate::common::SimStateChng::StructurePosTmp;
 
         let (sim_handle, rend_msg) = start_loop(1, 30);
 
@@ -141,7 +143,8 @@ mod ability_test {
 
         for i in 0..inbox.len() {
             match inbox[i] {
-                EngineMessage::StructurePosTmp(..) => {
+                //EngineMessage::StructurePosTmp(..) => {
+                StateChange(StructurePosTmp(..)) => {
                     println!("{:?}", inbox[i]);
                 }
                 _ => (),

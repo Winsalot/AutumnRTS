@@ -1,3 +1,6 @@
+use crate::common::SimStateChng::StructurePosTmp;
+use crate::common::SimMsg::StateChange;
+use crate::common::SimStateChng::ObjPosColl;
 use crate::sim_components::active_ability_comp::*;
 use crate::sim_components::sim_unit_base_components::*;
 use crate::sim_components::structure_comp::*;
@@ -15,7 +18,8 @@ use crate::sim_fix_math::FixF;
 
 pub fn update_fps_info(sim: &mut SimState) {
     let fps = sim.res.fps_counter.get_fps();
-    sim.res.send_batch.push(EngineMessage::Fps(fps.0, fps.1));
+    // sim.res.send_batch.push(EngineMessage::Fps(fps.0, fps.1));
+    sim.res.send_batch.push(SimMsg::SimInfo(SimStateInfo::Fps(fps.0, fps.1)));
 }
 
 pub fn receive_messages(sim: &mut SimState) {
@@ -56,7 +60,8 @@ pub fn plc_unit(sim: &mut SimState, pos: Pos, speed: FixF, coll_r: FixF){
     let new_entity = sim.ecs.spawn(unit_builder.build());
 
 
-    let msg = EngineMessage::ObjPosColl(sim.res.id_counter - 1, pos, coll_r);
+    // let msg = EngineMessage::ObjPosColl(sim.res.id_counter - 1, pos, coll_r);
+    let msg = StateChange(ObjPosColl(sim.res.id_counter - 1, pos, coll_r));
     sim.res.send_batch.push(msg);
 
     sim.res.id_map.insert(sim.res.id_counter - 1, new_entity);
@@ -71,7 +76,8 @@ pub fn plc_building(sim: &mut SimState, pos: Pos) {
 
     let new_entity = sim.ecs.spawn(unit_builder.build());
 
-    let msg = EngineMessage::StructurePosTmp(sim.res.id_counter - 1, pos.round());
+    // let msg = EngineMessage::StructurePosTmp(sim.res.id_counter - 1, pos.round());
+    let msg = StateChange(StructurePosTmp(sim.res.id_counter - 1, pos.round()));
     sim.res.send_batch.push(msg);
 
     sim.res.id_map.insert(sim.res.id_counter - 1, new_entity);

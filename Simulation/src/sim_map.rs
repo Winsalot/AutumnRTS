@@ -1,7 +1,12 @@
 //use crate::messenger::EngineMessage;
+
+
+use crate::common::SimMsg;
+use crate::common::SimStateInfo;
+
 use crate::common::PlayerId;
 use crate::common::TeamAlliance;
-use crate::common::EngineMessage;
+//use crate::common::EngineMessage;
 use crate::sim_fix_math::*;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -120,13 +125,16 @@ impl Map {
         self.map_mem.add(pos);
     }
 
-    pub fn to_message(&self) -> Vec<EngineMessage> {
-        let mut msg: Vec<EngineMessage> = vec![];
+    // pub fn to_message(&self) -> Vec<EngineMessage> {
+    pub fn to_message(&self) -> Vec<SimMsg> {
+        // let mut msg: Vec<EngineMessage> = vec![];
+        let mut msg: Vec<SimMsg> = vec![];
         for x in 0..self.size.0 {
             for y in 0..self.size.1 {
                 let tile = self.get_tile(x as u32, y as u32).clone();
                 let tile_pos = Pos::new(FixF::from_num(x), FixF::from_num(y));
-                let tile_msg = EngineMessage::MapTile(tile_pos, tile);
+                // let tile_msg = EngineMessage::MapTile(tile_pos, tile);
+                let tile_msg = SimMsg::SimInfo(SimStateInfo::MapTile(tile_pos, tile));
                 msg.push(tile_msg);
             }
         }

@@ -51,18 +51,18 @@ impl PlayerId {
     }
 }
 
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub enum EngineMessage {
-    ObjPosColl(UId, Pos, FixF), // Message carrying position and collision radius info
-    ObjMove(UId, Pos),
-    ObjNextPos(UId, Pos),
-    ObjDest(UId, Pos),
-    ObjPathTmp(UId, [Pos; 20]), // To visualise pathfinding. Sends next n steps.
-    StructurePosTmp(UId, Pos),
-    MapTile(Pos, MapTile),
-    Fps(u64, u64),
-    //None, // this message sucks, but whatever
-}
+// #[derive(Debug, PartialEq, Clone, Copy)]
+// pub enum EngineMessage {
+//     ObjPosColl(UId, Pos, FixF), // Message carrying position and collision radius info
+//     ObjMove(UId, Pos),
+//     ObjNextPos(UId, Pos),
+//     ObjDest(UId, Pos),
+//     ObjPathTmp(UId, [Pos; 20]), // To visualise pathfinding. Sends next n steps.
+//     StructurePosTmp(UId, Pos),
+//     MapTile(Pos, MapTile),
+//     Fps(u64, u64),
+//     //None, // this message sucks, but whatever
+// }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum RenderMessage {
@@ -80,14 +80,13 @@ pub enum RenderMessage {
 pub enum  SimMsg {
     Warn(PlayerId, SimWarnMsg), // PlayerId because player shouldn't hear bot's warnings.
     StateChange(SimStateChng),
-    // StateChange(PlayerId, SimStateInfo), // Someday when we have FoW.
     SimInfo(SimStateInfo)
 }
 
 /// Simulation warning messages variants
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum SimWarnMsg{
-    AbilTrgInvalid,
+    AbilTrgInvalid, // Target invalid
     AbilUnavailable, // on cooldown
 }
 

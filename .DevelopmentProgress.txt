@@ -209,7 +209,7 @@ There is lon way to go, but it can be like this:
 			+ Spawn structure
 			+ Every input order system.
 		+ "you need a hash table mapping stable IDs to ECS IDs, and a component for the other direction" - Ralith, 2020
-23. Refactor messaging system to accomodate multiple players.
+[DONE]23. Refactor messaging system to accomodate multiple players.
 	x Are there alternatives to mpsc?
 	+ Fuck it, do I really need to separate channels to accomodate multiple payers? Lets consider this:
 		- Player vs bot. Bots have full vision.
@@ -232,19 +232,25 @@ There is lon way to go, but it can be like this:
 		- But I will need this in full RTS. So do it.
 	+ Also what about chedule and group messages? Good time to think abou them now.
 	+ Fuck this for now. Lets just refactor one type of message:
-		- Warning messages:
+		+ Warning messages:
 			- Cant build, ability on cooldown, cant go there, not enough gold, etc.
-		- Game state changes.
+		+ Game state changes.
 			- changin pos and all that other stuff.
 			- resources.
 			- New units.
 			- Dead units.
-		- Generic game state info:
+		+ Generic game state info:
 			- Tick number.
 			- Fps.
 			- Game end.
-		- Therefore: Use nested enum.
-	- Now delet old engine message.
+		+ Therefore: Use nested enum.
+	+ Now delet old engine message.
+24. Work towards weapons.
+	- Spawn enemy of another team.
+		- Make sure that SimMsg describes it well.
+		- Make it different color.
+		- Allow for case of allies and for enemies. (teams)
+	- Make hostile units target each other.
 
 GENERAL IDEAS:
 	- Separate abilities from weapons. 
@@ -261,7 +267,8 @@ SHORT term:
 	+ Buildings.
 	+ Units making structures.
 	x Buildings making units.
-	- Warning message (message variant containing enum warning type. For cases like out of map, out of range, unavailable and so on).
+	+ Warning message (message variant containing enum warning type. For cases like out of map, out of range, unavailable and so on).
+	- Refactor render messages.
 	- Use quadtrees or something for all spatial logic instead of fucking grid search.
 	- Add collision avoidance. (In collision scenario move to the side or something)
 	- Start using player & alliance logic. Adapt messaging system for it.

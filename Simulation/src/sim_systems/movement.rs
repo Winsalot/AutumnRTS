@@ -1,3 +1,5 @@
+use crate::common::SimMsg::*;
+use crate::common::SimStateChng::*;
 use crate::sim_components::sim_unit_base_components::*;
 use crate::common::*;
 use crate::sim_ecs::*;
@@ -33,7 +35,8 @@ pub fn sys_input_dest(sim: &mut SimState) {
                     sim.map.constrain_pos(&mut pos);
 
                     dest_comp.set_dest(pos, sim.current_tick());
-                    let msg = EngineMessage::ObjDest(id, pos);
+                    //let msg = EngineMessage::ObjDest(id, pos);
+                    let msg = StateChange(ObjDest(id, pos));
                     sim.res.send_batch.push(msg);
 
                 }
@@ -72,7 +75,8 @@ pub fn sys_set_next_pos(sim: &mut SimState) {
             let n_next_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
 
             next_pos.set_pos(n_next_pos);
-            let msg = EngineMessage::ObjNextPos(*id.get(), n_next_pos);
+            //let msg = EngineMessage::ObjNextPos(*id.get(), n_next_pos);
+            let msg = StateChange(ObjNextPos(*id.get(), n_next_pos));
             sim.res.send_batch.push(msg)
         }
     }
@@ -127,10 +131,12 @@ pub fn sys_set_pos(sim: &mut SimState) {
             continue 'query_loop;
         }
 
-        let msg: EngineMessage;
+        //let msg: EngineMessage;
+        let msg: SimMsg;
 
         pos.set_pos(*next_pos.get_pos());
-        msg = EngineMessage::ObjMove(*id.get(), *pos.get_pos());
+        //msg = EngineMessage::ObjMove(*id.get(), *pos.get_pos());
+        msg = StateChange(ObjMove(*id.get(), *pos.get_pos()));
 
         sim.res.send_batch.push(msg);
     }
