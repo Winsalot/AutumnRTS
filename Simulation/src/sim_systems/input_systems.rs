@@ -44,7 +44,13 @@ pub fn input_break_check(sim: &mut SimState) -> bool {
     false
 }
 
-pub fn plc_unit(sim: &mut SimState, pos: Pos, speed: FixF, coll_r: FixF){
+pub fn plc_unit(
+    sim: &mut SimState, 
+    owner: PId, 
+    pos: Pos, 
+    speed: FixF, 
+    coll_r: FixF
+    ){
     let mut unit_builder = EntityBuilder::new();
 
     unit_builder.add(TypeNameComp::new("placeholder"));
@@ -53,7 +59,12 @@ pub fn plc_unit(sim: &mut SimState, pos: Pos, speed: FixF, coll_r: FixF){
     unit_builder.add(DestinationComp::new(pos));
     unit_builder.add(SpeedComponent::new(speed));
     unit_builder.add(CollComp::new(coll_r));
-    unit_builder.add(IdComp::new(&mut sim.res.id_counter));
+    unit_builder.add(
+        IdComp::new(
+            &mut sim.res.id_counter, 
+            sim.res.players.get(owner).unwrap()
+            )
+        );
     unit_builder.add(PathComp::new());
     unit_builder.add(ActiveAbilityComp::builder());
 
@@ -67,11 +78,16 @@ pub fn plc_unit(sim: &mut SimState, pos: Pos, speed: FixF, coll_r: FixF){
     sim.res.id_map.insert(sim.res.id_counter - 1, new_entity);
 }
 
-pub fn plc_building(sim: &mut SimState, pos: Pos) {
+pub fn plc_building(sim: &mut SimState, owner: PId, pos: Pos) {
     let mut unit_builder = EntityBuilder::new();
 
     unit_builder.add(TypeNameComp::new("placeholder_building"));
-    unit_builder.add(IdComp::new(&mut sim.res.id_counter));
+        unit_builder.add(
+        IdComp::new(
+            &mut sim.res.id_counter, 
+            sim.res.players.get(owner).unwrap()
+            )
+        );
     unit_builder.add(StructureComp::new(pos));
 
     let new_entity = sim.ecs.spawn(unit_builder.build());
@@ -113,7 +129,7 @@ pub fn input_spawn_unit(sim: &mut SimState) {
                 let coll_rad_tmp = FixF::from_num(0.5);
                 let speed = FixF::from_num(0.5);
 
-                plc_unit(sim, pos, speed, coll_rad_tmp);
+                plc_unit(sim, 0,  pos, speed, coll_rad_tmp);
                 
 
             }
@@ -150,7 +166,7 @@ pub fn input_spawn_structure(sim: &mut SimState) {
                     continue;
                 }
 
-                plc_building(sim, pos);
+                plc_building(sim, 0,  pos);
             }
             _ => {}
         }

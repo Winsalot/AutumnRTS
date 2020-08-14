@@ -15,6 +15,8 @@ pub type UId = u64;
 
 pub type TickNum = u32;
 
+pub type PId = u8; // player Id
+
 pub const N_ABILITY_CAP: u32 = 3;
 
 // Target. Either posiion or entity.
@@ -27,22 +29,22 @@ pub enum ObjTarget {
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum TeamAlliance {
     Neutral,
-    Alliance(u32),
+    Alliance(PId),
     Spectator,
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct PlayerId {
-    id: u32,
+    id: PId,
     team: TeamAlliance,
 }
 
 impl PlayerId {
-    pub fn new(id: u32, team: TeamAlliance) -> Self {
+    pub fn new(id: PId, team: TeamAlliance) -> Self {
         PlayerId { id: id, team: team }
     }
 
-    pub fn get_id(&self) -> u32 {
+    pub fn get_id(&self) -> PId {
         self.id
     }
 
@@ -92,6 +94,7 @@ pub enum SimWarnMsg{
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum SimStateChng {
+	ObjSpawn(UId, PlayerId, Pos, FixF), // obj spawn info
     ObjPosColl(UId, Pos, FixF), 
     ObjMove(UId, Pos),
     ObjNextPos(UId, Pos),

@@ -99,7 +99,7 @@ fn build_simple_structure(sim: &mut SimState, id: UId, target: ObjTarget) {
             if sim.map.map_mem.get_blocked().contains(&pos0.round()) {
                 return;
             }
-            plc_building(sim, pos);
+            plc_building(sim, 0, pos);
         }
     }
 }

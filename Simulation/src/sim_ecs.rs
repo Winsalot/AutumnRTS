@@ -58,7 +58,7 @@ impl SimResources {
 			id_map: HashMap::new(),
 			id_counter: 0,
 			current_tick: 0,
-			players: PlayerList::ffa(n_players),
+			players: PlayerList::ffa(n_players as PId),
             inbox: vec![],
             send_batch: vec![],
             fps_counter: FpsCounter::new(10),

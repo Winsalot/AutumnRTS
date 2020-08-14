@@ -247,7 +247,21 @@ There is lon way to go, but it can be like this:
 	+ Now delet old engine message.
 24. Work towards weapons.
 	- Spawn enemy of another team.
-		- Make sure that SimMsg describes it well.
+		- Make sure that RendMsg describes it well.
+			+ Refactor obj spawn script.
+			+ PlayerList hashmap for easy PlayerId query from PId.
+			+ Add PlayerId to Id comp.
+			- Make sure that Unit spawn send SimMsg w/ PlayerId.
+			- Rustbridge changes to handle that Id
+		- Refactor render messages.
+			- Basically render message should:
+				- Be validatiable. Aka. Contain Senders PId.
+				- Should send Orders.
+					- Group orders!.
+				- Game state orders:
+					- pause/resume
+					- Quit/Break
+					- load? Nah, fuck this. 
 		- Make it different color.
 		- Allow for case of allies and for enemies. (teams)
 	- Make hostile units target each other.

@@ -19,6 +19,23 @@ pub struct IdComp {
     owner: PlayerId,
 }
 
+
+impl IdComp {
+    pub fn new(id_counter: &mut u64, owner: &PlayerId) -> Self {
+        let id = std::mem::replace(id_counter, *id_counter + 1);
+
+        IdComp {
+            id: id,
+            owner: owner.clone(),
+        }
+    }
+
+    pub fn get(&self) -> &u64 {
+        &self.id
+    }
+}
+
+
 /// Location component
 #[derive(Debug, PartialEq, Clone)]
 pub struct PositionComp {
@@ -127,21 +144,6 @@ impl CollComp {
 
     pub fn get_r(&self) -> &FixF {
         &self.r
-    }
-}
-
-impl IdComp {
-    pub fn new(id_counter: &mut u64) -> Self {
-        let id = std::mem::replace(id_counter, *id_counter + 1);
-
-        IdComp {
-            id: id,
-            owner: PlayerId::new(1, TeamAlliance::Alliance(1)),
-        }
-    }
-
-    pub fn get(&self) -> &u64 {
-        &self.id
     }
 }
 

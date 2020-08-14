@@ -1,19 +1,25 @@
+use std::collections::HashMap;
+use crate::common::PId;
 use crate::common::PlayerId;
 use crate::common::TeamAlliance;
 
 
 pub struct PlayerList {
-    player_count: u32,
-    teams_count: u32,
-    players: Vec<PlayerId>,
+    player_count: PId,
+    teams_count: PId,
+    players: HashMap<PId, PlayerId>, // Hashmap because it is easy to query from PId.
 }
 
 impl PlayerList {
-    pub fn ffa(n_players: u32) -> Self {
-        let mut players: Vec<PlayerId> = vec![];
+    pub fn ffa(n_players: PId) -> Self {
+        // let mut players: Vec<PlayerId> = vec![];
+        let mut players: HashMap<PId, PlayerId> =  HashMap::new();
 
         for id in 0..n_players {
-            players.push(PlayerId::new(id, TeamAlliance::Alliance(id)));
+            let player = PlayerId::new(
+                id, 
+                TeamAlliance::Alliance(id));
+            players.insert(id, player);
         }
 
         PlayerList {
@@ -21,5 +27,9 @@ impl PlayerList {
             teams_count: n_players,
             players: players,
         }
+    }
+
+    pub fn get(&self, id: PId) -> Option<&PlayerId>{
+        self.players.get(&id)
     }
 }
