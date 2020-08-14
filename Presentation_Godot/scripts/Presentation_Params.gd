@@ -7,7 +7,9 @@ var scale = Vector2(48.0, 48.0)
 var unit_name_prefix = "unit_id"
 var sim_fps = 0
 var detailed_info = false
-var sim_fps_target = 10
+var sim_fps_target = 10;
+var n_players = 2;
+var player_id = 0;
 
 
 

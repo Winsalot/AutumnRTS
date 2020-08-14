@@ -2,7 +2,7 @@ use crate::common::*;
 use std::collections::VecDeque;
 
 use crate::sim_fix_math::*;
-use crate::sim_player_alliances::*;
+
 
 /// Unit type name
 pub struct TypeNameComp {
@@ -30,8 +30,12 @@ impl IdComp {
         }
     }
 
-    pub fn get(&self) -> &u64 {
+    pub fn get(&self) -> &UId {
         &self.id
+    }
+
+    pub fn get_owner(&self) -> &PlayerId {
+        &self.owner
     }
 }
 

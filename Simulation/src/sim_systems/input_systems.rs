@@ -51,7 +51,7 @@ pub fn plc_unit(
     speed: FixF, 
     coll_r: FixF
     ){
-    
+
     let mut unit_builder = EntityBuilder::new();
     let player = sim.res.players.get(owner);
 
@@ -126,7 +126,7 @@ pub fn input_spawn_unit(sim: &mut SimState) {
 
     for i in 0..spawn_msg.len() {
         match spawn_msg[i] {
-            RenderMessage::Spawn(pos) => {
+            RenderMessage::Spawn(player, pos) => {
                 // Prevent from spawning outside map:
                 if !sim.map.within(pos) {
                     continue;
@@ -140,7 +140,7 @@ pub fn input_spawn_unit(sim: &mut SimState) {
                 let coll_rad_tmp = FixF::from_num(0.5);
                 let speed = FixF::from_num(0.5);
 
-                plc_unit(sim, 0,  pos, speed, coll_rad_tmp);
+                plc_unit(sim, player,  pos, speed, coll_rad_tmp);
                 
 
             }
@@ -149,40 +149,40 @@ pub fn input_spawn_unit(sim: &mut SimState) {
     }
 }
 
-pub fn input_spawn_structure(sim: &mut SimState) {
+// pub fn input_spawn_structure(sim: &mut SimState) {
 
-    let inbox = &mut sim.res.inbox;
+//     let inbox = &mut sim.res.inbox;
 
-    let (spawn_msg, rest): (Vec<RenderMessage>, Vec<RenderMessage>) =
-        inbox.iter().partition(|&msg| match msg {
-            RenderMessage::SpawnStructureTmp(..) => true,
-            _ => false,
-        });
+//     let (spawn_msg, rest): (Vec<RenderMessage>, Vec<RenderMessage>) =
+//         inbox.iter().partition(|&msg| match msg {
+//             RenderMessage::SpawnStructureTmp(..) => true,
+//             _ => false,
+//         });
 
-    *inbox = rest;
+//     *inbox = rest;
 
-    for i in 0..spawn_msg.len() {
-        match spawn_msg[i] {
-            RenderMessage::SpawnStructureTmp(pos) => {
+//     for i in 0..spawn_msg.len() {
+//         match spawn_msg[i] {
+//             RenderMessage::SpawnStructureTmp(pos) => {
 
-                if !sim.map.within(pos) {
-                    continue;
-                }
+//                 if !sim.map.within(pos) {
+//                     continue;
+//                 }
 
-                if sim.map.tile_from_pos(pos).blocks_path() {
-                    continue;
-                }
+//                 if sim.map.tile_from_pos(pos).blocks_path() {
+//                     continue;
+//                 }
 
-                if sim.map.map_mem.get_blocked().contains(&pos.round()) {
-                    continue;
-                }
+//                 if sim.map.map_mem.get_blocked().contains(&pos.round()) {
+//                     continue;
+//                 }
 
-                plc_building(sim, 0,  pos);
-            }
-            _ => {}
-        }
-    }
-}
+//                 plc_building(sim, 0,  pos);
+//             }
+//             _ => {}
+//         }
+//     }
+// }
 
 pub fn clear_inbox(sim: &mut SimState) -> Option<Vec<RenderMessage>> {
     let mut ret: Option<Vec<RenderMessage>> = None;

@@ -18,6 +18,7 @@ var gui;
 var params;
 
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#real_pos = self.get_position(); # wtf? That's not right
@@ -62,9 +63,9 @@ func _process(delta):
 func _draw():
 	# Your draw commands here
 	if !is_selected:
-		draw_circle_custom(coll_radius * pixel_scale.x, true, Color(0.1, 0.1, 0.3, 0.9))
+		draw_circle_custom(coll_radius * pixel_scale.x, true, Color(0.1 + (player * 0.2), 0.1, 0.3, 0.9))
 	else:
-		draw_circle_custom(coll_radius * pixel_scale.x, true, Color(0.1, 0.1, 0.3, 0.9))
+		draw_circle_custom(coll_radius * pixel_scale.x, true, Color(0.1+ (player * 0.2), 0.1, 0.3, 0.9))
 		draw_circle_custom(coll_radius * pixel_scale.x + 5, false, Color(0.960, 0.945, 0.078, 0.95))
 	#print("Draw call executed")
 	if path.size() >= 2:

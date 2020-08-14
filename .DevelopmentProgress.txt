@@ -245,7 +245,7 @@ There is lon way to go, but it can be like this:
 			- Game end.
 		+ Therefore: Use nested enum.
 	+ Now delet old engine message.
-24. Work towards weapons.
+[DONE] 24. Work towards weapons.
 	- Spawn enemy of another team.
 		- Make sure that RendMsg describes it well.
 			+ Refactor obj spawn script.
@@ -253,18 +253,20 @@ There is lon way to go, but it can be like this:
 			+ Add PlayerId to Id comp.
 			+ Make sure that Unit spawn send SimMsg w/ PlayerId.
 			+ Rustbridge changes to handle that Id
-		- Refactor render messages.
-			- Basically render message should:
+		+ Refactor render messages.
+			x Basically render message should:
 				- Be validatiable. Aka. Contain Senders PId.
 				- Should send Orders.
-					- Group orders!.
+					- Group orders! But I think normal order with array inside is good enough.
 				- Game state orders:
 					- pause/resume
 					- Quit/Break
 					- load? Nah, fuck this. 
-		- Make it different color.
-		- Allow for case of allies and for enemies. (teams)
-	- Make hostile units target each other.
+				- Honestly, I don't really need a refactor for this shit. Just include sender's ID in relevant messages.
+					- Just validate messages on rust side. please.
+		+ Make it different color.
+		+ Allow for case of allies and for enemies. (teams)
+25. Unit Targeting.
 
 GENERAL IDEAS:
 	- Separate abilities from weapons. 

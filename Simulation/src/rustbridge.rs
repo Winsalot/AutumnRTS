@@ -105,10 +105,10 @@ impl RustBridge {
     }
 
     #[export]
-    fn send_msg_move(&mut self, _owner: gdnative::Node, id: UId, xy: Vector2) {
+    fn send_msg_move(&mut self, _owner: gdnative::Node, id: UId, player: PId, xy: Vector2) {
         let pos: Pos = Pos::from_num(xy.x, xy.y);
         //let msg = RenderMessage::Destination(IdComp::from(id), pos);
-        let msg = RenderMessage::Destination(id, pos);
+        let msg = RenderMessage::Destination(id, player, pos);
         self.message_batch.push(msg);
     }
 
@@ -138,30 +138,31 @@ impl RustBridge {
     }
 
     #[export]
-    fn tmp_spawn_obj(&mut self, _owner: gdnative::Node, xy: Vector2) {
+    fn tmp_spawn_obj(&mut self, _owner: gdnative::Node, player: PId, xy: Vector2) {
         let pos: Pos = Pos::from_num(xy.x, xy.y);
-        let msg = RenderMessage::Spawn(pos);
+        let msg = RenderMessage::Spawn(player, pos);
         self.message_batch.push(msg);
     }
 
-    #[export]
-    fn tmp_spawn_structure(&mut self, _owner: gdnative::Node, xy: Vector2) {
-        let pos: Pos = Pos::from_num(xy.x, xy.y);
-        let msg = RenderMessage::SpawnStructureTmp(pos);
-        self.message_batch.push(msg);
-    }
+    // #[export]
+    // fn tmp_spawn_structure(&mut self, _owner: gdnative::Node, xy: Vector2) {
+    //     let pos: Pos = Pos::from_num(xy.x, xy.y);
+    //     let msg = RenderMessage::SpawnStructureTmp(pos);
+    //     self.message_batch.push(msg);
+    // }
 
     #[export]
     fn use_ability_pos(
         &mut self,
         _owner: gdnative::Node,
         unit: UId,
+        player: PId,
         ability: u32,
         target: Vector2,
     ) {
         let pos: Pos = Pos::from_num(target.x, target.y);
         let target = ObjTarget::Position(pos);
-        let msg = RenderMessage::UseAbility(unit, ability as u32, target);
+        let msg = RenderMessage::UseAbility(unit, player, ability as u32, target);
 
         self.message_batch.push(msg);
     }

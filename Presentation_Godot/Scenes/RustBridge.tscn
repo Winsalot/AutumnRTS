@@ -62,7 +62,8 @@ RIGHT MOUSE to give move order;
 ESC to deselect all units; 
 Hold Tab for detailed info;
 B to spawn structure with selected unit;;
-Q to quit"
+Q to quit
+T to change team"
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -17,6 +17,8 @@ var params;
 
 
 
+
+
 func _ready():
 	plc_unit = preload("res://Presentation_Godot/Scenes/Placeholder_Unit.tscn")
 	plc_tile = preload("res://Presentation_Godot/Scenes/TileInfo.tscn")
@@ -25,7 +27,7 @@ func _ready():
 	# rustbridge: RustBridge = self.get_parent()	
 	params = self.get_node("/root/PresentationParams")
 	rustbridge = self.get_node("/root/RustBridge")
-	rustbridge.start_loop(1, params.sim_fps_target) 
+	rustbridge.start_loop(params.n_players, params.sim_fps_target) 
 	
 	pass 
 
@@ -53,6 +55,8 @@ func unit_name(id):
 
 func spawn_units():
 	var spawn_info = rustbridge.get_msg_spawn()
+	#if spawn_info.size() > 0:
+	#	print(spawn_info)
 	for unit_spawn in spawn_info:
 		var unit = plc_unit.instance()
 		var xy = Vector2(unit_spawn[3], unit_spawn[4]) #* params.scale

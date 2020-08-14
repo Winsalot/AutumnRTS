@@ -78,12 +78,10 @@ impl PlayerId {
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum RenderMessage {
-    Destination(UId, Pos),
-    Spawn(Pos),
-    SpawnStructureTmp(Pos),
-    //UnitSpawnStructureTmp(UId,Pos),
-    UseAbility(UId, u32, ObjTarget),
-    //None,
+    Destination(UId, PId, Pos),
+    Spawn(PId, Pos),
+    //SpawnStructureTmp(Pos, PId),
+    UseAbility(UId, PId, u32, ObjTarget),
     Break,
 }
 
@@ -100,6 +98,7 @@ pub enum  SimMsg {
 pub enum SimWarnMsg{
     AbilTrgInvalid, // Target invalid
     AbilUnavailable, // on cooldown
+    UnitUnavailable, // Invalid unit. Maybe already dead.
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]

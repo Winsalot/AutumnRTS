@@ -1,3 +1,4 @@
+use crate::sim_systems::validate_order::is_valid;
 use crate::common::SimMsg::*;
 use crate::common::SimStateChng::*;
 use crate::sim_components::sim_unit_base_components::*;
@@ -20,7 +21,7 @@ pub fn sys_input_dest(sim: &mut SimState) {
 
     for i in 0..dest_msg.len() {
         match dest_msg[i] {
-            RenderMessage::Destination(id, mut pos) => {
+            RenderMessage::Destination(id, player_id, mut pos) => {
 
                 let entity = sim.res.id_map.get(&id);
 
@@ -28,6 +29,16 @@ pub fn sys_input_dest(sim: &mut SimState) {
                     // This makes sure that .unwrap() won't panic
                     continue;
                 }
+
+                if !is_valid(sim, player_id, id){
+                    sim.res.send_batch.push(
+                        SimMsg::Warn(
+                            *sim.res.players.get(player_id).unwrap(),
+                            SimWarnMsg::UnitUnavailable)
+                        );
+                    continue;
+                }
+
 
                 let dest_comp = sim.ecs.get_mut::<DestinationComp>(*entity.unwrap());
                 if let Ok(mut dest_comp) = dest_comp {

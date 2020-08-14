@@ -24,14 +24,14 @@ func _unhandled_input(event):
 	if event.is_action_pressed("presentation_spawn_unit"):
 		var xy = rustbridge.get_viewport().get_mouse_position()/params.scale
 		print(xy)
-		rustbridge.tmp_spawn_obj(xy)
+		rustbridge.tmp_spawn_obj(params.player_id, xy)
 	
 	if event.is_action_pressed("presentation_spawn_structure"):
 		var xy = rustbridge.get_viewport().get_mouse_position()/params.scale
 		#print(xy)
 		#rustbridge.tmp_spawn_structure(xy)
 		for unit in selected_units:
-			rustbridge.use_ability_pos(unit.unique_id, 0, xy)
+			rustbridge.use_ability_pos(unit.unique_id,params.player_id, 0, xy)
 	
 	if event.is_action_pressed("tmp_receive_messages"):
 		pass
@@ -49,13 +49,17 @@ func _unhandled_input(event):
 		for unit in selected_units:
 			#print("orer move for ", unit.get_name())
 			var xy = rustbridge.get_viewport().get_mouse_position()/params.scale
-			rustbridge.send_msg_move(unit.unique_id, xy)
+			rustbridge.send_msg_move(unit.unique_id,params.player_id, xy)
 	
 	if event.is_action_pressed("show_more_info"):
 		params.detailed_info = true
 	
 	if event.is_action_released("show_more_info"):
 		params.detailed_info = false
+	
+	if event.is_action_pressed("debug_change_player"):
+		params.player_id = (params.player_id + 1) % params.n_players
+		print("Player ID changed to: " + String(params.player_id))
 
 func select_unit(node: Unit):
 	if !selected_units.has(node):
