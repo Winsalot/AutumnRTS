@@ -55,11 +55,13 @@ func spawn_units():
 	var spawn_info = rustbridge.get_msg_spawn()
 	for unit_spawn in spawn_info:
 		var unit = plc_unit.instance()
-		var xy = Vector2(unit_spawn[1], unit_spawn[2]) #* params.scale
+		var xy = Vector2(unit_spawn[3], unit_spawn[4]) #* params.scale
 		unit.set_real_pos(xy)
 		unit.set_name(unit_name(unit_spawn[0]))
+		unit.player = unit_spawn[1]
+		unit.team = unit_spawn[2]
 		unit.unique_id = unit_spawn[0]
-		unit.coll_radius = unit_spawn[3]
+		unit.coll_radius = unit_spawn[5]
 		self.add_child(unit)
 	pass
 

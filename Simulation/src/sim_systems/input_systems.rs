@@ -1,4 +1,4 @@
-use crate::common::SimStateChng::StructurePosTmp;
+use crate::common::SimStateChng::*;
 use crate::common::SimMsg::StateChange;
 use crate::common::SimStateChng::ObjPosColl;
 use crate::sim_components::active_ability_comp::*;
@@ -51,31 +51,42 @@ pub fn plc_unit(
     speed: FixF, 
     coll_r: FixF
     ){
+    
     let mut unit_builder = EntityBuilder::new();
+    let player = sim.res.players.get(owner);
 
-    unit_builder.add(TypeNameComp::new("placeholder"));
-    unit_builder.add(PositionComp::new(pos));
-    unit_builder.add(NextPosComp::new(pos));
-    unit_builder.add(DestinationComp::new(pos));
-    unit_builder.add(SpeedComponent::new(speed));
-    unit_builder.add(CollComp::new(coll_r));
-    unit_builder.add(
-        IdComp::new(
-            &mut sim.res.id_counter, 
-            sim.res.players.get(owner).unwrap()
-            )
-        );
-    unit_builder.add(PathComp::new());
-    unit_builder.add(ActiveAbilityComp::builder());
-
-    let new_entity = sim.ecs.spawn(unit_builder.build());
-
-
-    // let msg = EngineMessage::ObjPosColl(sim.res.id_counter - 1, pos, coll_r);
-    let msg = StateChange(ObjPosColl(sim.res.id_counter - 1, pos, coll_r));
-    sim.res.send_batch.push(msg);
-
-    sim.res.id_map.insert(sim.res.id_counter - 1, new_entity);
+    if let Some(player) = player {
+        unit_builder.add(TypeNameComp::new("placeholder"));
+        unit_builder.add(PositionComp::new(pos));
+        unit_builder.add(NextPosComp::new(pos));
+        unit_builder.add(DestinationComp::new(pos));
+        unit_builder.add(SpeedComponent::new(speed));
+        unit_builder.add(CollComp::new(coll_r));
+        unit_builder.add(
+            IdComp::new(
+                &mut sim.res.id_counter, 
+                player,
+                )
+            );
+        unit_builder.add(PathComp::new());
+        unit_builder.add(ActiveAbilityComp::builder());
+    
+        let new_entity = sim.ecs.spawn(unit_builder.build());
+    
+    
+        // let msg = EngineMessage::ObjPosColl(sim.res.id_counter - 1, pos, coll_r);
+        // let msg = StateChange(ObjPosColl(sim.res.id_counter - 1, pos, coll_r));
+        let msg = StateChange(
+            ObjSpawn(
+                sim.res.id_counter - 1,
+                *player, 
+                pos, coll_r
+                )
+            );
+        sim.res.send_batch.push(msg);
+    
+        sim.res.id_map.insert(sim.res.id_counter - 1, new_entity);
+    }
 }
 
 pub fn plc_building(sim: &mut SimState, owner: PId, pos: Pos) {

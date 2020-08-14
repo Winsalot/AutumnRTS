@@ -251,8 +251,8 @@ There is lon way to go, but it can be like this:
 			+ Refactor obj spawn script.
 			+ PlayerList hashmap for easy PlayerId query from PId.
 			+ Add PlayerId to Id comp.
-			- Make sure that Unit spawn send SimMsg w/ PlayerId.
-			- Rustbridge changes to handle that Id
+			+ Make sure that Unit spawn send SimMsg w/ PlayerId.
+			+ Rustbridge changes to handle that Id
 		- Refactor render messages.
 			- Basically render message should:
 				- Be validatiable. Aka. Contain Senders PId.

@@ -33,6 +33,16 @@ pub enum TeamAlliance {
     Spectator,
 }
 
+impl TeamAlliance {
+	pub fn to_str(&self) -> String{
+		match self {
+			TeamAlliance::Neutral => String::from("neutral"),
+			TeamAlliance::Alliance(team) => team.to_string(),
+			TeamAlliance::Spectator => String::from("spec"),
+		}
+	}
+}
+
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct PlayerId {
     id: PId,

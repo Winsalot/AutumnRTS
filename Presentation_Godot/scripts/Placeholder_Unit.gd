@@ -11,6 +11,8 @@ export(Vector2) var pixel_scale;
 export(Vector2) var next_pos;
 var path
 var real_path
+export(String) var team
+export(int) var player
 
 var gui;
 var params;

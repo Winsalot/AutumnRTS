@@ -21,25 +21,29 @@ pub fn vector2_to_pos(vec: Vector2) -> Pos {
 }
 
 //pub fn inbox_drain_spawn(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, f32, f32, f32)> {
-pub fn inbox_drain_spawn(inbox: &mut Vec<SimMsg>) -> Vec<(UId, f32, f32, f32)> {
+pub fn inbox_drain_spawn(inbox: &mut Vec<SimMsg>) -> Vec<(UId, PId, String, f32, f32, f32)> {
     // let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
     let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) =
         inbox.clone().iter().partition(|&msg| match msg {
             // EngineMessage::ObjPosColl(..) => true,
-            SimMsg::StateChange(ObjPosColl(..)) => true,
+            // SimMsg::StateChange(ObjPosColl(..)) => true,
+            SimMsg::StateChange(ObjSpawn(..)) => true,
             _ => false,
         });
 
     *inbox = rest;
 
     // turn messages into tuples:
-    let mut ret: Vec<(UId, f32, f32, f32)> = vec![];
+    let mut ret: Vec<(UId, PId, String, f32, f32, f32)> = vec![];
     for i in 0..target.len() {
         // if let EngineMessage::ObjPosColl(id, pos, radius) = target[i] {
-        if let  SimMsg::StateChange(ObjPosColl(id, pos, radius)) = target[i] {
+        // if let  SimMsg::StateChange(ObjPosColl(id, pos, radius)) = target[i] {
+        if let  SimMsg::StateChange(ObjSpawn(id, player, pos, radius)) = target[i] {
             ret.push((
                 //id.get().clone(),
                 id,
+                player.get_id(),
+                player.get_team().to_str(),
                 pos.x.to_num::<f32>(),
                 pos.y.to_num::<f32>(),
                 radius.to_num::<f32>(),
