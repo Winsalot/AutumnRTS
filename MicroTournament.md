@@ -34,7 +34,7 @@ So yeah, something like this.
 
 
  - Simulation features:
-	- Spawn units of different teams.
+	- ✔️ Spawn units of different teams.
 	- Use data files to store maps & unit descriptions.
 	- Functional unit collision.
 	- Implemented weapons.

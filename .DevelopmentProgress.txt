@@ -267,9 +267,28 @@ There is lon way to go, but it can be like this:
 		+ Make it different color.
 		+ Allow for case of allies and for enemies. (teams)
 25. Unit Targeting.
+	+ Basically unit can have target. This target is found semi-automatically.
+		- If unit is combative then target is enemy
+		- If healer then it's ally.
+		- Should have field to indicate target logic?
+		- Should Include auto targeting range
+		+ SHould Indicate wether target is automatic or manually set.
+			- Automatic targets could be auto reselected.
+			- Manual targets persistent while visible.
+	x Now it's a good time to look into spatial partitioning.
+		x But it's also good time to not do it just yet.
+	- Make all the systems and subsystems.
+		+ No order targeting just yet (Too difficult on godot side lmao)
+		- All setters and getters for component.
+		- Subsystem to find and target hostile units and structures.
+			- use grid search lmao.
+		- System that does this every frame.
+		- Make a message.
+	- Visualise in Godot.
+
+
 
 GENERAL IDEAS:
-	- Separate abilities from weapons. 
 	- Fuck unnecerasy refactoring. I should avoid it. Better messy code & game than general good code and no game.
 	- Get some basic features working. Then add graphics & fix Godot side. Then attract contributors. Features to get:
 		- Everything in MicroTournament file.
@@ -284,10 +303,10 @@ SHORT term:
 	+ Units making structures.
 	x Buildings making units.
 	+ Warning message (message variant containing enum warning type. For cases like out of map, out of range, unavailable and so on).
-	- Refactor render messages.
+	x Refactor render messages.
+	+ Start using player & alliance logic. Adapt messaging system for it.
 	- Use quadtrees or something for all spatial logic instead of fucking grid search.
 	- Add collision avoidance. (In collision scenario move to the side or something)
-	- Start using player & alliance logic. Adapt messaging system for it.
 	- (Good idea) Whole map data defined inside godot. Just initialise the game by supplying map layout as one of arguments for SimState.
 	- Start using data files.
 		- For map.

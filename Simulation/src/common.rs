@@ -24,6 +24,7 @@ pub const N_ABILITY_CAP: u32 = 3;
 pub enum ObjTarget {
     Position(Pos),
     _Entity(UId),
+    None,
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
