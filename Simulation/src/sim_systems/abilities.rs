@@ -9,7 +9,12 @@ use crate::sim_systems::input_systems::plc_building;
 use num_traits::identities::Zero;
 //use hecs::*;
 
-pub fn use_ability(sim: &mut SimState, entity: UId, target: ObjTarget, ability: &mut Ability) {
+pub fn use_ability(
+    sim: &mut SimState, 
+    entity: UId, 
+    target: ObjTarget, 
+    ability: &mut Ability
+    ) {
     match ability {
         Ability::BuildSimpleStructure => build_simple_structure(sim, entity, target),
         Ability::GenericAbility {

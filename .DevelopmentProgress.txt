@@ -279,11 +279,12 @@ There is lon way to go, but it can be like this:
 		x But it's also good time to not do it just yet.
 	- Make all the systems and subsystems.
 		+ No order targeting just yet (Too difficult on godot side lmao)
-		- All setters and getters for component.
+		+ All setters and getters for component.
 		- Subsystem to find and target hostile units and structures.
 			- use grid search lmao.
 		- System that does this every frame.
 		- Make a message.
+	- Don't forget to add component to plc_unit.
 	- Visualise in Godot.
 
 
@@ -292,6 +293,11 @@ GENERAL IDEAS:
 	- Fuck unnecerasy refactoring. I should avoid it. Better messy code & game than general good code and no game.
 	- Get some basic features working. Then add graphics & fix Godot side. Then attract contributors. Features to get:
 		- Everything in MicroTournament file.
+	- Current progression:
+		1. Implement automatic targeting.
+		2. Add automatic firing with all stop to fire, cooldown and shit features (also add health).
+		3. Do another big step and move on to 3D and proper renderer implementation.
+		
 	
 
 SHORT term:

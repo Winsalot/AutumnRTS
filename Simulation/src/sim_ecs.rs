@@ -41,7 +41,7 @@ impl SimState {
 }
 
 pub struct SimResources {
-	pub id_map: HashMap<UId, Entity>,
+	pub id_map: HashMap<UId, Entity>, // Dead entities should be removed
     pub id_counter: UId,
     pub players: PlayerList,
     pub current_tick: TickNum,

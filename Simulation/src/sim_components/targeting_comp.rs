@@ -10,6 +10,7 @@ use crate::sim_fix_math::*;
 
 /// Overall I feel like I am going in wrong direction wih this. Should probably make this more specific. Like what if healer unit can heal and attack. Should heal ability rely on different targeting component?
 
+#[derive(Debug, PartialEq, Clone, Copy)]
 enum TargetingType{
 	Order,
 	Automatic
@@ -32,4 +33,37 @@ impl TargetComp {
 			trg_range: range
 		}
 	}
+
+	pub fn set_trg(&mut self, trg: ObjTarget) {
+		self.target = trg;
+	}
+
+	pub fn get_trg(&self) -> &ObjTarget {
+		&self.target
+	}
+
+	// pub fn get_mode(&self) -> &TargetingType {
+	// 	&self.trg_mode
+	// }
+
+	pub fn mode_is_order(&self) -> bool {
+		self.trg_mode == TargetingType::Order
+	}
+
+	pub fn get_range(&self) -> &FixF {
+		&self.trg_range
+	}
+
+	pub fn under_order(&self) -> bool {
+		self.trg_mode == TargetingType::Order
+	}
+
+	pub fn set_automatic(&mut self) {
+		self.trg_mode = TargetingType::Automatic;
+	}
+
+	pub fn set_order(&mut self){
+		self.trg_mode = TargetingType::Order;
+	}
+
 }

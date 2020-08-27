@@ -23,7 +23,7 @@ pub const N_ABILITY_CAP: u32 = 3;
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum ObjTarget {
     Position(Pos),
-    _Entity(UId),
+    Entity(UId),
     None,
 }
 
@@ -111,6 +111,7 @@ pub enum SimStateChng {
     ObjDest(UId, Pos),
     ObjPathTmp(UId, [Pos; 20]), 
     StructurePosTmp(UId, Pos),
+    ObjTargetPos(UId, FixF),
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
