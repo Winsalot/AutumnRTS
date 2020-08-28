@@ -1,3 +1,4 @@
+use crate::sim_systems::targeting::auto_assign_targets;
 use crate::messenger::*;
 use crate::sim_systems::abilities::sys_abilities;
 use crate::sim_systems::input_systems::*;
@@ -44,6 +45,7 @@ pub fn start_loop(n_players: u32, fps: u32) -> (JoinHandle<()>, RendMessenger) {
             sys_collision_pred(&mut sim);
             sys_set_pos(&mut sim);
             sys_set_next_pos(&mut sim);
+            auto_assign_targets(&mut sim);
             clear_inbox(&mut sim);
             send_messages(&mut sim);
             sim.end_tick();

@@ -105,13 +105,14 @@ pub enum SimWarnMsg{
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum SimStateChng {
 	ObjSpawn(UId, PlayerId, Pos, FixF), // obj spawn info
-    ObjPosColl(UId, Pos, FixF), 
+    // ObjPosColl(UId, Pos, FixF), 
     ObjMove(UId, Pos),
     ObjNextPos(UId, Pos),
     ObjDest(UId, Pos),
     ObjPathTmp(UId, [Pos; 20]), 
     StructurePosTmp(UId, Pos),
-    ObjTargetPos(UId, FixF),
+    ObjTargetPos(UId, Pos),
+    ObjTargetNone(UId),
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]

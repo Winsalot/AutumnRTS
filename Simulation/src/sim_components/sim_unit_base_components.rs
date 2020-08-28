@@ -46,6 +46,21 @@ pub struct PositionComp {
     pos: Pos,
 }
 
+impl PositionComp {
+    pub fn new(pos: Pos) -> Self {
+        PositionComp { pos: pos }
+    }
+
+    pub fn set_pos(&mut self, pos: Pos) {
+        self.pos = pos;
+    }
+
+    pub fn get_pos(&self) -> &Pos {
+        &self.pos
+    }
+}
+
+
 /// Next position component
 pub struct NextPosComp {
     pos: Pos,
@@ -78,20 +93,6 @@ impl TypeNameComp {
         TypeNameComp {
             name: String::from(name),
         }
-    }
-}
-
-impl PositionComp {
-    pub fn new(pos: Pos) -> Self {
-        PositionComp { pos: pos }
-    }
-
-    pub fn set_pos(&mut self, pos: Pos) {
-        self.pos = pos;
-    }
-
-    pub fn get_pos(&self) -> &Pos {
-        &self.pos
     }
 }
 

@@ -280,11 +280,14 @@ There is lon way to go, but it can be like this:
 	- Make all the systems and subsystems.
 		+ No order targeting just yet (Too difficult on godot side lmao)
 		+ All setters and getters for component.
-		- Subsystem to find and target hostile units and structures.
-			- use grid search lmao.
-		- System that does this every frame.
-		- Make a message.
-	- Don't forget to add component to plc_unit.
+		+ Subsystem to find and target hostile units and structures.
+			+ use grid search lmao.
+			+ Units and structures have same priority
+		+ Add mutherfucking message into system.
+		+ Test this system.
+		+ System that does this every frame.
+		+ Make a message.
+	+ Don't forget to add component to plc_unit.
 	- Visualise in Godot.
 
 
