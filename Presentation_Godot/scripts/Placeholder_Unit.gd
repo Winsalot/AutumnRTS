@@ -13,6 +13,8 @@ var path
 var real_path
 export(String) var team
 export(int) var player
+var target_pos;
+var has_target;
 
 var gui;
 var params;
@@ -24,6 +26,8 @@ func _ready():
 	#real_pos = self.get_position(); # wtf? That's not right
 	next_pos = real_pos;
 	dest = real_pos;
+	target_pos = real_pos;
+	has_target = false;
 	is_selected = false;
 	gui = get_node("/root/RustBridge/GUI")
 	params = self.get_node("/root/PresentationParams")
@@ -70,6 +74,8 @@ func _draw():
 	#print("Draw call executed")
 	if path.size() >= 2:
 		draw_polyline(path, Color(0.1, 0.1, 0.9, 0.9), 5.0)
+	if has_target:
+		draw_line(Vector2(0,0), (target_pos - real_pos) * pixel_scale, Color(0.1+ (player * 0.2), 0.1, 0.3, 0.4), 5.0)
 	pass
 
 func _on_Area2D_input_event(_viewport, event, _shape_idx):

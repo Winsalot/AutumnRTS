@@ -61,7 +61,7 @@ pub fn auto_assign_targets(sim: &mut SimState){
 			}
 
 			let dist = pos0.get_pos().dist(pos1.get_pos());
-			if dist < min_dist {
+			if dist <= min_dist {
 				min_dist = dist;
 				trg_new = Some(*id1.get());
 				trg_pos = Some(*pos1.get_pos());
@@ -82,14 +82,21 @@ pub fn auto_assign_targets(sim: &mut SimState){
 		let mut trg_comp = sim.ecs.get_mut::<TargetComp>(entity).unwrap();
 		match trg_new {
 			Some(trg_uid) => {
-				if trg_comp.get_trg() != &ObjTarget::Entity(trg_uid) {
-					trg_comp.set_trg(ObjTarget::Entity(trg_uid));
-					let msg = SimMsg::StateChange(
-						SimStateChng::ObjTargetPos(unit,trg_pos.unwrap())
-						);
-					sim.res.send_batch.push(msg);
-				}
-				
+
+				// Commented out bcuase targets position can change. Thus update is sent every frame regardless.
+				// if trg_comp.get_trg() != &ObjTarget::Entity(trg_uid) {
+				// 	trg_comp.set_trg(ObjTarget::Entity(trg_uid));
+				// 	let msg = SimMsg::StateChange(
+				// 		SimStateChng::ObjTargetPos(unit,trg_pos.unwrap())
+				// 		);
+				// }
+
+				trg_comp.set_trg(ObjTarget::Entity(trg_uid));
+				let msg = SimMsg::StateChange(
+					SimStateChng::ObjTargetPos(unit,trg_pos.unwrap())
+					);
+
+				sim.res.send_batch.push(msg);
 
 			},
 			None => {

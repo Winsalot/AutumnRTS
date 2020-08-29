@@ -105,3 +105,28 @@ Very advanced. Highest mobility, swarm units and powerful hard-hitters. Don't ha
 ### Random awesome ideas:
 
 - At the game end the units of winning player start dabbing and flossing.
+
+### Ideas to "steal" from ZeroK
+
+So in last few weeks I grinded quite some Zero-K and even participated in one 1v1 torunament. It was not my first time playing this game, but this time I took a deep dive and besides playing also watched competitive match commentaries and even analysed replays of my own games. I know that a lot of mechanics of ZK are taken from other games, but since I first encountered them in ZK, I will refer to them so.
+
+Things I really liked:
+
+- **Reclaim** mechanics. (Basically dead units can be reclaimed for up to 40% of their resource value). Apart from adding stategic component on the location of battles, this is also a comeback mechanic. Basically a failed push leaves a lot of resources in enemy base which makes their comeback much easier even if the push devastated a lot of their infrastructure. Overall I see this as an amazing** anti-snowball mechanic**. 
+- **Flat tech tree**. Very beginner friendly and I personally don't really like complicated tech trees (I always forget some important building). I could see one faction in my game having a flat tech tree like that.
+- **Deep tech tree.** Probably a wrong way to call this, but idea is that there are units that cost 25 metal and there are unis that cost 30k metal. While I personally don't really enjoy playing with and against mega units and structures, I am convinced that it is a **must-have** feature for casual team play. *A task for game design/balance would be to discourage the use of megaunits in 1v1 competitive, while making it a viable option in large team games.*
+- **Massive team games (6-16 players per team)**.  This is very popular. Seems like another must-have to keep game community alive and satisfied. However, mid-late game in these matches get so laggy it becomes unbearable for me.
+- **Clear unit role distinctions.** Probbaly necessary given the number of units in ZK. But makes the game very noob-friendly. Eg. if I see a unit for a first time I just hover over it to see that it's Riot (slow, short range, high dps) and I will know what to expect from it even if I have never seen this unit in a game before. However, I am not a fan of how these roles *hard-counter* each other in rock paper scissors manner: `Raid < Riot < Skirmsher < Raid`. 
+
+Things I didn't like:
+
+- **Most (99%) of units don't have stop-to-shoot.** This results in abundance of units that hard-counter each other. Basically if one unit has *speed and range* advantage over another then it becomes a **hard**-counter (because it can kite endlessly). Given the fact that ZK has over 100 units, this happens pretty often. And somewhere in all of these rants I have already mentioned that hard-counters suck.
+- **Static defences are very strong**. I have counted that there exists 22 defence structures. Some of them can barely protect you from more than 3 raider units, others are a powerful offensive tools. Overall from games I played I get impression that it is very hard to push into fortified opponent. Upside is that this way players divide the map and for the whole duration there is some artillery action on the front lines. However, pushing into these fortifications is really hard and as a result I find that my 1v1 matches often take a really long time. (though this problem usually doesn't happen to pro players. However, is is generally true in any competitive game that high skill matches take shorter time than noob matches). I would much rather prefer the SC formula of 1-2 static defences per faction.
+- **Unit AI**. In ZK you can enable unit AI which will make unit keep the optimal distance to his opponents (eg. rushing in if raider, keeping safe distance if artillery) as well as moving in zig-zags to avoid projectiles. This is hard to explain, but very often I found that I was greatly annoyed by this feature while still feeling that I would be putting myself in disadvantage if I didn't use it. Overall it has a heavy synergy with *no-stop-to-shoot *comabt mechanics, so if my game has *stop-to-shoot*, unit AI would be much less relevant.
+- **Sea units & maps**. I like robots and I don't like boats.
+
+Things I have a mixed feelings about:
+
+- **3D simulation (terrain, movement, projectiles)**. I believe this has taken an impressive amout of effort from zk and SpringRTS devs. And it is definetely entertaining to take these things into consideration during a match. However, this can also be annoying (eg. when your phantom one-shots your another phantom because  it moves in front of it's slow projectile, or when hard to notice hill makes you lose a raider fight). Overall I believe that this is a great feature that makes SpringRTS games unique, while also believing that it is not necessary for a good game. 
+- **Terraforming.** Very fun, not very effective. Gets quite a limited use in competitive matches, mostly used to lift the grounds for defence structures or siege units (crabs) or lower the ground to protect economy structures. Once again, cool feature, but not necessary. Also incompatible with 2D simulation in AutumnRTS.
+- **Economy format.** Basically as long as you don't lose infrastructure your economy just grows. Metal resources never get depleted, and energy is created from "nothing". I have nothing against this in ZK context, but in my own game I would prefer to see resources get depleted from use.

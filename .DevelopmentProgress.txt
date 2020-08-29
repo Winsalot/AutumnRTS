@@ -266,7 +266,7 @@ There is lon way to go, but it can be like this:
 					- Just validate messages on rust side. please.
 		+ Make it different color.
 		+ Allow for case of allies and for enemies. (teams)
-25. Unit Targeting.
+[DONE]25. Unit Targeting.
 	+ Basically unit can have target. This target is found semi-automatically.
 		- If unit is combative then target is enemy
 		- If healer then it's ally.
@@ -288,7 +288,21 @@ There is lon way to go, but it can be like this:
 		+ System that does this every frame.
 		+ Make a message.
 	+ Don't forget to add component to plc_unit.
-	- Visualise in Godot.
+	+ Visualise in Godot. [Finally done].
+26. Combat.
+	- I guess it goes like this:
+		- Health component. With:
+			- Armor [can be done later).
+			- Regeneration.
+			- Death condition.
+		- Weapon component. It should implement:
+			- Stop to fire (basically integration with movement component (or a common cooldown component)).
+			- range.
+			- Damage.
+	- Think about rendering:
+		- Hitscan lasers are basic and easiest.
+		- But I would also like to have projectiles (100% accuracy, but delay between fire and damage).
+		- Think about how should this be communicated to messenger.
 
 
 
@@ -297,7 +311,7 @@ GENERAL IDEAS:
 	- Get some basic features working. Then add graphics & fix Godot side. Then attract contributors. Features to get:
 		- Everything in MicroTournament file.
 	- Current progression:
-		1. Implement automatic targeting.
+		+1. Implement automatic targeting.
 		2. Add automatic firing with all stop to fire, cooldown and shit features (also add health).
 		3. Do another big step and move on to 3D and proper renderer implementation.
 		
@@ -314,6 +328,9 @@ SHORT term:
 	+ Warning message (message variant containing enum warning type. For cases like out of map, out of range, unavailable and so on).
 	x Refactor render messages.
 	+ Start using player & alliance logic. Adapt messaging system for it.
+	x Select/deselect, drag (group) unit select. [Lets worry about this when I start migrating to 3d)
+	+ Targeting system (automatic).
+	- Weapon firing system & health.
 	- Use quadtrees or something for all spatial logic instead of fucking grid search.
 	- Add collision avoidance. (In collision scenario move to the side or something)
 	- (Good idea) Whole map data defined inside godot. Just initialise the game by supplying map layout as one of arguments for SimState.
@@ -321,8 +338,7 @@ SHORT term:
 		- For map.
 		- For unit builder.
 	- Godot working camera.
-	- Select/deselect, drag (group) unit select.
-	- Move to isometric 3D on godot side.
+	- Move to 3D on godot side.
 
 
 LONG term:
@@ -341,11 +357,11 @@ LONG term:
 
 
 REFACTOR to do SOMEDAY:
-	- sim_fix_math::Pos into external vector crate. Something like vek or nalgebra
+	x sim_fix_math::Pos into external vector crate. Something like vek or nalgebra [I could do it, but nah for now].
 	- Refactor colisions and positions and shit to be in r*-tree storage. https://docs.rs/rstar/0.8.2/rstar/
 	- Write my own pathfinding A* or something worse.
 	- Refactor whole collisions. So that there is less hiccup and if units get stacked on each other they will eventually separate.
-	- Id component to hold unique id AND entity id.
+	x Id component to hold unique id AND entity id. [Done differently as a simstate variable .res.id_map]
 	X [NOPE] Hecs -> Legion refactor? Risky, and unnecesarry?
 
 	

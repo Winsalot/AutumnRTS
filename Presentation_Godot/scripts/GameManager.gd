@@ -44,6 +44,7 @@ func _process(delta):
 	get_engine_fps()
 	set_unit_dest()
 	set_unit_path()
+	set_unit_target()
 	
 	rustbridge.clear_inbox()
 	rustbridge.deliver_input() # Should be last action in presentation tick
@@ -127,3 +128,13 @@ func set_unit_path():
 	for unit_path in path_info:
 		var unit = self.get_node(unit_name(unit_path[0]))
 		unit.set_path(unit_path[1])
+
+func set_unit_target():
+	var target_info = rustbridge.get_msg_target()
+	for unit_trg in target_info:
+		var unit = self.get_node(unit_name(unit_trg[0]))
+		if unit_trg[1] == Vector2(-1.0, -1.0):
+			unit.has_target = false
+		else:
+			unit.has_target = true
+			unit.target_pos = unit_trg[1]

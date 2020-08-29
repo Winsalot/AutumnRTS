@@ -249,3 +249,36 @@ pub fn inbox_drain_pathfinding_tmp(inbox: &mut Vec<SimMsg>) -> Vec<(UId, Vec<Vec
 
     return ret;
 }
+
+pub fn inbox_drain_targeting(inbox: &mut Vec<SimMsg>) -> Vec<(UId, Vector2)> {
+	// No target will return vector of (-1, -1). Since map coords are >=0 this is ok.
+    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) =
+        inbox.clone().iter().partition(|&msg| match msg {
+            SimMsg::StateChange(ObjTargetNone(..)) => true,
+            SimMsg::StateChange(ObjTargetPos(..)) => true,
+            _ => false,
+        });
+
+    *inbox = rest;
+
+    let mut ret: Vec<(UId, Vector2)> = vec![];
+
+    for i in 0..target.len() {
+    	match target[i]{
+    		SimMsg::StateChange(ObjTargetNone(id)) => {
+    			ret.push((
+	                id,
+	                Vector2::new(-1.0,-1.0),
+	            ));
+    		},
+    		SimMsg::StateChange(ObjTargetPos(id, position)) => {
+    			ret.push((
+	                id,
+	                pos_to_vector2(position),
+	            ));
+    		},
+    		_ => {},
+    	}
+    }
+    return ret;
+}

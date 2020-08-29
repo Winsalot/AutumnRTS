@@ -70,7 +70,7 @@ pub fn plc_unit(
                 )
             );
         unit_builder.add(PathComp::new());
-        unit_builder.add(TargetComp::new(FixF::from_num(100)));
+        unit_builder.add(TargetComp::new(FixF::from_num(3)));
         unit_builder.add(ActiveAbilityComp::builder());
     
         let new_entity = sim.ecs.spawn(unit_builder.build());
