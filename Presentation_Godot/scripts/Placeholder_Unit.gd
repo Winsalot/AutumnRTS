@@ -74,7 +74,7 @@ func _draw():
 	#print("Draw call executed")
 	if path.size() >= 2:
 		draw_polyline(path, Color(0.1, 0.1, 0.9, 0.9), 5.0)
-	if has_target:
+	if has_target && (player == params.player_id):
 		draw_line(Vector2(0,0), (target_pos - real_pos) * pixel_scale, Color(0.1+ (player * 0.2), 0.1, 0.3, 0.4), 5.0)
 	pass
 

@@ -1,5 +1,5 @@
 use crate::sim_fix_math::Pos;
-use hecs::Entity;
+
 use crate::sim_components::sim_unit_base_components::IdComp;
 use crate::sim_components::sim_unit_base_components::PositionComp;
 use crate::sim_components::targeting_comp::*;

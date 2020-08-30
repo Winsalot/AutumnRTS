@@ -73,6 +73,8 @@ Very advanced. Highest mobility, swarm units and powerful hard-hitters. Don't ha
 	- Figure out a way to attract AI students to build smart bots for this game (probably won't happen in early developement).
 	- Single player campaign, with missions where player controls or has access to a limited number of units.
 	- Epic multiplayer team vs team battles with big armies and lots of units (imagine ZeroK 7v7 games that last for ~1 hour or more)
+	- Balance and framerate decoupling. This would allow game to be played at variable simulation framerate while still preserving game feel.
+	- Even more daring: variable framerate during runtime. Eg. in situations where too many units get spawned framerate could be automatically reduced to account for more CPU work.
 
 ### Cool building/structure ideas
 

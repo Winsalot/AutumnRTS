@@ -291,14 +291,15 @@ There is lon way to go, but it can be like this:
 	+ Visualise in Godot. [Finally done].
 26. Combat.
 	- I guess it goes like this:
-		- Health component. With:
-			- Armor [can be done later).
-			- Regeneration.
-			- Death condition.
+		+ Health component. With:
+			+ Armor [can be done later).
+			+ Regeneration.
+			+ Death condition.
 		- Weapon component. It should implement:
-			- Stop to fire (basically integration with movement component (or a common cooldown component)).
+			+ Stop to fire (basically integration with movement component (or a common cooldown component)).
 			- range.
 			- Damage.
+			- Also. Firing in framerate should be like acquire_target -> Move -> within_range -> stop_move -> Aim_weapon (multiple ticks no action) -> Fire_weapon -> recover from recoil (multiple ticks no action) -> Move or aim (and then fire) again.
 	- Think about rendering:
 		- Hitscan lasers are basic and easiest.
 		- But I would also like to have projectiles (100% accuracy, but delay between fire and damage).
