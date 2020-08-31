@@ -5,6 +5,7 @@ use crate::sim_components::active_ability_comp::*;
 use crate::sim_components::sim_unit_base_components::*;
 use crate::sim_components::structure_comp::*;
 use crate::sim_components::targeting_comp::*;
+use crate::sim_components::unitstate_comp::*;
 use crate::sim_fix_math::Pos;
 use hecs::*;
 
@@ -72,6 +73,7 @@ pub fn plc_unit(
         unit_builder.add(PathComp::new());
         unit_builder.add(TargetComp::new(FixF::from_num(3)));
         unit_builder.add(ActiveAbilityComp::builder());
+        unit_builder.add(UnitStateComp::new());
     
         let new_entity = sim.ecs.spawn(unit_builder.build());
     

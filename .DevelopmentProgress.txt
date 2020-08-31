@@ -289,21 +289,28 @@ There is lon way to go, but it can be like this:
 		+ Make a message.
 	+ Don't forget to add component to plc_unit.
 	+ Visualise in Godot. [Finally done].
-26. Combat.
-	- I guess it goes like this:
-		+ Health component. With:
-			+ Armor [can be done later).
-			+ Regeneration.
-			+ Death condition.
-		- Weapon component. It should implement:
-			+ Stop to fire (basically integration with movement component (or a common cooldown component)).
-			- range.
-			- Damage.
-			- Also. Firing in framerate should be like acquire_target -> Move -> within_range -> stop_move -> Aim_weapon (multiple ticks no action) -> Fire_weapon -> recover from recoil (multiple ticks no action) -> Move or aim (and then fire) again.
-	- Think about rendering:
-		- Hitscan lasers are basic and easiest.
-		- But I would also like to have projectiles (100% accuracy, but delay between fire and damage).
-		- Think about how should this be communicated to messenger.
+26. UnitAI&State component.
+	+ key component in unit behaviour.
+		- Does 2 things:
+			- Holds a schedule of orders from player.
+			- Holds a state of entity.
+		- Unit AI system would then take player orders and:
+			- Adjust state to execute orders.
+			- Check the surrpoundings (enemies in proximity and shit).
+			- Manage player orders.
+		- All other systems (movement, firing) would:
+			- CHeck Unit State to make sure they are allowed to perform their actions.
+	+ Unit State Component variables:
+		x Next Action cooldown. Frames to skip with no action. (Could be value inside enum)
+			- Just another state.
+		+ Current state (basically enum of actions that character could perform that frame (like  move, cast ability, fire).
+			x [NOPE] Could be array of states to generalise for multiple actions per frame.
+		+ Order schedule.
+			- Probably an array of player orders. Just simple array. DOnt overthink.
+	- Now I see a refactor in my near future. Write UNIT AI system and start using UnitState in there AND in other systems.
+
+	
+		
 
 
 
@@ -365,5 +372,33 @@ REFACTOR to do SOMEDAY:
 	x Id component to hold unique id AND entity id. [Done differently as a simstate variable .res.id_map]
 	X [NOPE] Hecs -> Legion refactor? Risky, and unnecesarry?
 
+Unit AI, movement and weapon fire mechanics:
+- Fuck this. Probably need to first have a whole picture of how I want my units to behave.
+- 3 Main components:
+	- Weapons:
+		- Can contain multiple weapons.
+		- Each weapon: 
+			- Charges/Aims before firing (from 0 ticks)
+			- All the stats like range, damage, effects and shit.
+			- Root Time: Basically how long after firing unit cant start moving.
+			- Cooldown/reload time. (after firing, how long until it can be aimed/charged again)
+	- UnitState:
+		- Basically a state machine. Values like:
+		- Current state:
+			- Moving.
+			- Firing.
+	- UnitAI:
+		- Do I even need this?
+		- Maybe whole behaviour can be encompassed in some separate systems?
+			- But what about conflicts?
+How about this:
+- Unit AI:
+	- Receives and stores player orders.
+	- Thinks takes into account unit's surroundings and circumstances.
+	- Sets the UnitState.
+- UnitState:
+	- Gets set By Unit AI.
+- All other behaviour systems (movement, firing, pathfinding, casting spells).
+	- Takes into account UnitState.
 	
 	

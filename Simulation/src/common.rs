@@ -19,6 +19,8 @@ pub type PId = u8; // player Id
 
 pub const N_ABILITY_CAP: u32 = 3;
 
+pub const ORDER_SCHEDULE_MAX: usize = 30;
+
 // Target. Either posiion or entity.
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum ObjTarget {
@@ -121,3 +123,4 @@ pub enum SimStateInfo {
     GameTick(TickNum),
     MapTile(Pos, MapTile),
 }
+

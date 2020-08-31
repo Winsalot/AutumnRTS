@@ -41,7 +41,7 @@ Races/factions:
 
 **Archaic humans:**
 
-Using shitty 100 times broken and 100 times fixed machinery. They have strong units with friendly fire. 
+Using shitty 100 times broken and 100 times fixed machinery. They have strong units **with** friendly fire. 
 	
 **Transhumanists:**
 
@@ -49,7 +49,7 @@ More advanced than humans. Have variuous fancy enhancements on themselves. Small
 	
 **Deteriorating AI:**
 
-Very advanced. Highest mobility, swarm units and powerful hard-hitters. Don't have traditional army production buildings, but can spawn units anywhere withing the range of their controll.
+Very advanced. Highest mobility, swarm units and powerful hard-hitters. Don't have traditional army production buildings, but can spawn units anywhere withing the range of their controll. 
 
 
 ### Map features:
@@ -75,6 +75,8 @@ Very advanced. Highest mobility, swarm units and powerful hard-hitters. Don't ha
 	- Epic multiplayer team vs team battles with big armies and lots of units (imagine ZeroK 7v7 games that last for ~1 hour or more)
 	- Balance and framerate decoupling. This would allow game to be played at variable simulation framerate while still preserving game feel.
 	- Even more daring: variable framerate during runtime. Eg. in situations where too many units get spawned framerate could be automatically reduced to account for more CPU work.
+	- **Turn rates**. Having non-instant turn rates is a natural counter to kiting tactics.
+	- Defensive structures should not scale into late game. Turtling is not cool strategy overall, and even though static defences should be viable option for cheeses/cheese defences, it should lose effectivness into late game. It could be done by giving units dmg/def upgrades while making no upgrades available for structures.
 
 ### Cool building/structure ideas
 
@@ -102,7 +104,10 @@ Very advanced. Highest mobility, swarm units and powerful hard-hitters. Don't ha
 - Ling equivalent unit. Fast and numerous. 
 - Temp unit spawning units. Like those turtles from SC2.
 - Production buildings that irreversibly transform into powerful but expiring units.
-- XXI century era tanks. Because ancient technology.
+- XXI century era tanks for archaic humans. Because ancient technology.
+- Give AI faction ability to quickly spawn large number of units within their area of control. This would encourage resource hoarding which is very unique (all other RTS'es discourage having lots of floating resources).
+- Give AI faction a (mostly) flat tech tree. Because why not?
+- Units that can rapidly build neutral structures (Gives no vision and attracts no aggro).
 
 ### Random awesome ideas:
 
