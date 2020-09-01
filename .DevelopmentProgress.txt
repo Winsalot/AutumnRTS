@@ -320,15 +320,10 @@ There is lon way to go, but it can be like this:
 					+ Takes new type of Render Message that is meant to give single order for unti groups.
 					+ Done for both move orders and abilities.
 			+ UnitStateComp now has order. [Yeah it does :)]
-			- Unit AI system takes that order and:
-				- Remembers the tick at which it was given (to avoid unnecessary recalculations every frame).
-				- Sets state to Moving.	
-					- That should Initiate pathfinding system.
-			- Pathfinding system:
-				- Runs pathfinding (should only run once though).
-			- Movement systems check wether the state is Moving and update the positions.
-				- Use getter for this check.
-				- Inside getter could contain a cooldown movement to avoid unit movement on every single frame.
+			+ Unit AI system takes that order and:
+				+ Checks if order has already been filled.
+				+ Converts current order into state.
+			- Add smart movement system (bruh).
 
 	
 		

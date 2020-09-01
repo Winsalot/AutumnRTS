@@ -160,6 +160,7 @@ pub fn input_spawn_unit(sim: &mut SimState) {
 
 // Takes inputs and turns them into UnitOrders.
 // This system will grow and use multiple subsystems in the future.
+// TODO: Add order validation in this part
 pub fn sys_input_to_order(sim: &mut SimState){
 
     let inbox = &mut sim.res.inbox;
@@ -200,13 +201,32 @@ fn set_moveto_order(
     ){
     for id in unit_ids.iter() {
         if let Some(id) = id {
-            if is_valid(sim, player_id, id){
-                if let Some(entity) = sim.res.id_map.get(&id){
-                    if let Ok(mut state) = sim.ecs.get_mut::<UnitStateComp>(*entity) {
-                        state.set_single_order(UnitOrder::MoveTo(*moveto_pos));
-                    }                        
-                }
+
+            if !is_valid(sim, player_id, id){
+                sim.res.send_batch.push(
+                    SimMsg::Warn(
+                        *sim.res.players.get(*player_id).unwrap(),
+                        SimWarnMsg::UnitUnavailable)
+                    );
+                return;
             }
+
+            if let Some(entity) = sim.res.id_map.get(&id){
+                if let Ok(mut state) = sim.ecs.get_mut::<UnitStateComp>(*entity) {
+
+                    // Order should be validated here:
+                    let mut moveto_pos_valid = moveto_pos.clone();
+
+                    sim.map.constrain_pos(&mut moveto_pos_valid);
+
+
+                    state.set_single_order(UnitOrder::MoveTo(moveto_pos_valid));
+
+                    // // Probably need different message:
+                    // let msg = StateChange(ObjDest(id, pos));
+                    // sim.res.send_batch.push(msg);
+                }                        
+            }    
         }
     }
 }
@@ -224,6 +244,7 @@ fn set_ability_order(
             if is_valid(sim, player_id, id){
                 if let Some(entity) = sim.res.id_map.get(&id){
                     if let Ok(mut state) = sim.ecs.get_mut::<UnitStateComp>(*entity) {
+
                         state.set_single_order(UnitOrder::Ability(*abil_id, *abil_trg));
                     }
                 }

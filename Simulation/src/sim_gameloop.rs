@@ -1,3 +1,4 @@
+use crate::sim_systems::unit_behaviour_ai::sys_unit_behaviour_ai;
 use crate::sim_systems::targeting::auto_assign_targets;
 use crate::messenger::*;
 use crate::sim_systems::abilities::sys_abilities;
@@ -38,6 +39,8 @@ pub fn start_loop(n_players: u32, fps: u32) -> (JoinHandle<()>, RendMessenger) {
             }
 
             sys_input_to_order(&mut sim);
+            sys_unit_behaviour_ai(&mut sim);
+            
             input_spawn_unit(&mut sim);
             //input_spawn_structure(&mut sim);
             sys_input_dest(&mut sim);

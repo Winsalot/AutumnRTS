@@ -117,8 +117,8 @@ pub enum  SimMsg {
 /// Simulation warning messages variants
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum SimWarnMsg{
-    AbilTrgInvalid, // Target invalid
-    AbilUnavailable, // on cooldown
+    _AbilTrgInvalid, // Target invalid
+    _AbilUnavailable, // on cooldown
     UnitUnavailable, // Invalid unit. Maybe already dead.
 }
 
@@ -140,5 +140,11 @@ pub enum SimStateInfo {
     Fps(u64, u64),
     GameTick(TickNum),
     MapTile(Pos, MapTile),
+}
+
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub enum UnitState{
+    Idle,
+    Move,
 }
 

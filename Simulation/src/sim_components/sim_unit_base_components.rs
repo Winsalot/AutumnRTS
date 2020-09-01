@@ -30,7 +30,15 @@ impl IdComp {
         }
     }
 
+#[deprecated(
+    since = "yesterday",
+    note = "Please use the get_id() function instead"
+)]
     pub fn get(&self) -> &UId {
+        &self.id
+    }
+
+    pub fn get_id(&self) -> &UId {
         &self.id
     }
 
