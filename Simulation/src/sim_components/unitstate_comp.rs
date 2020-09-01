@@ -7,12 +7,6 @@ pub enum UnitState{
 	Idle,
 }
 
-/// Decoupled from RenderMessage because in the future Renderer will send orders for group of units.
-/// But UnitOrder is always specific for a single unit.
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub enum UnitOrder {
-    None,
-}
 
 pub struct UnitStateComp {
 	// I really have doubt about this. What happens when I implement group orders?
@@ -26,5 +20,12 @@ impl UnitStateComp {
 			order_queue: [UnitOrder::None; ORDER_SCHEDULE_MAX],
 			curr_state: UnitState::Idle,
 		}
+	}
+
+	pub fn set_single_order(&mut self, order: UnitOrder){
+		// Erase old orders:
+		self.order_queue = [UnitOrder::None; ORDER_SCHEDULE_MAX];
+		// Set new single order:
+		self.order_queue[0] = order;
 	}
 }

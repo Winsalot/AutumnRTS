@@ -30,7 +30,7 @@ pub fn sys_input_dest(sim: &mut SimState) {
                     continue;
                 }
 
-                if !is_valid(sim, player_id, id){
+                if !is_valid(sim, &player_id, &id){
                     sim.res.send_batch.push(
                         SimMsg::Warn(
                             *sim.res.players.get(player_id).unwrap(),

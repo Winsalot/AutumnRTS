@@ -51,7 +51,7 @@ pub fn sys_abilities(sim: &mut SimState) {
                 }
                 let entity = sim.res.id_map.get(&id);
 
-                if entity.is_none() | !is_valid(sim, player_id, id){
+                if entity.is_none() | !is_valid(sim, &player_id, &id){
                     // This makes sure that .unwrap() won't panic
                     continue;
                 }

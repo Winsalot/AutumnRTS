@@ -1,3 +1,4 @@
+use crate::sim_systems::validate_order::is_valid;
 use crate::common::SimStateChng::*;
 use crate::common::SimMsg::StateChange;
 
@@ -34,7 +35,11 @@ pub fn input_break_check(sim: &mut SimState) -> bool {
 
     let do_break = inbox
         .iter()
-        .filter(|x| **x == RenderMessage::Break)
+        // .filter(|x| **x == RenderMessage::Break)
+        .filter(|x| match **x {
+            RenderMessage::Break => true,
+            _ => false,
+        } )
         .next()
         .is_some();
 
@@ -121,7 +126,7 @@ pub fn input_spawn_unit(sim: &mut SimState) {
     let inbox = &mut sim.res.inbox;
 
     let (spawn_msg, rest): (Vec<RenderMessage>, Vec<RenderMessage>) =
-        inbox.clone().iter().partition(|&msg| match msg {
+        inbox.iter().partition(|&msg| match msg {
             RenderMessage::Spawn(..) => true,
             _ => false,
         });
@@ -149,6 +154,80 @@ pub fn input_spawn_unit(sim: &mut SimState) {
 
             }
             _ => {}
+        }
+    }
+}
+
+// Takes inputs and turns them into UnitOrders.
+// This system will grow and use multiple subsystems in the future.
+pub fn sys_input_to_order(sim: &mut SimState){
+
+    let inbox = &mut sim.res.inbox;
+
+        let (input_orders, rest): (Vec<RenderMessage>, Vec<RenderMessage>) =
+        inbox.iter().partition(|&msg|
+            // This should use all messages that are orders to units.
+            match msg {
+                RenderMessage::InputOrder(..) => true,
+                _ => false,
+            }
+        );
+
+    *inbox = rest;
+
+    for i in 0..input_orders.len() {
+        match input_orders[i]{
+            RenderMessage::InputOrder(player_id, unit_ids, UnitOrder::MoveTo(moveto_pos)) => {
+                set_moveto_order(sim, &player_id, unit_ids, &moveto_pos);
+            },
+            RenderMessage::InputOrder(player_id, unit_ids,
+                UnitOrder::Ability(abil_id, abil_target)
+                ) => {
+                set_ability_order(sim, &player_id, unit_ids, &abil_id, &abil_target);
+            },
+            _ => {},
+        }
+    }
+}
+
+
+// right now only set evey unit's State to that same pos
+fn set_moveto_order(
+    sim: &mut SimState, 
+    player_id: &PId,
+    unit_ids: [Option<UId>; UNIT_GROUP_CAP], 
+    moveto_pos: &Pos
+    ){
+    for id in unit_ids.iter() {
+        if let Some(id) = id {
+            if is_valid(sim, player_id, id){
+                if let Some(entity) = sim.res.id_map.get(&id){
+                    if let Ok(mut state) = sim.ecs.get_mut::<UnitStateComp>(*entity) {
+                        state.set_single_order(UnitOrder::MoveTo(*moveto_pos));
+                    }                        
+                }
+            }
+        }
+    }
+}
+
+// TODO: for groups of units only the closest unit to the target should use the ability.
+fn set_ability_order(
+    sim: &mut SimState, 
+    player_id: &PId,
+    unit_ids: [Option<UId>; UNIT_GROUP_CAP], 
+    abil_id: &AbilityID,
+    abil_trg: &ObjTarget,
+    ){
+    for id in unit_ids.iter() {
+        if let Some(id) = id {
+            if is_valid(sim, player_id, id){
+                if let Some(entity) = sim.res.id_map.get(&id){
+                    if let Ok(mut state) = sim.ecs.get_mut::<UnitStateComp>(*entity) {
+                        state.set_single_order(UnitOrder::Ability(*abil_id, *abil_trg));
+                    }
+                }
+            }
         }
     }
 }

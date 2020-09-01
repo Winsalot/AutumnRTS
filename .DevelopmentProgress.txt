@@ -306,8 +306,29 @@ There is lon way to go, but it can be like this:
 		+ Current state (basically enum of actions that character could perform that frame (like  move, cast ability, fire).
 			x [NOPE] Could be array of states to generalise for multiple actions per frame.
 		+ Order schedule.
-			- Probably an array of player orders. Just simple array. DOnt overthink.
+			+ Probably an array of player orders. Just simple array. DOnt overthink.
 	- Now I see a refactor in my near future. Write UNIT AI system and start using UnitState in there AND in other systems.
+		- Start with SmartMovement_System :)
+			+ Have BehaviourAI component (empty). [Called UnitAIComp]
+			+ RenderMessage translated into UnitOrder and passed into UnitStateComp.
+				+ Separate system of RenderMessage -> UnitOrder -> UnitState Update.
+					~ [Someday, and only for InputOrders]COuld be used for all of input. 
+					- ^ actually seems like a good idea.
+					x But maybe separate Unit State from Order Queue? 
+						- Just to make sure that UnitState doesn't get changed while OrderQueue is updated.				
+						- Nah.
+					+ Takes new type of Render Message that is meant to give single order for unti groups.
+					+ Done for both move orders and abilities.
+			+ UnitStateComp now has order. [Yeah it does :)]
+			- Unit AI system takes that order and:
+				- Remembers the tick at which it was given (to avoid unnecessary recalculations every frame).
+				- Sets state to Moving.	
+					- That should Initiate pathfinding system.
+			- Pathfinding system:
+				- Runs pathfinding (should only run once though).
+			- Movement systems check wether the state is Moving and update the positions.
+				- Use getter for this check.
+				- Inside getter could contain a cooldown movement to avoid unit movement on every single frame.
 
 	
 		

@@ -37,6 +37,7 @@ pub fn start_loop(n_players: u32, fps: u32) -> (JoinHandle<()>, RendMessenger) {
                 break 'running;
             }
 
+            sys_input_to_order(&mut sim);
             input_spawn_unit(&mut sim);
             //input_spawn_structure(&mut sim);
             sys_input_dest(&mut sim);

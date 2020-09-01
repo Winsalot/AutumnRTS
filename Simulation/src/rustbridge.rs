@@ -167,7 +167,7 @@ impl RustBridge {
     ) {
         let pos: Pos = Pos::from_num(target.x, target.y);
         let target = ObjTarget::Position(pos);
-        let msg = RenderMessage::UseAbility(unit, player, ability as u32, target);
+        let msg = RenderMessage::UseAbility(unit, player, ability as AbilityID, target);
 
         self.message_batch.push(msg);
     }

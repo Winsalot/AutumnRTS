@@ -17,9 +17,16 @@ pub type TickNum = u32;
 
 pub type PId = u8; // player Id
 
-pub const N_ABILITY_CAP: u32 = 3;
+pub type AbilityID = u8;
+
+pub const N_ABILITY_CAP: AbilityID = 3;
 
 pub const ORDER_SCHEDULE_MAX: usize = 30;
+
+
+// This a tricky one. Means that orders for groups above this number will start to act funny. 
+// However, this will be adressed once it becomes a problem
+pub const UNIT_GROUP_CAP: usize = 32; // >32 is possible but complicates things (no traits like Debug or PartialEq)
 
 // Target. Either posiion or entity.
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -79,13 +86,24 @@ impl PlayerId {
 //     //None, // this message sucks, but whatever
 // }
 
-#[derive(Debug, PartialEq, Clone, Copy)]
+// #[derive(Debug, PartialEq, Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub enum RenderMessage {
     Destination(UId, PId, Pos),
     Spawn(PId, Pos),
     //SpawnStructureTmp(Pos, PId),
-    UseAbility(UId, PId, u32, ObjTarget),
+    UseAbility(UId, PId, AbilityID, ObjTarget),
+    InputOrder(PId, [Option<UId>; UNIT_GROUP_CAP],UnitOrder), // 
     Break,
+}
+
+/// Decoupled from RenderMessage because in the future Renderer will send orders for group of units.
+/// But UnitOrder is always specific for a single unit.
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub enum UnitOrder {
+    None,
+    MoveTo(Pos),
+    Ability(AbilityID, ObjTarget),
 }
 
 /// New engine messages

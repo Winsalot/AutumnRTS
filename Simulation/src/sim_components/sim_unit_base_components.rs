@@ -191,3 +191,15 @@ impl PathComp {
         }
     }
 }
+
+pub struct UnitAIComp{
+
+}
+
+impl UnitAIComp{
+	pub fn new() -> Self {
+		UnitAIComp {
+			
+		}
+	}
+}
