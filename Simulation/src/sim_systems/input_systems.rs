@@ -1,3 +1,4 @@
+use crate::sim_components::order_queue_comp::OrderQueueComp;
 use crate::sim_systems::validate_order::is_valid;
 use crate::common::SimStateChng::*;
 use crate::common::SimMsg::StateChange;
@@ -212,7 +213,7 @@ fn set_moveto_order(
             }
 
             if let Some(entity) = sim.res.id_map.get(&id){
-                if let Ok(mut state) = sim.ecs.get_mut::<UnitStateComp>(*entity) {
+                if let Ok(mut state) = sim.ecs.get_mut::<OrderQueueComp>(*entity) {
 
                     // Order should be validated here:
                     let mut moveto_pos_valid = moveto_pos.clone();
@@ -243,7 +244,7 @@ fn set_ability_order(
         if let Some(id) = id {
             if is_valid(sim, player_id, id){
                 if let Some(entity) = sim.res.id_map.get(&id){
-                    if let Ok(mut state) = sim.ecs.get_mut::<UnitStateComp>(*entity) {
+                    if let Ok(mut state) = sim.ecs.get_mut::<OrderQueueComp>(*entity) {
 
                         state.set_single_order(UnitOrder::Ability(*abil_id, *abil_trg));
                     }

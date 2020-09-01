@@ -1,3 +1,4 @@
+use crate::sim_components::order_queue_comp::OrderQueueComp;
 use crate::sim_components::sim_unit_base_components::PositionComp;
 use crate::sim_components::sim_unit_base_components::IdComp;
 use crate::sim_components::unitstate_comp::UnitStateComp;
@@ -16,16 +17,17 @@ fn check_current_order_completion(sim: &mut SimState){
 
 	type ToQuery<'a> = (
         &'a IdComp,
-        &'a UnitStateComp,
+        // &'a UnitStateComp,
+        &'a OrderQueueComp,
     );
     // This is all borrow checker's fault. A list for entities who have fulfilled the requirement of their current order.
     let mut to_update_orders: Vec<UId> = vec![];
 
-    for (entity, (id, unit_state)) in &mut sim.ecs.query::<ToQuery>(){
+    for (entity, (id, unit_orders)) in &mut sim.ecs.query::<ToQuery>(){
     	// Three parts in this:
 
     	// 1. Check if current order's conditions are satisfied and update to next order in queue:
-    	match unit_state.get_current_order() {
+    	match unit_orders.get_current_order() {
     		UnitOrder::None => {
     			// Nothing happens here
     		},
@@ -46,8 +48,8 @@ fn check_current_order_completion(sim: &mut SimState){
 
     for unit_id in to_update_orders.iter() {
     	if let Some(entity) = sim.res.id_map.get(&unit_id){
-    		if let Ok(mut unit_state) = sim.ecs.get_mut::<UnitStateComp>(*entity) {
-    			unit_state.current_order_completed();
+    		if let Ok(mut unit_orders) = sim.ecs.get_mut::<OrderQueueComp>(*entity) {
+    			unit_orders.current_order_completed();
     		}
     	}
     }
@@ -58,13 +60,14 @@ fn order_to_unitstate(sim: &mut SimState) {
 	// Takes current order and sets appropriate unit state.
 	type ToQuery<'a> = (
         &'a IdComp,
+        &'a OrderQueueComp,
         &'a UnitStateComp,
     );
 
     let mut to_update_states: Vec<(UId, UnitState)> = vec![];
 
-	for (_, (id, unit_state)) in &mut sim.ecs.query::<ToQuery>(){
-		match unit_state.get_current_order() {
+	for (_, (id, unit_orders, unit_state)) in &mut sim.ecs.query::<ToQuery>(){
+		match unit_orders.get_current_order() {
     		UnitOrder::None => {
     			if unit_state.get_state() != &UnitState::Idle {
     				to_update_states.push((*id.get_id(), UnitState::Idle));

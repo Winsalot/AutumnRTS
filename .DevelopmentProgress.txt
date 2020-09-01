@@ -324,6 +324,10 @@ There is lon way to go, but it can be like this:
 				+ Checks if order has already been filled.
 				+ Converts current order into state.
 			- Add smart movement system (bruh).
+				- Fuck destination component.
+				- Basicaly compute pathfinding (once ffs)
+				- Move towards path with pos and nextpos.
+					- Before update call unitstate.can_move() function. (checks for cooldown and shit)
 
 	
 		
