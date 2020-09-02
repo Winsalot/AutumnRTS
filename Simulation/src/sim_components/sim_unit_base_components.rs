@@ -9,6 +9,14 @@ pub struct TypeNameComp {
     name: String,
 }
 
+impl TypeNameComp {
+    pub fn new(name: &str) -> Self {
+        TypeNameComp {
+            name: String::from(name),
+        }
+    }
+}
+
 /// Unit id
 /// Reason is that hecs ecs reuses id's, and
 ///this could cause some bugs in the future.
@@ -74,36 +82,6 @@ pub struct NextPosComp {
     pos: Pos,
 }
 
-// Unit's destination component
-pub struct DestinationComp {
-    dest: Pos,
-    updated_on: TickNum,
-}
-
-/// Unit's speed component
-pub struct SpeedComponent {
-    speed: FixF,
-}
-
-// Square hitbox. W,H should be treadted as radius
-pub struct CollComp {
-    r: FixF,
-}
-
-// pathfinding pomponent. Holds positions that unit should walk to.
-#[derive(Debug, PartialEq, Clone)]
-pub struct PathComp {
-    positions: VecDeque<Pos>,
-}
-
-impl TypeNameComp {
-    pub fn new(name: &str) -> Self {
-        TypeNameComp {
-            name: String::from(name),
-        }
-    }
-}
-
 impl NextPosComp {
     pub fn new(pos: Pos) -> Self {
         NextPosComp { pos: pos }
@@ -116,6 +94,12 @@ impl NextPosComp {
     pub fn get_pos(&self) -> &Pos {
         &self.pos
     }
+}
+
+// Unit's destination component
+pub struct DestinationComp {
+    dest: Pos,
+    updated_on: TickNum,
 }
 
 impl DestinationComp {
@@ -140,14 +124,32 @@ impl DestinationComp {
     }
 }
 
+/// Unit's speed component
+pub struct SpeedComponent {
+    speed: FixF,
+    cooldown: TickNum, // cooldown between steps.
+}
+
 impl SpeedComponent {
-    pub fn new(s: FixF) -> Self {
-        SpeedComponent { speed: s }
+    pub fn new(s: FixF, cd: TickNum) -> Self {
+        SpeedComponent { 
+            speed: s,
+            cooldown: cd,
+        }
     }
 
     pub fn get_speed(&self) -> &FixF {
         &self.speed
     }
+
+    pub fn get_cooldown(&self) -> &TickNum {
+        &self.cooldown
+    }
+}
+
+// Square hitbox. W,H should be treadted as radius
+pub struct CollComp {
+    r: FixF,
 }
 
 impl CollComp {
@@ -160,6 +162,12 @@ impl CollComp {
     }
 }
 
+// pathfinding pomponent. Holds positions that unit should walk to.
+#[derive(Debug, PartialEq, Clone)]
+pub struct PathComp {
+    positions: VecDeque<Pos>,
+}
+
 impl PathComp {
     pub fn new() -> Self {
         PathComp {
@@ -167,7 +175,7 @@ impl PathComp {
         }
     }
 
-    pub fn _get(&self) -> &VecDeque<Pos> {
+    pub fn get_path(&self) -> &VecDeque<Pos> {
         &self.positions
     }
 

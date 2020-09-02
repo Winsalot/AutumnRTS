@@ -39,16 +39,26 @@ pub fn start_loop(n_players: u32, fps: u32) -> (JoinHandle<()>, RendMessenger) {
             }
 
             sys_input_to_order(&mut sim);
+            
             sys_unit_behaviour_ai(&mut sim);
             
             input_spawn_unit(&mut sim);
             //input_spawn_structure(&mut sim);
+
             sys_input_dest(&mut sim);
             sys_abilities(&mut sim);
+
             sys_pathfinding_astar(&mut sim);
+            sys_pathfinding_smart(&mut sim);
+
             sys_collision_pred(&mut sim);
+
             sys_set_pos(&mut sim);
+            sys_set_pos_smart(&mut sim);
+
             sys_set_next_pos(&mut sim);
+            sys_set_next_pos_smart(&mut sim);
+
             auto_assign_targets(&mut sim);
             clear_inbox(&mut sim);
             send_messages(&mut sim);

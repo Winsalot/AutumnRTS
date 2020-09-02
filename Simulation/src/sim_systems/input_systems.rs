@@ -68,7 +68,7 @@ pub fn plc_unit(
         unit_builder.add(PositionComp::new(pos));
         unit_builder.add(NextPosComp::new(pos));
         unit_builder.add(DestinationComp::new(pos));
-        unit_builder.add(SpeedComponent::new(speed));
+        unit_builder.add(SpeedComponent::new(speed, 1));
         unit_builder.add(CollComp::new(coll_r));
         unit_builder.add(
             IdComp::new(
@@ -213,20 +213,41 @@ fn set_moveto_order(
             }
 
             if let Some(entity) = sim.res.id_map.get(&id){
-                if let Ok(mut state) = sim.ecs.get_mut::<OrderQueueComp>(*entity) {
 
-                    // Order should be validated here:
-                    let mut moveto_pos_valid = moveto_pos.clone();
+                type ToQuery<'a> = (
+                    &'a mut OrderQueueComp,
+                    &'a mut DestinationComp,
+                    );
 
-                    sim.map.constrain_pos(&mut moveto_pos_valid);
+                if let Ok(mut query) = sim.ecs.query_one::<ToQuery>(*entity){
+                    if let Some((order_queue, dest)) = query.get(){
+
+                        let mut moveto_pos_valid = moveto_pos.clone();
+                        sim.map.constrain_pos(&mut moveto_pos_valid);
+                        order_queue.set_single_order(UnitOrder::MoveTo(moveto_pos_valid));
+
+                        dest.set_dest(moveto_pos_valid, sim.current_tick());
+                        
+                        let msg = StateChange(ObjDest(*id, moveto_pos_valid));
+                        sim.res.send_batch.push(msg);
+
+                    }
+                }
+
+                // if let Ok(mut state) = sim.ecs.get_mut::<OrderQueueComp>(*entity) {
+
+                //     // Order should be validated here:
+                //     let mut moveto_pos_valid = moveto_pos.clone();
+
+                //     sim.map.constrain_pos(&mut moveto_pos_valid);
 
 
-                    state.set_single_order(UnitOrder::MoveTo(moveto_pos_valid));
+                //     state.set_single_order(UnitOrder::MoveTo(moveto_pos_valid));
 
-                    // // Probably need different message:
-                    // let msg = StateChange(ObjDest(id, pos));
-                    // sim.res.send_batch.push(msg);
-                }                        
+                //     // // Probably need different message:
+                //     // let msg = StateChange(ObjDest(id, pos));
+                //     // sim.res.send_batch.push(msg);
+                // }                        
             }    
         }
     }

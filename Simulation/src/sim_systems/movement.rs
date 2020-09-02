@@ -1,3 +1,4 @@
+use crate::sim_components::unitstate_comp::UnitStateComp;
 use crate::sim_systems::validate_order::is_valid;
 use crate::common::SimMsg::*;
 use crate::common::SimStateChng::*;
@@ -87,7 +88,49 @@ pub fn sys_set_next_pos(sim: &mut SimState) {
 
             next_pos.set_pos(n_next_pos);
             //let msg = EngineMessage::ObjNextPos(*id.get(), n_next_pos);
-            let msg = StateChange(ObjNextPos(*id.get(), n_next_pos));
+            let msg = StateChange(ObjNextPos(*id.get_id(), n_next_pos));
+            sim.res.send_batch.push(msg)
+        }
+    }
+}
+
+// update next position, that moves unit closer to destination
+pub fn sys_set_next_pos_smart(sim: &mut SimState) {
+    type ToQuery<'a> = (
+        &'a IdComp,
+        &'a PositionComp,
+        &'a SpeedComponent,
+        &'a UnitStateComp,
+        &'a mut NextPosComp,
+        &'a mut PathComp,
+    );
+
+    let current_tick = sim.current_tick().clone();
+    let ecs = &mut sim.ecs;
+
+    'query_loop: for (_, (id, pos, speed, state, next_pos, path)) in &mut ecs.query::<ToQuery>() {
+
+        if !state.can_move(&current_tick){
+            continue 'query_loop;
+        }
+
+        let path_next_pos = path.get_next_pos(pos.get_pos());
+
+        if let Some(move_to) = path_next_pos {
+            let distance = pos.get_pos().dist(move_to);
+
+            // This can happen because fixed point math is used.
+            if distance == 0 {
+                next_pos.set_pos(*move_to);
+                continue 'query_loop;
+            }
+
+            let dx = (*pos.get_pos() - *move_to) / distance;
+            let n_next_pos = *pos.get_pos() - dx * (*speed.get_speed()).min(distance);
+
+            next_pos.set_pos(n_next_pos);
+            //let msg = EngineMessage::ObjNextPos(*id.get(), n_next_pos);
+            let msg = StateChange(ObjNextPos(*id.get_id(), n_next_pos));
             sim.res.send_batch.push(msg)
         }
     }
@@ -147,7 +190,40 @@ pub fn sys_set_pos(sim: &mut SimState) {
 
         pos.set_pos(*next_pos.get_pos());
         //msg = EngineMessage::ObjMove(*id.get(), *pos.get_pos());
-        msg = StateChange(ObjMove(*id.get(), *pos.get_pos()));
+        msg = StateChange(ObjMove(*id.get_id(), *pos.get_pos()));
+
+        sim.res.send_batch.push(msg);
+    }
+}
+// Move to valid next position
+pub fn sys_set_pos_smart(sim: &mut SimState) {
+    // Updates unit positions to next position
+    // Also generates engine messages
+    type ToQuery<'a> = (
+        &'a IdComp, 
+        &'a NextPosComp,
+        &'a SpeedComponent,
+        &'a mut PositionComp, 
+        &'a mut UnitStateComp,
+        );
+
+    let current_tick = sim.current_tick().clone();
+    let ecs = &mut sim.ecs;
+
+    'query_loop: for (_, (id, next_pos, speed, pos, state)) in &mut ecs.query::<ToQuery>() {
+
+
+        if next_pos.get_pos() == pos.get_pos() {
+            continue 'query_loop;
+        }
+
+        //let msg: EngineMessage;
+        let msg: SimMsg;
+
+        pos.set_pos(*next_pos.get_pos());
+        state.just_moved(&current_tick, speed.get_cooldown());
+        //msg = EngineMessage::ObjMove(*id.get(), *pos.get_pos());
+        msg = StateChange(ObjMove(*id.get_id(), *pos.get_pos()));
 
         sim.res.send_batch.push(msg);
     }

@@ -308,7 +308,7 @@ There is lon way to go, but it can be like this:
 		+ Order schedule.
 			+ Probably an array of player orders. Just simple array. DOnt overthink.
 	- Now I see a refactor in my near future. Write UNIT AI system and start using UnitState in there AND in other systems.
-		- Start with SmartMovement_System :)
+		+ Start with SmartMovement_System :)
 			+ Have BehaviourAI component (empty). [Called UnitAIComp]
 			+ RenderMessage translated into UnitOrder and passed into UnitStateComp.
 				+ Separate system of RenderMessage -> UnitOrder -> UnitState Update.
@@ -324,12 +324,13 @@ There is lon way to go, but it can be like this:
 				+ Checks if order has already been filled.
 				+ Converts current order into state.
 			- Add smart movement system (bruh).
-				- Fuck destination component.
-				- Basicaly compute pathfinding (once ffs)
-				- Move towards path with pos and nextpos.
-					- Before update call unitstate.can_move() function. (checks for cooldown and shit)
-
-	
+				x [Later] Fuck destination component.
+				- Becially process should be:
+					+ Compute path (once). (use substates like PathfindAndMove -> Move, or ChargeShot -> Fire)
+					+ Move if unit state allows it (iterate over all entities with relevant components).
+					+ [Happens in behaviour AI system] If goal reached change variable in state that order-completed.
+		- Smart Movement system compiles. But I honestly have no fucking idea if it actually fucking works haha.
+			- Do tests.	
 		
 
 
@@ -342,6 +343,11 @@ GENERAL IDEAS:
 		+1. Implement automatic targeting.
 		2. Add automatic firing with all stop to fire, cooldown and shit features (also add health).
 		3. Do another big step and move on to 3D and proper renderer implementation.
+	- Fuck destination component. Instead use Target Component.
+		- Target is set inside Unit Behaviour AI system. Eg:
+			- Move sets target Pos.
+			- Force fire sets taret Pos with mode fire.
+			- A-move sets target pos, but if enemies in range then switches to target Entity.
 		
 	
 

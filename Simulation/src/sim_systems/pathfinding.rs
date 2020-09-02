@@ -1,3 +1,5 @@
+use crate::sim_components::order_queue_comp::OrderQueueComp;
+use crate::sim_components::unitstate_comp::UnitStateComp;
 use crate::common::SimMsg::StateChange;
 use crate::common::SimStateChng::ObjPathTmp;
 use crate::sim_components::sim_unit_base_components::IdComp;
@@ -192,6 +194,55 @@ pub fn sys_pathfinding_astar(sim: &mut SimState) {
         path_comp.set(path);
     }
 }
+
+pub fn sys_pathfinding_smart(sim: &mut SimState){
+    
+    // Finds path only once
+    // Checks unit state for executiuon.
+
+
+    type ToQuery<'a> = (
+        &'a IdComp,
+        &'a PositionComp,
+        &'a DestinationComp,
+        &'a mut OrderQueueComp,
+        &'a mut UnitStateComp,
+        &'a mut PathComp,
+    );
+
+
+    'query_loop: for (_, (id, pos, dest, _order_queue, state, path_comp)) in &mut sim.ecs.query::<ToQuery>() {
+        
+        // Check if pathfinding can be run on this tick
+        if !state.pathfind(){
+            continue 'query_loop;
+        }
+
+        // If current path ends at destination then don't recalculate.
+        if let Some(last_node) = path_comp.get_path().back() {
+            if last_node == dest.get_dest() {
+                continue 'query_loop;
+            }
+        }
+
+        let path = PathfindingHelper::find_path(&sim.map, *pos.get_pos(), *dest.get_dest());
+
+        //println!("Path for {:?} found: {:?}",id, path);
+
+        // TODO: remove this later sometime. Player doesnt need to see pathfinding details.
+        {
+            let mut msg = PathfindingHelper::path_to_message_tmp(id, &path);
+            sim.res.send_batch.append(&mut msg);
+        }
+
+        state.pathfind_finished();
+
+        path_comp.set(path);
+    }
+
+
+}
+
 
 #[cfg(test)]
 mod pathfinding_tests {
