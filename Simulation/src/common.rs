@@ -147,5 +147,6 @@ pub enum SimStateInfo {
 pub enum UnitState{
     Idle,
     Move,
+    PathfindAndMove,
 }
 

@@ -1,3 +1,6 @@
+use crate::sim_components::sim_unit_base_components::PathComp;
+use hecs::Entity;
+use crate::sim_fix_math::*;
 use crate::sim_components::order_queue_comp::OrderQueueComp;
 use crate::sim_components::sim_unit_base_components::PositionComp;
 use crate::sim_components::sim_unit_base_components::IdComp;
@@ -66,17 +69,28 @@ fn order_to_unitstate(sim: &mut SimState) {
 
     let mut to_update_states: Vec<(UId, UnitState)> = vec![];
 
-	for (_, (id, unit_orders, unit_state)) in &mut sim.ecs.query::<ToQuery>(){
+	for (e_id, (id, unit_orders, unit_state)) in /*&mut*/ sim.ecs.query::<ToQuery>().iter(){
 		match unit_orders.get_current_order() {
     		UnitOrder::None => {
     			if unit_state.get_state() != &UnitState::Idle {
     				to_update_states.push((*id.get_id(), UnitState::Idle));
     			}
     		},
-    		UnitOrder::MoveTo(..) => {
-    			if unit_state.get_state() != &UnitState::Move {
-    				to_update_states.push((*id.get_id(), UnitState::Move));
+    		UnitOrder::MoveTo(dest) => {
+
+    			match knows_path_to_dest(&sim, &e_id, &dest) {
+    				true => {
+		    			if unit_state.get_state() != &UnitState::Move {
+		    				to_update_states.push((*id.get_id(), UnitState::Move));
+		    			}
+    				},
+    				false => {
+		    			if unit_state.get_state() != &UnitState::PathfindAndMove {
+		    				to_update_states.push((*id.get_id(), UnitState::PathfindAndMove));
+		    			}
+    				}
     			}
+
     		},
     		UnitOrder::Ability(..) => {
     			// TODO: here check range to target. If not in range then Move. If in range, then Use Ability.
@@ -92,4 +106,29 @@ fn order_to_unitstate(sim: &mut SimState) {
     		}
     	}
     }
+}
+
+fn knows_path_to_dest(sim: &SimState, entity_id: &Entity, dest: &Pos) -> bool{
+	// Check how far away from first node in path 
+
+	type ToQuery<'a> = (
+        &'a PositionComp,
+        &'a PathComp,
+    );
+
+	let mut query = sim.ecs.query_one::<ToQuery>(*entity_id).unwrap();
+	if let Some((curr_pos, path)) = query.get() {
+
+		if path.get_path().len() == 0 {
+			return false;
+		}
+
+		// Unwraps won't panic, because previous IF checks for length:
+		if (curr_pos.get_pos().dist(path.get_path().front().unwrap()) <= FixF::from_num(2)) 
+			& (dest.dist(path.get_path().back().unwrap()) <= FixF::from_num(1)) {
+				return true;
+			}
+	}
+
+	false
 }

@@ -211,7 +211,6 @@ mod interation_tests {
 
         run_single_tick(&mut sim);
 
-        //println!("MESSAGES: {:?}", rend_messenger.rec());
         print_components(&mut sim, &0);
 
         run_single_tick(&mut sim);
@@ -219,6 +218,7 @@ mod interation_tests {
         // run_single_tick(&mut sim);
 
         print_components(&mut sim, &0);
+        println!("MESSAGES: {:?}", rend_messenger.rec());
 
     }
 

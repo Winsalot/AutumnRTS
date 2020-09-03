@@ -171,7 +171,7 @@ pub fn sys_pathfinding_astar(sim: &mut SimState) {
 
     //println!("Running pathfinding system");
 
-    'query_loop: for (_, (id, pos, dest, path_comp)) in &mut sim.ecs.query::<ToQuery>() {
+    'query_loop: for (_, (id, pos, dest, path_comp)) in sim.ecs.query::<ToQuery>().without::<UnitStateComp>().iter() {
         //println!("Calculating path for {:?}", id);
         if dest.last_set() != sim.current_tick() {
             continue 'query_loop;
@@ -225,6 +225,7 @@ pub fn sys_pathfinding_smart(sim: &mut SimState){
             }
         }
 
+
         let path = PathfindingHelper::find_path(&sim.map, *pos.get_pos(), *dest.get_dest());
 
         //println!("Path for {:?} found: {:?}",id, path);
@@ -235,7 +236,7 @@ pub fn sys_pathfinding_smart(sim: &mut SimState){
             sim.res.send_batch.append(&mut msg);
         }
 
-        state.pathfind_finished();
+        //state.pathfind_finished();
 
         path_comp.set(path);
     }
