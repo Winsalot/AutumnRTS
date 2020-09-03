@@ -10,7 +10,7 @@ enum UnitSubState {
 	Move,
 }
 
-
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct UnitStateComp {
 	// I really have doubt about this. What happens when I implement group orders?
 	//order_queue: [UnitOrder; ORDER_SCHEDULE_MAX],

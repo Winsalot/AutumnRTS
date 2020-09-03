@@ -1,6 +1,7 @@
 use crate::common::*;
 //use crate::sim_fix_math::*;
 
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct OrderQueueComp {
 	orders: [UnitOrder; ORDER_SCHEDULE_MAX],
 }

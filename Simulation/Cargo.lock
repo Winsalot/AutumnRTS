@@ -223,20 +223,11 @@ checksum = "9b919933a397b79c37e33b77bb2aa3dc8eb6e165ad809e58ff75bc7db2e34574"
 
 [[package]]
 name = "hashbrown"
-version = "0.7.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "96282e96bfcd3da0d3aa9938bedf1e50df3269b6db08b4876d2da0bb1a0841cf"
-dependencies = [
- "ahash",
- "autocfg",
-]
-
-[[package]]
-name = "hashbrown"
 version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "34f595585f103464d8d2f6e9864682d74c1601fed5e07d62b1c9058dba8246fb"
 dependencies = [
+ "ahash",
  "autocfg",
 ]
 
@@ -251,11 +242,11 @@ dependencies = [
 
 [[package]]
 name = "hecs"
-version = "0.2.12"
+version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c5b6d45e4de30a6f89c5f5b544f5467a592e20561f7741f316cb7f1f29d8210"
+checksum = "37418b67df8cb0566b0ce31a3f4135fe2743c57073e1fccbb45809f750c53c2f"
 dependencies = [
- "hashbrown 0.7.2",
+ "hashbrown",
 ]
 
 [[package]]
@@ -265,7 +256,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5b88cd59ee5f71fea89a62248fc8f387d44400cefe05ef548466d61ced9029a7"
 dependencies = [
  "autocfg",
- "hashbrown 0.8.1",
+ "hashbrown",
 ]
 
 [[package]]

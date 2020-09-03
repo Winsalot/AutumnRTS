@@ -330,7 +330,11 @@ There is lon way to go, but it can be like this:
 					+ Move if unit state allows it (iterate over all entities with relevant components).
 					+ [Happens in behaviour AI system] If goal reached change variable in state that order-completed.
 		- Smart Movement system compiles. But I honestly have no fucking idea if it actually fucking works haha.
-			- Do tests.	
+			+ Do tests.	
+			x Fuck me how painful it is to do with print statements.
+			- Pathfinding runs every frame. FIX
+				- Behaviour AI system should change subsystem.
+				- Also fuck substate.	
 		
 
 

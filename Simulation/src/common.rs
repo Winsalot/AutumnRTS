@@ -91,6 +91,7 @@ impl PlayerId {
 pub enum RenderMessage {
     Destination(UId, PId, Pos),
     Spawn(PId, Pos),
+    SpawnSmart(PId, Pos),
     //SpawnStructureTmp(Pos, PId),
     UseAbility(UId, PId, AbilityID, ObjTarget),
     InputOrder(PId, [Option<UId>; UNIT_GROUP_CAP],UnitOrder), // 
