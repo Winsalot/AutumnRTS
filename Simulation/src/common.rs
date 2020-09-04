@@ -23,8 +23,7 @@ pub const N_ABILITY_CAP: AbilityID = 3;
 
 pub const ORDER_SCHEDULE_MAX: usize = 30;
 
-
-// This a tricky one. Means that orders for groups above this number will start to act funny. 
+// This a tricky one. Means that orders for groups above this number will start to act funny.
 // However, this will be adressed once it becomes a problem
 pub const UNIT_GROUP_CAP: usize = 32; // >32 is possible but complicates things (no traits like Debug or PartialEq)
 
@@ -44,13 +43,13 @@ pub enum TeamAlliance {
 }
 
 impl TeamAlliance {
-	pub fn to_str(&self) -> String{
-		match self {
-			TeamAlliance::Neutral => String::from("neutral"),
-			TeamAlliance::Alliance(team) => team.to_string(),
-			TeamAlliance::Spectator => String::from("spec"),
-		}
-	}
+    pub fn to_str(&self) -> String {
+        match self {
+            TeamAlliance::Neutral => String::from("neutral"),
+            TeamAlliance::Alliance(team) => team.to_string(),
+            TeamAlliance::Spectator => String::from("spec"),
+        }
+    }
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -81,7 +80,7 @@ pub enum RenderMessage {
     SpawnSmart(PId, Pos),
     //SpawnStructureTmp(Pos, PId),
     UseAbility(UId, PId, AbilityID, ObjTarget),
-    InputOrder(PId, [Option<UId>; UNIT_GROUP_CAP],UnitOrder), // 
+    InputOrder(PId, [Option<UId>; UNIT_GROUP_CAP], UnitOrder), //
     Break,
 }
 
@@ -96,28 +95,28 @@ pub enum UnitOrder {
 
 /// New engine messages
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub enum  SimMsg {
+pub enum SimMsg {
     Warn(PlayerId, SimWarnMsg), // PlayerId because player shouldn't hear bot's warnings.
     StateChange(SimStateChng),
-    SimInfo(SimStateInfo)
+    SimInfo(SimStateInfo),
 }
 
 /// Simulation warning messages variants
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub enum SimWarnMsg{
-    _AbilTrgInvalid, // Target invalid
+pub enum SimWarnMsg {
+    _AbilTrgInvalid,  // Target invalid
     _AbilUnavailable, // on cooldown
-    UnitUnavailable, // Invalid unit. Maybe already dead.
+    UnitUnavailable,  // Invalid unit. Maybe already dead.
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum SimStateChng {
-	ObjSpawn(UId, PlayerId, Pos, FixF), // obj spawn info
-    // ObjPosColl(UId, Pos, FixF), 
+    ObjSpawn(UId, PlayerId, Pos, FixF), // obj spawn info
+    // ObjPosColl(UId, Pos, FixF),
     ObjMove(UId, Pos),
     ObjNextPos(UId, Pos),
     ObjDest(UId, Pos),
-    ObjPathTmp(UId, [Pos; 20]), 
+    ObjPathTmp(UId, [Pos; 20]),
     StructurePosTmp(UId, Pos),
     ObjTargetPos(UId, Pos),
     ObjTargetNone(UId),
@@ -131,9 +130,8 @@ pub enum SimStateInfo {
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub enum UnitState{
+pub enum UnitState {
     Idle,
     Move,
     PathfindAndMove,
 }
-

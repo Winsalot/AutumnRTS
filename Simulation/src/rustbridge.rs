@@ -146,7 +146,7 @@ impl RustBridge {
         let msg = RenderMessage::Spawn(player, pos);
         self.message_batch.push(msg);
     }
-    
+
     #[export]
     fn use_ability_pos(
         &mut self,

@@ -29,10 +29,9 @@ pub fn start_loop(n_players: u32, fps: u32) -> (JoinHandle<()>, RendMessenger) {
 
         // Run game loop & systems
         'running: loop {
-
             update_fps_info(&mut sim);
 
-            if run_single_tick(&mut sim){
+            if run_single_tick(&mut sim) {
                 break 'running;
             }
 
@@ -43,42 +42,41 @@ pub fn start_loop(n_players: u32, fps: u32) -> (JoinHandle<()>, RendMessenger) {
     return (sim_handle, rend_messenger);
 }
 
-pub fn first_tick(sim: &mut SimState){
-        sys_init_send_map(sim);
-        send_messages(sim);
+pub fn first_tick(sim: &mut SimState) {
+    sys_init_send_map(sim);
+    send_messages(sim);
 }
 
 pub fn run_single_tick(sim: &mut SimState) -> bool {
+    receive_messages(sim);
 
-            receive_messages(sim);
+    if input_break_check(sim) {
+        return true;
+    }
 
-            if input_break_check(sim) {
-                return true;
-            }
+    sys_input_to_order(sim);
 
-            sys_input_to_order(sim);
-            
-            sys_unit_behaviour_ai(sim);
-            
-            input_spawn_unit(sim);
-            input_spawn_smart_unit(sim);
+    sys_unit_behaviour_ai(sim);
 
-            sys_input_dest(sim);
-            sys_abilities(sim);
+    input_spawn_unit(sim);
+    input_spawn_smart_unit(sim);
 
-            sys_pathfinding_astar(sim);
-            sys_pathfinding_smart(sim);
+    sys_input_dest(sim);
+    sys_abilities(sim);
 
-            sys_collision_pred(sim);
+    sys_pathfinding_astar(sim);
+    sys_pathfinding_smart(sim);
 
-            sys_set_pos(sim);
-            sys_set_pos_smart(sim);
+    sys_collision_pred(sim);
 
-            sys_set_next_pos(sim);
-            sys_set_next_pos_smart(sim);
+    sys_set_pos(sim);
+    sys_set_pos_smart(sim);
 
-            clear_inbox(sim);
-            send_messages(sim);
+    sys_set_next_pos(sim);
+    sys_set_next_pos_smart(sim);
 
-            false
+    clear_inbox(sim);
+    send_messages(sim);
+
+    false
 }

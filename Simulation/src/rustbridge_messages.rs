@@ -1,5 +1,5 @@
-use crate::common::SimStateInfo::*;
 use crate::common::SimStateChng::*;
+use crate::common::SimStateInfo::*;
 use crate::common::*;
 
 use crate::sim_fix_math::Pos;
@@ -23,13 +23,12 @@ pub fn _vector2_to_pos(vec: Vector2) -> Pos {
 //pub fn inbox_drain_spawn(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, f32, f32, f32)> {
 pub fn inbox_drain_spawn(inbox: &mut Vec<SimMsg>) -> Vec<(UId, PId, String, f32, f32, f32)> {
     // let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
-    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) =
-        inbox.iter().partition(|&msg| match msg {
-            // EngineMessage::ObjPosColl(..) => true,
-            // SimMsg::StateChange(ObjPosColl(..)) => true,
-            SimMsg::StateChange(ObjSpawn(..)) => true,
-            _ => false,
-        });
+    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) = inbox.iter().partition(|&msg| match msg {
+        // EngineMessage::ObjPosColl(..) => true,
+        // SimMsg::StateChange(ObjPosColl(..)) => true,
+        SimMsg::StateChange(ObjSpawn(..)) => true,
+        _ => false,
+    });
 
     *inbox = rest;
 
@@ -38,7 +37,7 @@ pub fn inbox_drain_spawn(inbox: &mut Vec<SimMsg>) -> Vec<(UId, PId, String, f32,
     for i in 0..target.len() {
         // if let EngineMessage::ObjPosColl(id, pos, radius) = target[i] {
         // if let  SimMsg::StateChange(ObjPosColl(id, pos, radius)) = target[i] {
-        if let  SimMsg::StateChange(ObjSpawn(id, player, pos, radius)) = target[i] {
+        if let SimMsg::StateChange(ObjSpawn(id, player, pos, radius)) = target[i] {
             ret.push((
                 //id.get().clone(),
                 id,
@@ -57,12 +56,11 @@ pub fn inbox_drain_spawn(inbox: &mut Vec<SimMsg>) -> Vec<(UId, PId, String, f32,
 // pub fn inbox_drain_spawn_structure(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, f32, f32)> {
 pub fn inbox_drain_spawn_structure(inbox: &mut Vec<SimMsg>) -> Vec<(UId, f32, f32)> {
     // let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
-    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) =
-        inbox.iter().partition(|&msg| match msg {
-            // EngineMessage::StructurePosTmp(..) => true,
-            SimMsg::StateChange(StructurePosTmp(..)) => true,
-            _ => false,
-        });
+    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) = inbox.iter().partition(|&msg| match msg {
+        // EngineMessage::StructurePosTmp(..) => true,
+        SimMsg::StateChange(StructurePosTmp(..)) => true,
+        _ => false,
+    });
 
     *inbox = rest;
 
@@ -81,12 +79,11 @@ pub fn inbox_drain_spawn_structure(inbox: &mut Vec<SimMsg>) -> Vec<(UId, f32, f3
 // pub fn inbox_drain_move(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, f32, f32)> {
 pub fn inbox_drain_move(inbox: &mut Vec<SimMsg>) -> Vec<(UId, f32, f32)> {
     // let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
-    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) =
-        inbox.iter().partition(|&msg| match msg {
-            // EngineMessage::ObjMove(..) => true,
-            SimMsg::StateChange(ObjMove(..)) => true,
-            _ => false,
-        });
+    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) = inbox.iter().partition(|&msg| match msg {
+        // EngineMessage::ObjMove(..) => true,
+        SimMsg::StateChange(ObjMove(..)) => true,
+        _ => false,
+    });
 
     *inbox = rest;
 
@@ -110,12 +107,11 @@ pub fn inbox_drain_move(inbox: &mut Vec<SimMsg>) -> Vec<(UId, f32, f32)> {
 // pub fn inbox_drain_next_pos(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, f32, f32)> {
 pub fn inbox_drain_next_pos(inbox: &mut Vec<SimMsg>) -> Vec<(UId, f32, f32)> {
     // let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
-    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) =
-        inbox.iter().partition(|&msg| match msg {
-            // EngineMessage::ObjNextPos(..) => true,
-            SimMsg::StateChange(ObjNextPos(..)) => true,
-            _ => false,
-        });
+    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) = inbox.iter().partition(|&msg| match msg {
+        // EngineMessage::ObjNextPos(..) => true,
+        SimMsg::StateChange(ObjNextPos(..)) => true,
+        _ => false,
+    });
 
     *inbox = rest;
 
@@ -139,12 +135,11 @@ pub fn inbox_drain_next_pos(inbox: &mut Vec<SimMsg>) -> Vec<(UId, f32, f32)> {
 // pub fn inbox_drain_fps(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, u64)> {
 pub fn inbox_drain_fps(inbox: &mut Vec<SimMsg>) -> Vec<(u64, u64)> {
     // let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
-    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) =
-        inbox.iter().partition(|&msg| match msg {
-            // EngineMessage::Fps(..) => true,
-            SimMsg::SimInfo(Fps(..)) => true,
-            _ => false,
-        });
+    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) = inbox.iter().partition(|&msg| match msg {
+        // EngineMessage::Fps(..) => true,
+        SimMsg::SimInfo(Fps(..)) => true,
+        _ => false,
+    });
 
     *inbox = rest;
 
@@ -163,12 +158,11 @@ pub fn inbox_drain_fps(inbox: &mut Vec<SimMsg>) -> Vec<(u64, u64)> {
 // pub fn inbox_drain_dest(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, f32, f32)> {
 pub fn inbox_drain_dest(inbox: &mut Vec<SimMsg>) -> Vec<(UId, f32, f32)> {
     // let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
-    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) =
-        inbox.iter().partition(|&msg| match msg {
-            // EngineMessage::ObjDest(..) => true,
-            SimMsg::StateChange(ObjDest(..)) => true,
-            _ => false,
-        });
+    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) = inbox.iter().partition(|&msg| match msg {
+        // EngineMessage::ObjDest(..) => true,
+        SimMsg::StateChange(ObjDest(..)) => true,
+        _ => false,
+    });
 
     *inbox = rest;
 
@@ -192,12 +186,11 @@ pub fn inbox_drain_dest(inbox: &mut Vec<SimMsg>) -> Vec<(UId, f32, f32)> {
 // pub fn inbox_drain_map_layout(inbox: &mut Vec<EngineMessage>) -> Vec<(f32, f32, bool, i32)> {
 pub fn inbox_drain_map_layout(inbox: &mut Vec<SimMsg>) -> Vec<(f32, f32, bool, i32)> {
     // let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
-    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) =
-        inbox.iter().partition(|&msg| match msg {
-            // EngineMessage::MapTile(..) => true,
-            SimMsg::SimInfo(SimStateInfo::MapTile(..)) => true,
-            _ => false,
-        });
+    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) = inbox.iter().partition(|&msg| match msg {
+        // EngineMessage::MapTile(..) => true,
+        SimMsg::SimInfo(SimStateInfo::MapTile(..)) => true,
+        _ => false,
+    });
 
     *inbox = rest;
 
@@ -205,7 +198,7 @@ pub fn inbox_drain_map_layout(inbox: &mut Vec<SimMsg>) -> Vec<(f32, f32, bool, i
     let mut ret: Vec<(f32, f32, bool, i32)> = vec![];
     for i in 0..target.len() {
         // if let EngineMessage::MapTile(pos, tile) = target[i] {
-        if let  SimMsg::SimInfo(SimStateInfo::MapTile(pos, tile)) = target[i] {
+        if let SimMsg::SimInfo(SimStateInfo::MapTile(pos, tile)) = target[i] {
             ret.push((
                 pos.x.to_num::<f32>(),
                 pos.y.to_num::<f32>(),
@@ -221,12 +214,11 @@ pub fn inbox_drain_map_layout(inbox: &mut Vec<SimMsg>) -> Vec<(f32, f32, bool, i
 // pub fn inbox_drain_pathfinding_tmp(inbox: &mut Vec<EngineMessage>) -> Vec<(UId, Vec<Vector2>)> {
 pub fn inbox_drain_pathfinding_tmp(inbox: &mut Vec<SimMsg>) -> Vec<(UId, Vec<Vector2>)> {
     // let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
-    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) =
-        inbox.iter().partition(|&msg| match msg {
-            // EngineMessage::ObjPathTmp(..) => true,
-            SimMsg::StateChange(ObjPathTmp(..)) => true,
-            _ => false,
-        });
+    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) = inbox.iter().partition(|&msg| match msg {
+        // EngineMessage::ObjPathTmp(..) => true,
+        SimMsg::StateChange(ObjPathTmp(..)) => true,
+        _ => false,
+    });
 
     *inbox = rest;
 
@@ -251,34 +243,27 @@ pub fn inbox_drain_pathfinding_tmp(inbox: &mut Vec<SimMsg>) -> Vec<(UId, Vec<Vec
 }
 
 pub fn inbox_drain_targeting(inbox: &mut Vec<SimMsg>) -> Vec<(UId, Vector2)> {
-	// No target will return vector of (-1, -1). Since map coords are >=0 this is ok.
-    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) =
-        inbox.iter().partition(|&msg| match msg {
-            SimMsg::StateChange(ObjTargetNone(..)) => true,
-            SimMsg::StateChange(ObjTargetPos(..)) => true,
-            _ => false,
-        });
+    // No target will return vector of (-1, -1). Since map coords are >=0 this is ok.
+    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) = inbox.iter().partition(|&msg| match msg {
+        SimMsg::StateChange(ObjTargetNone(..)) => true,
+        SimMsg::StateChange(ObjTargetPos(..)) => true,
+        _ => false,
+    });
 
     *inbox = rest;
 
     let mut ret: Vec<(UId, Vector2)> = vec![];
 
     for i in 0..target.len() {
-    	match target[i]{
-    		SimMsg::StateChange(ObjTargetNone(id)) => {
-    			ret.push((
-	                id,
-	                Vector2::new(-1.0,-1.0),
-	            ));
-    		},
-    		SimMsg::StateChange(ObjTargetPos(id, position)) => {
-    			ret.push((
-	                id,
-	                pos_to_vector2(position),
-	            ));
-    		},
-    		_ => {},
-    	}
+        match target[i] {
+            SimMsg::StateChange(ObjTargetNone(id)) => {
+                ret.push((id, Vector2::new(-1.0, -1.0)));
+            }
+            SimMsg::StateChange(ObjTargetPos(id, position)) => {
+                ret.push((id, pos_to_vector2(position)));
+            }
+            _ => {}
+        }
     }
     return ret;
 }

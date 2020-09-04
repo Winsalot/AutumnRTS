@@ -1,7 +1,7 @@
+use crate::common::SimMsg::StateChange;
+use crate::common::SimStateChng::*;
 use crate::sim_components::order_queue_comp::OrderQueueComp;
 use crate::sim_systems::validate_order::is_valid;
-use crate::common::SimStateChng::*;
-use crate::common::SimMsg::StateChange;
 
 use crate::sim_components::active_ability_comp::*;
 use crate::sim_components::sim_unit_base_components::*;
@@ -23,7 +23,9 @@ use crate::sim_fix_math::FixF;
 pub fn update_fps_info(sim: &mut SimState) {
     let fps = sim.res.fps_counter.get_fps();
     // sim.res.send_batch.push(EngineMessage::Fps(fps.0, fps.1));
-    sim.res.send_batch.push(SimMsg::SimInfo(SimStateInfo::Fps(fps.0, fps.1)));
+    sim.res
+        .send_batch
+        .push(SimMsg::SimInfo(SimStateInfo::Fps(fps.0, fps.1)));
 }
 
 pub fn receive_messages(sim: &mut SimState) {
@@ -40,7 +42,7 @@ pub fn input_break_check(sim: &mut SimState) -> bool {
         .filter(|x| match **x {
             RenderMessage::Break => true,
             _ => false,
-        } )
+        })
         .next()
         .is_some();
 
@@ -52,14 +54,7 @@ pub fn input_break_check(sim: &mut SimState) -> bool {
     false
 }
 
-pub fn plc_unit(
-    sim: &mut SimState, 
-    owner: PId, 
-    pos: Pos, 
-    speed: FixF, 
-    coll_r: FixF
-    ){
-
+pub fn plc_unit(sim: &mut SimState, owner: PId, pos: Pos, speed: FixF, coll_r: FixF) {
     let mut unit_builder = EntityBuilder::new();
     let player = sim.res.players.get(owner);
 
@@ -70,43 +65,24 @@ pub fn plc_unit(
         unit_builder.add(DestinationComp::new(pos));
         unit_builder.add(SpeedComponent::new(speed, 1));
         unit_builder.add(CollComp::new(coll_r));
-        unit_builder.add(
-            IdComp::new(
-                &mut sim.res.id_counter, 
-                player,
-                )
-            );
+        unit_builder.add(IdComp::new(&mut sim.res.id_counter, player));
         unit_builder.add(PathComp::new());
         unit_builder.add(TargetComp::new(FixF::from_num(3)));
         unit_builder.add(ActiveAbilityComp::builder());
         //unit_builder.add(UnitStateComp::new());
-    
+
         let new_entity = sim.ecs.spawn(unit_builder.build());
-    
-    
+
         // let msg = EngineMessage::ObjPosColl(sim.res.id_counter - 1, pos, coll_r);
         // let msg = StateChange(ObjPosColl(sim.res.id_counter - 1, pos, coll_r));
-        let msg = StateChange(
-            ObjSpawn(
-                sim.res.id_counter - 1,
-                *player, 
-                pos, coll_r
-                )
-            );
+        let msg = StateChange(ObjSpawn(sim.res.id_counter - 1, *player, pos, coll_r));
         sim.res.send_batch.push(msg);
-    
+
         sim.res.id_map.insert(sim.res.id_counter - 1, new_entity);
     }
 }
 
-pub fn plc_smart_unit(
-    sim: &mut SimState, 
-    owner: PId, 
-    pos: Pos, 
-    speed: FixF, 
-    coll_r: FixF
-    ){
-
+pub fn plc_smart_unit(sim: &mut SimState, owner: PId, pos: Pos, speed: FixF, coll_r: FixF) {
     let mut unit_builder = EntityBuilder::new();
     let player = sim.res.players.get(owner);
 
@@ -117,32 +93,20 @@ pub fn plc_smart_unit(
         // unit_builder.add(DestinationComp::new(pos));
         unit_builder.add(SpeedComponent::new(speed, 1));
         unit_builder.add(CollComp::new(coll_r));
-        unit_builder.add(
-            IdComp::new(
-                &mut sim.res.id_counter, 
-                player,
-                )
-            );
+        unit_builder.add(IdComp::new(&mut sim.res.id_counter, player));
         unit_builder.add(PathComp::new());
         unit_builder.add(TargetComp::new(FixF::from_num(3)));
         unit_builder.add(ActiveAbilityComp::builder());
         unit_builder.add(UnitStateComp::new());
         unit_builder.add(OrderQueueComp::new());
-    
+
         let new_entity = sim.ecs.spawn(unit_builder.build());
-    
-    
+
         // let msg = EngineMessage::ObjPosColl(sim.res.id_counter - 1, pos, coll_r);
         // let msg = StateChange(ObjPosColl(sim.res.id_counter - 1, pos, coll_r));
-        let msg = StateChange(
-            ObjSpawn(
-                sim.res.id_counter - 1,
-                *player, 
-                pos, coll_r
-                )
-            );
+        let msg = StateChange(ObjSpawn(sim.res.id_counter - 1, *player, pos, coll_r));
         sim.res.send_batch.push(msg);
-    
+
         sim.res.id_map.insert(sim.res.id_counter - 1, new_entity);
     }
 }
@@ -151,12 +115,10 @@ pub fn plc_building(sim: &mut SimState, owner: PId, pos: Pos) {
     let mut unit_builder = EntityBuilder::new();
 
     unit_builder.add(TypeNameComp::new("placeholder_building"));
-        unit_builder.add(
-        IdComp::new(
-            &mut sim.res.id_counter, 
-            sim.res.players.get(owner).unwrap()
-            )
-        );
+    unit_builder.add(IdComp::new(
+        &mut sim.res.id_counter,
+        sim.res.players.get(owner).unwrap(),
+    ));
     unit_builder.add(StructureComp::new(pos));
 
     let new_entity = sim.ecs.spawn(unit_builder.build());
@@ -198,9 +160,7 @@ pub fn input_spawn_unit(sim: &mut SimState) {
                 let coll_rad_tmp = FixF::from_num(0.5);
                 let speed = FixF::from_num(0.5);
 
-                plc_unit(sim, player,  pos, speed, coll_rad_tmp);
-                
-
+                plc_unit(sim, player, pos, speed, coll_rad_tmp);
             }
             _ => {}
         }
@@ -236,9 +196,7 @@ pub fn input_spawn_smart_unit(sim: &mut SimState) {
                 let coll_rad_tmp = FixF::from_num(0.5);
                 let speed = FixF::from_num(0.5);
 
-                plc_smart_unit(sim, player,  pos, speed, coll_rad_tmp);
-                
-
+                plc_smart_unit(sim, player, pos, speed, coll_rad_tmp);
             }
             _ => {}
         }
@@ -248,8 +206,7 @@ pub fn input_spawn_smart_unit(sim: &mut SimState) {
 // Takes inputs and turns them into UnitOrders.
 // This system will grow and use multiple subsystems in the future.
 // TODO: Add order validation in this part
-pub fn sys_input_to_order(sim: &mut SimState){
-
+pub fn sys_input_to_order(sim: &mut SimState) {
     let inbox = &mut sim.res.inbox;
 
     let (input_orders, rest): (Vec<RenderMessage>, Vec<RenderMessage>) =
@@ -258,65 +215,60 @@ pub fn sys_input_to_order(sim: &mut SimState){
             match msg {
                 RenderMessage::InputOrder(..) => true,
                 _ => false,
-            }
-        );
+            });
 
     *inbox = rest;
 
     for i in 0..input_orders.len() {
-        match input_orders[i]{
+        match input_orders[i] {
             RenderMessage::InputOrder(player_id, unit_ids, UnitOrder::MoveTo(moveto_pos)) => {
                 set_moveto_order(sim, &player_id, unit_ids, &moveto_pos);
-            },
-            RenderMessage::InputOrder(player_id, unit_ids,
-                UnitOrder::Ability(abil_id, abil_target)
-                ) => {
+            }
+            RenderMessage::InputOrder(
+                player_id,
+                unit_ids,
+                UnitOrder::Ability(abil_id, abil_target),
+            ) => {
                 set_ability_order(sim, &player_id, unit_ids, &abil_id, &abil_target);
-            },
-            _ => {},
+            }
+            _ => {}
         }
     }
 }
 
-
 // right now only set evey unit's State to that same pos
 fn set_moveto_order(
-    sim: &mut SimState, 
+    sim: &mut SimState,
     player_id: &PId,
-    unit_ids: [Option<UId>; UNIT_GROUP_CAP], 
-    moveto_pos: &Pos
-    ){
+    unit_ids: [Option<UId>; UNIT_GROUP_CAP],
+    moveto_pos: &Pos,
+) {
     for id in unit_ids.iter() {
         if let Some(id) = id {
-
-            if !is_valid(sim, player_id, id){
-                sim.res.send_batch.push(
-                    SimMsg::Warn(
-                        *sim.res.players.get(*player_id).unwrap(),
-                        SimWarnMsg::UnitUnavailable)
-                    );
+            if !is_valid(sim, player_id, id) {
+                sim.res.send_batch.push(SimMsg::Warn(
+                    *sim.res.players.get(*player_id).unwrap(),
+                    SimWarnMsg::UnitUnavailable,
+                ));
                 return;
             }
 
-            if let Some(entity) = sim.res.id_map.get(&id){
-
+            if let Some(entity) = sim.res.id_map.get(&id) {
                 type ToQuery<'a> = (
                     &'a mut OrderQueueComp,
                     // &'a mut DestinationComp,
-                    );
+                );
 
-                if let Ok(mut query) = sim.ecs.query_one::<ToQuery>(*entity){
-                    if let Some((order_queue,)) = query.get(){
-
+                if let Ok(mut query) = sim.ecs.query_one::<ToQuery>(*entity) {
+                    if let Some((order_queue,)) = query.get() {
                         let mut moveto_pos_valid = moveto_pos.clone();
                         sim.map.constrain_pos(&mut moveto_pos_valid);
                         order_queue.set_single_order(UnitOrder::MoveTo(moveto_pos_valid));
 
                         // dest.set_dest(moveto_pos_valid, sim.current_tick());
-                        
+
                         let msg = StateChange(ObjDest(*id, moveto_pos_valid));
                         sim.res.send_batch.push(msg);
-
                     }
                 }
 
@@ -327,32 +279,30 @@ fn set_moveto_order(
 
                 //     sim.map.constrain_pos(&mut moveto_pos_valid);
 
-
                 //     state.set_single_order(UnitOrder::MoveTo(moveto_pos_valid));
 
                 //     // // Probably need different message:
                 //     // let msg = StateChange(ObjDest(id, pos));
                 //     // sim.res.send_batch.push(msg);
-                // }                        
-            }    
+                // }
+            }
         }
     }
 }
 
 // TODO: for groups of units only the closest unit to the target should use the ability.
 fn set_ability_order(
-    sim: &mut SimState, 
+    sim: &mut SimState,
     player_id: &PId,
-    unit_ids: [Option<UId>; UNIT_GROUP_CAP], 
+    unit_ids: [Option<UId>; UNIT_GROUP_CAP],
     abil_id: &AbilityID,
     abil_trg: &ObjTarget,
-    ){
+) {
     for id in unit_ids.iter() {
         if let Some(id) = id {
-            if is_valid(sim, player_id, id){
-                if let Some(entity) = sim.res.id_map.get(&id){
+            if is_valid(sim, player_id, id) {
+                if let Some(entity) = sim.res.id_map.get(&id) {
                     if let Ok(mut state) = sim.ecs.get_mut::<OrderQueueComp>(*entity) {
-
                         state.set_single_order(UnitOrder::Ability(*abil_id, *abil_trg));
                     }
                 }

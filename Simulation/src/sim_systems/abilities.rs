@@ -1,4 +1,3 @@
-use crate::sim_systems::validate_order::is_valid;
 use crate::common::*;
 use crate::sim_abilities_list::Ability;
 use crate::sim_components::active_ability_comp::ActiveAbilityComp;
@@ -6,15 +5,11 @@ use crate::sim_components::sim_unit_base_components::PositionComp;
 use crate::sim_ecs::SimState;
 use crate::sim_fix_math::*;
 use crate::sim_systems::input_systems::plc_building;
+use crate::sim_systems::validate_order::is_valid;
 use num_traits::identities::Zero;
 //use hecs::*;
 
-pub fn use_ability(
-    sim: &mut SimState, 
-    entity: UId, 
-    target: ObjTarget, 
-    ability: &mut Ability
-    ) {
+pub fn use_ability(sim: &mut SimState, entity: UId, target: ObjTarget, ability: &mut Ability) {
     match ability {
         Ability::BuildSimpleStructure => build_simple_structure(sim, entity, target),
         Ability::GenericAbility {
@@ -51,17 +46,17 @@ pub fn sys_abilities(sim: &mut SimState) {
                 }
                 let entity = sim.res.id_map.get(&id);
 
-                if entity.is_none() | !is_valid(sim, &player_id, &id){
+                if entity.is_none() | !is_valid(sim, &player_id, &id) {
                     // This makes sure that .unwrap() won't panic
                     continue;
                 }
 
                 let abil_comp = sim.ecs.get::<ActiveAbilityComp>(*entity.unwrap());
-                
+
                 // TODO: this line sucks. Replace unwrap with something else.
                 // But note that this whole section of code is burrow checker's nightmare
                 let abil_comp = abil_comp.unwrap();
-                
+
                 let mut abil = abil_comp.get_ability(abil_id);
                 drop(abil_comp);
                 use_ability(sim, id, trg, &mut abil);
@@ -85,7 +80,7 @@ fn build_simple_structure(sim: &mut SimState, id: UId, target: ObjTarget) {
 
         let entity = sim.res.id_map.get(&id);
 
-        if entity.is_none(){
+        if entity.is_none() {
             // This makes sure that .unwrap() won't panic
             return;
         }

@@ -1,9 +1,9 @@
-use crate::sim_components::targeting_comp::TargetComp;
-use crate::sim_components::order_queue_comp::OrderQueueComp;
-use crate::sim_components::unitstate_comp::UnitStateComp;
 use crate::common::SimMsg::StateChange;
 use crate::common::SimStateChng::ObjPathTmp;
+use crate::sim_components::order_queue_comp::OrderQueueComp;
 use crate::sim_components::sim_unit_base_components::IdComp;
+use crate::sim_components::targeting_comp::TargetComp;
+use crate::sim_components::unitstate_comp::UnitStateComp;
 
 use crate::sim_components::sim_unit_base_components::DestinationComp;
 use crate::sim_components::sim_unit_base_components::PathComp;
@@ -172,7 +172,9 @@ pub fn sys_pathfinding_astar(sim: &mut SimState) {
 
     //println!("Running pathfinding system");
 
-    'query_loop: for (_, (id, pos, dest, path_comp)) in sim.ecs.query::<ToQuery>().without::<UnitStateComp>().iter() {
+    'query_loop: for (_, (id, pos, dest, path_comp)) in
+        sim.ecs.query::<ToQuery>().without::<UnitStateComp>().iter()
+    {
         //println!("Calculating path for {:?}", id);
         if dest.last_set() != sim.current_tick() {
             continue 'query_loop;
@@ -196,11 +198,9 @@ pub fn sys_pathfinding_astar(sim: &mut SimState) {
     }
 }
 
-pub fn sys_pathfinding_smart(sim: &mut SimState){
-    
+pub fn sys_pathfinding_smart(sim: &mut SimState) {
     // Finds path only once
     // Checks unit state for executiuon.
-
 
     type ToQuery<'a> = (
         &'a IdComp,
@@ -212,14 +212,13 @@ pub fn sys_pathfinding_smart(sim: &mut SimState){
         &'a mut PathComp,
     );
 
-
-    'query_loop: for (_, (id, pos, target, _order_queue, state, path_comp)) in &mut sim.ecs.query::<ToQuery>() {
-        
+    'query_loop: for (_, (id, pos, target, _order_queue, state, path_comp)) in
+        &mut sim.ecs.query::<ToQuery>()
+    {
         // Check if pathfinding can be run on this tick
-        if !state.pathfind(){
+        if !state.pathfind() {
             continue 'query_loop;
         }
-
 
         let dest = target.get_trg_pos().unwrap();
 
@@ -230,9 +229,6 @@ pub fn sys_pathfinding_smart(sim: &mut SimState){
                 continue 'query_loop;
             }
         }
-
-
-
 
         let path = PathfindingHelper::find_path(&sim.map, *pos.get_pos(), dest);
 
@@ -248,10 +244,7 @@ pub fn sys_pathfinding_smart(sim: &mut SimState){
 
         path_comp.set(path);
     }
-
-
 }
-
 
 // zim_ecs::*;
 //         use crate::sim_fix_math::*;

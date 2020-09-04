@@ -3,7 +3,6 @@ use std::collections::VecDeque;
 
 use crate::sim_fix_math::*;
 
-
 /// Unit type name
 pub struct TypeNameComp {
     name: String,
@@ -27,7 +26,6 @@ pub struct IdComp {
     owner: PlayerId,
 }
 
-
 impl IdComp {
     pub fn new(id_counter: &mut u64, owner: &PlayerId) -> Self {
         let id = std::mem::replace(id_counter, *id_counter + 1);
@@ -38,10 +36,7 @@ impl IdComp {
         }
     }
 
-#[deprecated(
-    since = "yesterday",
-    note = "Please use the get_id() function instead"
-)]
+    #[deprecated(since = "yesterday", note = "Please use the get_id() function instead")]
     pub fn get(&self) -> &UId {
         &self.id
     }
@@ -54,7 +49,6 @@ impl IdComp {
         &self.owner
     }
 }
-
 
 /// Location component
 #[derive(Debug, PartialEq, Clone)]
@@ -75,7 +69,6 @@ impl PositionComp {
         &self.pos
     }
 }
-
 
 /// Next position component
 pub struct NextPosComp {
@@ -132,7 +125,7 @@ pub struct SpeedComponent {
 
 impl SpeedComponent {
     pub fn new(s: FixF, cd: TickNum) -> Self {
-        SpeedComponent { 
+        SpeedComponent {
             speed: s,
             cooldown: cd,
         }
@@ -208,14 +201,10 @@ impl PathComp {
     }
 }
 
-pub struct UnitAIComp{
+pub struct UnitAIComp {}
 
-}
-
-impl UnitAIComp{
-	pub fn new() -> Self {
-		UnitAIComp {
-			
-		}
-	}
+impl UnitAIComp {
+    pub fn new() -> Self {
+        UnitAIComp {}
+    }
 }

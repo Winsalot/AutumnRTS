@@ -32,7 +32,7 @@ impl Pos {
         let l = Pos::square(pos);
         return (l.x + l.y).sqrt();
     }
-    
+
     pub fn dist(&self, xy: &Pos) -> FixF {
         Pos::vec_length(self.clone() - xy.clone())
     }
