@@ -137,7 +137,8 @@ mod interation_tests {
 
 
 
-    fn smart_movement_test(){
+
+fn smart_movement_test(){
         // run with:
         // cargo test -- --nocapture smart_movement_test
 
@@ -153,19 +154,23 @@ mod interation_tests {
         use crate::sim_components::unitstate_comp::UnitStateComp;
         use crate::sim_components::sim_unit_base_components::PathComp;
         use crate::sim_components::sim_unit_base_components::PositionComp;
+        use crate::sim_components::targeting_comp::TargetComp;
+
 
         fn print_components(sim: &mut SimState, e: &UId) {
             type ToQuery<'a> = (
                 &'a UnitStateComp,
                 &'a OrderQueueComp,
+                &'a TargetComp,
                 &'a PathComp,
                 &'a PositionComp,
             );
 
             let mut query = sim.ecs.query_one::<ToQuery>(*sim.res.id_map.get(e).unwrap()).unwrap();
-            let (state, queue, path, pos) = query.get().unwrap();
+            let (state, queue, trg, path, pos) = query.get().unwrap();
             println!("{:?} \n", state);
             println!("{:?} \n", queue);
+            println!("{:?} \n", trg);
             println!("{:?} \n", path);
             println!("{:?} \n", pos);
 

@@ -1,3 +1,4 @@
+use crate::sim_components::targeting_comp::TargetComp;
 use crate::sim_components::sim_unit_base_components::PathComp;
 use hecs::Entity;
 use crate::sim_fix_math::*;
@@ -26,6 +27,7 @@ fn check_current_order_completion(sim: &mut SimState){
     // This is all borrow checker's fault. A list for entities who have fulfilled the requirement of their current order.
     let mut to_update_orders: Vec<UId> = vec![];
 
+
     for (entity, (id, unit_orders)) in &mut sim.ecs.query::<ToQuery>(){
     	// Three parts in this:
 
@@ -37,7 +39,7 @@ fn check_current_order_completion(sim: &mut SimState){
     		UnitOrder::MoveTo(moveto_pos) => {
     			// TODO: account for cases where position is unreachable (eg. occupied or on blocking tile). However, this validation should probably happen in RenderMessage -> UnitOrder step.
     			if let Ok(pos_comp) = sim.ecs.get::<PositionComp>(entity){
-    				if pos_comp.get_pos().dist(moveto_pos) == 0 {
+    				if pos_comp.get_pos() == (moveto_pos) {
     					to_update_orders.push(*id.get_id());
     				}
     			}
@@ -54,6 +56,10 @@ fn check_current_order_completion(sim: &mut SimState){
     		if let Ok(mut unit_orders) = sim.ecs.get_mut::<OrderQueueComp>(*entity) {
     			unit_orders.current_order_completed();
     		}
+
+    		if let Ok(mut unit_target) = sim.ecs.get_mut::<TargetComp>(*entity) {
+    			unit_target.set_trg(ObjTarget::None);
+    		}
     	}
     }
 }
@@ -63,21 +69,33 @@ fn order_to_unitstate(sim: &mut SimState) {
 	// Takes current order and sets appropriate unit state.
 	type ToQuery<'a> = (
         &'a IdComp,
+        &'a TargetComp,
         &'a OrderQueueComp,
         &'a UnitStateComp,
     );
 
     let mut to_update_states: Vec<(UId, UnitState)> = vec![];
+    let mut to_update_targets: Vec<(UId, ObjTarget)> = vec![];
 
-	for (e_id, (id, unit_orders, unit_state)) in /*&mut*/ sim.ecs.query::<ToQuery>().iter(){
+	for (e_id, (id, unit_target, unit_orders, unit_state)) in /*&mut*/ sim.ecs.query::<ToQuery>().iter(){
+
 		match unit_orders.get_current_order() {
+
     		UnitOrder::None => {
+    			// TODO: here should go check for nerably enemies and shit.
+    			// If there are things to do for unit then it should not be idle :D
     			if unit_state.get_state() != &UnitState::Idle {
     				to_update_states.push((*id.get_id(), UnitState::Idle));
     			}
+
     		},
     		UnitOrder::MoveTo(dest) => {
+    			// Check is target corresponds to destination:
+    			if unit_target.get_trg() != &ObjTarget::Position(*dest){
+    				to_update_targets.push((*id.get_id(), ObjTarget::Position(*dest)));
+    			}
 
+    			// check if pathfinding needs to be rerun:
     			match knows_path_to_dest(&sim, &e_id, &dest) {
     				true => {
 		    			if unit_state.get_state() != &UnitState::Move {
@@ -106,7 +124,18 @@ fn order_to_unitstate(sim: &mut SimState) {
     		}
     	}
     }
+
+    for (unit_id, new_target) in to_update_targets.iter() {
+    	if let Some(entity) = sim.res.id_map.get(&unit_id){
+    		if let Ok(mut unit_target) = sim.ecs.get_mut::<TargetComp>(*entity) {
+    			unit_target.set_trg(*new_target);
+    		}
+    	}    	
+    }
 }
+
+
+
 
 fn knows_path_to_dest(sim: &SimState, entity_id: &Entity, dest: &Pos) -> bool{
 	// Check how far away from first node in path 
@@ -125,7 +154,7 @@ fn knows_path_to_dest(sim: &SimState, entity_id: &Entity, dest: &Pos) -> bool{
 
 		// Unwraps won't panic, because previous IF checks for length:
 		if (curr_pos.get_pos().dist(path.get_path().front().unwrap()) <= FixF::from_num(2)) 
-			& (dest.dist(path.get_path().back().unwrap()) <= FixF::from_num(1)) {
+			& (dest == path.get_path().back().unwrap()) {
 				return true;
 			}
 	}

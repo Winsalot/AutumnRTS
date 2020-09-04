@@ -114,7 +114,7 @@ pub fn plc_smart_unit(
         unit_builder.add(TypeNameComp::new("placeholder"));
         unit_builder.add(PositionComp::new(pos));
         unit_builder.add(NextPosComp::new(pos));
-        unit_builder.add(DestinationComp::new(pos));
+        // unit_builder.add(DestinationComp::new(pos));
         unit_builder.add(SpeedComponent::new(speed, 1));
         unit_builder.add(CollComp::new(coll_r));
         unit_builder.add(

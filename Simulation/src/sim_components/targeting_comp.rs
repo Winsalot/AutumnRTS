@@ -16,6 +16,7 @@ enum TargetingType{
 	Automatic
 }
 
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct TargetComp {
 	/// Current target
 	target: ObjTarget,
@@ -54,16 +55,24 @@ impl TargetComp {
 		&self.trg_range
 	}
 
-	pub fn under_order(&self) -> bool {
+	pub fn _under_order(&self) -> bool {
 		self.trg_mode == TargetingType::Order
 	}
 
-	pub fn set_automatic(&mut self) {
+	pub fn _set_automatic(&mut self) {
 		self.trg_mode = TargetingType::Automatic;
 	}
 
-	pub fn set_order(&mut self){
+	pub fn _set_order(&mut self){
 		self.trg_mode = TargetingType::Order;
+	}
+
+	pub fn get_trg_pos(&self) -> Option<Pos> {
+		// Returns Pos of target. If target is entitiy then None
+		if let ObjTarget::Position(pos) = self.target {
+			return Some(pos.clone());
+		}
+		None
 	}
 
 }

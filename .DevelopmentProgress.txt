@@ -336,7 +336,13 @@ There is lon way to go, but it can be like this:
 				+ Behaviour AI system should change subsystem.
 				+ Also fuck substate.	
 				+ Problem was that old and new pathfinding systems were querying same entitiy.
-27. Destination component replaced by Target Comp for smart entities.
+[DONE, that was surprisingly fast]27. Destination component replaced by Target Comp for smart entities.
+	+ Target set by behaviour AI according to current order.
+		+ Done only for MoveTo order. Orders like A-move or Ability will have more complicated targets.
+		x Also good idea to have subsystem that converts target (regardless if its Pos or Entity) into position.
+			[Will do this ^ sometime later :) )
+	+ Smart pathfinding uses target instead of destination.
+28. Clean the code? Right now it's in a horrible state of spaghet. Maybe start spawning smart units when running Godot.
 
 		
 
@@ -350,11 +356,13 @@ GENERAL IDEAS:
 		+1. Implement automatic targeting.
 		2. Add automatic firing with all stop to fire, cooldown and shit features (also add health).
 		3. Do another big step and move on to 3D and proper renderer implementation.
-	- Fuck destination component. Instead use Target Component.
-		- Target is set inside Unit Behaviour AI system. Eg:
-			- Move sets target Pos.
+	+ Fuck destination component. Instead use Target Component.
+		+ Target is set inside Unit Behaviour AI system. Eg:
+			+ Move sets target Pos.
 			- Force fire sets taret Pos with mode fire.
 			- A-move sets target pos, but if enemies in range then switches to target Entity.
+		- Remove Targeting Type from Targeting component. It is always automatic and always set by AI.
+		- With time, but smart behaviour will remove target.
 		
 	
 

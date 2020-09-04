@@ -1,3 +1,4 @@
+use crate::sim_components::unitstate_comp::UnitStateComp;
 use crate::sim_fix_math::Pos;
 
 use crate::sim_components::sim_unit_base_components::IdComp;
@@ -28,7 +29,7 @@ pub fn auto_assign_targets(sim: &mut SimState){
 	// Here (Entity, Entity) = (unit, new_target)
 	let mut trg_list: Vec<(UId, Option<UId>, Option<Pos>)> = vec![]; 
 
-	'outer: for (_, (id0, pos0, trg)) in sim.ecs.query::<UnitQuery>().iter() {
+	'outer: for (_, (id0, pos0, trg)) in sim.ecs.query::<UnitQuery>().without::<UnitStateComp>().iter() {
 		if trg.mode_is_order(){
 			// check if target exists:
 			match trg.get_trg() {

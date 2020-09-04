@@ -1,3 +1,4 @@
+use crate::sim_components::targeting_comp::TargetComp;
 use crate::sim_components::order_queue_comp::OrderQueueComp;
 use crate::sim_components::unitstate_comp::UnitStateComp;
 use crate::common::SimMsg::StateChange;
@@ -204,29 +205,36 @@ pub fn sys_pathfinding_smart(sim: &mut SimState){
     type ToQuery<'a> = (
         &'a IdComp,
         &'a PositionComp,
-        &'a DestinationComp,
+        // &'a DestinationComp,
+        &'a TargetComp,
         &'a mut OrderQueueComp,
         &'a mut UnitStateComp,
         &'a mut PathComp,
     );
 
 
-    'query_loop: for (_, (id, pos, dest, _order_queue, state, path_comp)) in &mut sim.ecs.query::<ToQuery>() {
+    'query_loop: for (_, (id, pos, target, _order_queue, state, path_comp)) in &mut sim.ecs.query::<ToQuery>() {
         
         // Check if pathfinding can be run on this tick
         if !state.pathfind(){
             continue 'query_loop;
         }
 
+
+        let dest = target.get_trg_pos().unwrap();
+
         // If current path ends at destination then don't recalculate.
+        // This check is redundant, but whatever.
         if let Some(last_node) = path_comp.get_path().back() {
-            if last_node == dest.get_dest() {
+            if last_node == &dest {
                 continue 'query_loop;
             }
         }
 
 
-        let path = PathfindingHelper::find_path(&sim.map, *pos.get_pos(), *dest.get_dest());
+
+
+        let path = PathfindingHelper::find_path(&sim.map, *pos.get_pos(), dest);
 
         //println!("Path for {:?} found: {:?}",id, path);
 
