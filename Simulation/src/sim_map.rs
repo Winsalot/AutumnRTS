@@ -1,12 +1,10 @@
-//use crate::messenger::EngineMessage;
-
+// TODO: eventually i think map should be supplied to the SimState on initialisation.
 
 use crate::common::SimMsg;
 use crate::common::SimStateInfo;
 
 use crate::common::PlayerId;
 use crate::common::TeamAlliance;
-//use crate::common::EngineMessage;
 use crate::sim_fix_math::*;
 
 #[derive(Debug, PartialEq, Clone, Copy)]

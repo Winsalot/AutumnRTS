@@ -252,7 +252,7 @@ pub fn sys_input_to_order(sim: &mut SimState){
 
     let inbox = &mut sim.res.inbox;
 
-        let (input_orders, rest): (Vec<RenderMessage>, Vec<RenderMessage>) =
+    let (input_orders, rest): (Vec<RenderMessage>, Vec<RenderMessage>) =
         inbox.iter().partition(|&msg|
             // This should use all messages that are orders to units.
             match msg {
@@ -302,17 +302,17 @@ fn set_moveto_order(
 
                 type ToQuery<'a> = (
                     &'a mut OrderQueueComp,
-                    &'a mut DestinationComp,
+                    // &'a mut DestinationComp,
                     );
 
                 if let Ok(mut query) = sim.ecs.query_one::<ToQuery>(*entity){
-                    if let Some((order_queue, dest)) = query.get(){
+                    if let Some((order_queue,)) = query.get(){
 
                         let mut moveto_pos_valid = moveto_pos.clone();
                         sim.map.constrain_pos(&mut moveto_pos_valid);
                         order_queue.set_single_order(UnitOrder::MoveTo(moveto_pos_valid));
 
-                        dest.set_dest(moveto_pos_valid, sim.current_tick());
+                        // dest.set_dest(moveto_pos_valid, sim.current_tick());
                         
                         let msg = StateChange(ObjDest(*id, moveto_pos_valid));
                         sim.res.send_batch.push(msg);

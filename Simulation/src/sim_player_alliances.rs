@@ -12,7 +12,6 @@ pub struct PlayerList {
 
 impl PlayerList {
     pub fn ffa(n_players: PId) -> Self {
-        // let mut players: Vec<PlayerId> = vec![];
         let mut players: HashMap<PId, PlayerId> =  HashMap::new();
 
         for id in 0..n_players {

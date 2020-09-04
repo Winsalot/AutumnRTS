@@ -336,13 +336,34 @@ There is lon way to go, but it can be like this:
 				+ Behaviour AI system should change subsystem.
 				+ Also fuck substate.	
 				+ Problem was that old and new pathfinding systems were querying same entitiy.
-[DONE, that was surprisingly fast]27. Destination component replaced by Target Comp for smart entities.
+[DONE, that was surprisingly fast] 27. Destination component replaced by Target Comp for smart entities.
 	+ Target set by behaviour AI according to current order.
 		+ Done only for MoveTo order. Orders like A-move or Ability will have more complicated targets.
 		x Also good idea to have subsystem that converts target (regardless if its Pos or Entity) into position.
 			[Will do this ^ sometime later :) )
 	+ Smart pathfinding uses target instead of destination.
-28. Clean the code? Right now it's in a horrible state of spaghet. Maybe start spawning smart units when running Godot.
+[DONE] 28. Clean the code? Right now it's in a horrible state of spaghet. Maybe start spawning smart units when running Godot.
+	+[FIxed] AAAnd I fucked something up.
+	+ Wrap up behaviour ai checks in separate functions.
+	x Delete old commented out code.
+	+ Delete/rewrite tests to use asserts
+	+ Targeting system no longer used.
+29. Port ability use for smart Units.
+	- Process of logic:
+		- Order sent to use ability on target. Order component updated.
+			- Have a target to Pos function.
+		- In AI step checks:
+			- Ability range.
+			- Distance to target.
+		- Then sets either state:
+			- Move/PathfindAndMove
+			- UseAbility.
+		- Sets corresponding target.
+			- In this case it's one and the same.
+		- Ability system checks state component for permission to activate.
+			- Add additional range check? I guess I could add panic! hook, to find any bugs.
+
+	
 
 		
 

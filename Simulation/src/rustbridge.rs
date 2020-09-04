@@ -3,7 +3,6 @@ use crate::messenger::*;
 use crate::rustbridge_messages::*;
 use crate::sim_fix_math::Pos;
 use crate::sim_gameloop;
-//use crate::sim_unit_base_components::IdComp;
 use gdnative::*;
 use std::thread::JoinHandle;
 
@@ -13,7 +12,6 @@ pub struct RustBridge {
     sim_handle: Option<JoinHandle<()>>,
     messenger: Option<RendMessenger>,
     message_batch: Vec<RenderMessage>,
-    // message_inbox: Vec<EngineMessage>,
     message_inbox: Vec<SimMsg>,
 }
 
@@ -148,14 +146,7 @@ impl RustBridge {
         let msg = RenderMessage::Spawn(player, pos);
         self.message_batch.push(msg);
     }
-
-    // #[export]
-    // fn tmp_spawn_structure(&mut self, _owner: gdnative::Node, xy: Vector2) {
-    //     let pos: Pos = Pos::from_num(xy.x, xy.y);
-    //     let msg = RenderMessage::SpawnStructureTmp(pos);
-    //     self.message_batch.push(msg);
-    // }
-
+    
     #[export]
     fn use_ability_pos(
         &mut self,

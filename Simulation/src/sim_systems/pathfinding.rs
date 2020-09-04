@@ -253,72 +253,64 @@ pub fn sys_pathfinding_smart(sim: &mut SimState){
 }
 
 
-#[cfg(test)]
-mod pathfinding_tests {
+// zim_ecs::*;
+//         use crate::sim_fix_math::*;
+//         use crate::sim_map::Map;
+//         use crate::sim_systems::pathfinding::PathfindingHelper;
 
-    #[test]
-    fn adjacent_test() {
-        // run with:
-        // cargo test -- --nocapture
-        use crate::messenger::*;
-        use crate::sim_ecs::*;
-        use crate::sim_fix_math::*;
-        use crate::sim_map::Map;
-        use crate::sim_systems::pathfinding::PathfindingHelper;
+//         let (sim_messenger, _rend_messenger) = create_messenger();
 
-        let (sim_messenger, _rend_messenger) = create_messenger();
+//         let messenger = sim_messenger;
+//         let map = Map::make_test_map();
+//         let sim = SimState::new(map, messenger, 1, 10);
 
-        let messenger = sim_messenger;
-        let map = Map::make_test_map();
-        let sim = SimState::new(map, messenger, 1, 10);
+//         let pos1 = Pos::from_num(2, 2);
+//         let pos2 = Pos::from_num(3, 3);
+//         let pos3 = Pos::from_num(4, 4);
+//         let pos4 = Pos::from_num(5, 2);
 
-        let pos1 = Pos::from_num(2, 2);
-        let pos2 = Pos::from_num(3, 3);
-        let pos3 = Pos::from_num(4, 4);
-        let pos4 = Pos::from_num(5, 2);
+//         println!(
+//             "{:?} adjacent: {:?}",
+//             pos1,
+//             PathfindingHelper::adjacent(&sim.map, pos1)
+//         );
+//         println!(
+//             "{:?} adjacent: {:?}",
+//             pos2,
+//             PathfindingHelper::adjacent(&sim.map, pos2)
+//         );
+//         println!(
+//             "{:?} adjacent: {:?}",
+//             pos3,
+//             PathfindingHelper::adjacent(&sim.map, pos3)
+//         );
+//         println!(
+//             "{:?} adjacent: {:?}",
+//             pos4,
+//             PathfindingHelper::adjacent(&sim.map, pos4)
+//         );
+//     }
 
-        println!(
-            "{:?} adjacent: {:?}",
-            pos1,
-            PathfindingHelper::adjacent(&sim.map, pos1)
-        );
-        println!(
-            "{:?} adjacent: {:?}",
-            pos2,
-            PathfindingHelper::adjacent(&sim.map, pos2)
-        );
-        println!(
-            "{:?} adjacent: {:?}",
-            pos3,
-            PathfindingHelper::adjacent(&sim.map, pos3)
-        );
-        println!(
-            "{:?} adjacent: {:?}",
-            pos4,
-            PathfindingHelper::adjacent(&sim.map, pos4)
-        );
-    }
+//     #[test]
+//     fn find_path() {
+//         use crate::messenger::*;
+//         use crate::sim_ecs::*;
+//         use crate::sim_fix_math::*;
+//         use crate::sim_map::Map;
+//         use crate::sim_systems::pathfinding::PathfindingHelper;
 
-    #[test]
-    fn find_path() {
-        use crate::messenger::*;
-        use crate::sim_ecs::*;
-        use crate::sim_fix_math::*;
-        use crate::sim_map::Map;
-        use crate::sim_systems::pathfinding::PathfindingHelper;
+//         let (sim_messenger, _rend_messenger) = create_messenger();
 
-        let (sim_messenger, _rend_messenger) = create_messenger();
+//         let messenger = sim_messenger;
+//         let map = Map::make_test_map();
+//         let sim = SimState::new(map, messenger, 1, 10);
 
-        let messenger = sim_messenger;
-        let map = Map::make_test_map();
-        let sim = SimState::new(map, messenger, 1, 10);
+//         let start = Pos::from_num(5, 3);
+//         let goal = Pos::from_num(3, 3);
 
-        let start = Pos::from_num(5, 3);
-        let goal = Pos::from_num(3, 3);
+//         let path = PathfindingHelper::find_path(&sim.map, start, goal);
 
-        let path = PathfindingHelper::find_path(&sim.map, start, goal);
-
-        println!("The path is: \n");
-        println!("{:?}", path);
-    }
-}
+//         println!("The path is: \n");
+//         println!("{:?}", path);
+//     }
+// }

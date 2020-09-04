@@ -32,7 +32,7 @@ pub const UNIT_GROUP_CAP: usize = 32; // >32 is possible but complicates things 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum ObjTarget {
     Position(Pos),
-    Entity(UId),
+    _Entity(UId),
     None,
 }
 
@@ -72,19 +72,6 @@ impl PlayerId {
         self.team
     }
 }
-
-// #[derive(Debug, PartialEq, Clone, Copy)]
-// pub enum EngineMessage {
-//     ObjPosColl(UId, Pos, FixF), // Message carrying position and collision radius info
-//     ObjMove(UId, Pos),
-//     ObjNextPos(UId, Pos),
-//     ObjDest(UId, Pos),
-//     ObjPathTmp(UId, [Pos; 20]), // To visualise pathfinding. Sends next n steps.
-//     StructurePosTmp(UId, Pos),
-//     MapTile(Pos, MapTile),
-//     Fps(u64, u64),
-//     //None, // this message sucks, but whatever
-// }
 
 // #[derive(Debug, PartialEq, Clone, Copy)]
 #[derive(Debug, Clone, Copy)]
