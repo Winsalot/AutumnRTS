@@ -31,7 +31,7 @@ pub const UNIT_GROUP_CAP: usize = 32; // >32 is possible but complicates things 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum ObjTarget {
     Position(Pos),
-    _Entity(UId),
+    Entity(UId),
     None,
 }
 
@@ -134,4 +134,6 @@ pub enum UnitState {
     Idle,
     Move,
     PathfindAndMove,
+    UseAbility(AbilityID),
+    UseAbilityFailed,
 }

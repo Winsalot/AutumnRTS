@@ -1,4 +1,5 @@
 use crate::common::*;
+use crate::sim_components::active_ability_comp::ActiveAbilityComp;
 use crate::sim_components::order_queue_comp::OrderQueueComp;
 use crate::sim_components::sim_unit_base_components::IdComp;
 use crate::sim_components::sim_unit_base_components::PathComp;
@@ -6,6 +7,7 @@ use crate::sim_components::sim_unit_base_components::PositionComp;
 use crate::sim_components::targeting_comp::TargetComp;
 use crate::sim_components::unitstate_comp::UnitStateComp;
 use crate::sim_fix_math::*;
+use crate::sim_systems::targeting::target_to_pos;
 use hecs::Entity;
 //use crate::sim_fix_math::*;
 use crate::sim_ecs::*;
@@ -32,10 +34,25 @@ fn check_current_order_completion(sim: &mut SimState) {
                     }
                 }
             }
-            UnitOrder::Ability(..) => {
-                // TBA
-            }
-            //_ => {}
+            UnitOrder::Ability(_abil_id, _abil_trg) => {
+                // Assume that if unit started turn with UseAbility, then it was done last turn.
+                // Though I find that I really dislike this implementation.
+                // Actually this solution is dogshit. Really sucks for abilities that take multiple frames.
+                if let Ok(state_comp) = sim.ecs.get::<UnitStateComp>(entity) {
+                    match state_comp.get_state() {
+                        UnitState::UseAbility(..) => {
+                            to_update_orders.push(*id.get_id());
+                        }
+                        UnitState::UseAbilityFailed => {
+                            to_update_orders.push(*id.get_id());
+                        }
+                        _ => {}
+                    }
+                    // if *state_comp.get_state() == UnitState::UseAbility(*abil_id){
+                    //     to_update_orders.push(*id.get_id());
+                    // }
+                }
+            } //_ => {}
         }
     }
 
@@ -53,12 +70,7 @@ fn check_current_order_completion(sim: &mut SimState) {
 }
 
 fn order_to_unitstate(sim: &mut SimState) {
-    type ToQuery<'a> = (
-        &'a IdComp,
-        // &'a TargetComp,
-        &'a OrderQueueComp,
-        // &'a UnitStateComp,
-    );
+    type ToQuery<'a> = (&'a IdComp, &'a OrderQueueComp);
 
     let mut to_update_states: Vec<(UId, UnitState)> = vec![];
     let mut to_update_targets: Vec<(UId, ObjTarget)> = vec![];
@@ -84,10 +96,16 @@ fn order_to_unitstate(sim: &mut SimState) {
                     &mut to_update_targets,
                 );
             }
-            UnitOrder::Ability(..) => {
-                // TODO: here check range to target. If not in range then Move. If in range, then Use Ability.
-            }
-            //_ => {}
+            UnitOrder::Ability(abil_id, abil_trg) => {
+                ability_order_behaviour(
+                    &sim,
+                    id.get_id(),
+                    &abil_id,
+                    &abil_trg,
+                    &mut to_update_states,
+                    &mut to_update_targets,
+                );
+            } //_ => {}
         }
     }
 
@@ -137,6 +155,76 @@ fn moveto_order_behaviour(
         false => {
             if unit_state.get_state() != &UnitState::PathfindAndMove {
                 new_states.push((*uid, UnitState::PathfindAndMove));
+            }
+        }
+    }
+}
+
+fn ability_order_behaviour(
+    sim: &SimState,
+    uid: &UId,
+    abil_id: &AbilityID,
+    abil_trg: &ObjTarget,
+    new_states: &mut Vec<(UId, UnitState)>,
+    new_targets: &mut Vec<(UId, ObjTarget)>,
+) {
+    // what if unit has no id? Then set to Ability Unavailable and waste 1 frame :)
+    let entity = sim.res.id_map.get(uid).unwrap();
+
+    type ToQuery<'a> = (
+        // &'a UnitStateComp,
+        &'a ActiveAbilityComp,
+        &'a PositionComp,
+        &'a TargetComp,
+    );
+
+    let mut query = sim.ecs.query_one::<ToQuery>(*entity).unwrap();
+
+    // Don't run if entity doesn't have either of the components
+    if let Some((abil_comp, pos_comp, trg_comp)) = query.get() {
+        // If ability has no target, then allow it as is:
+        let trg = trg_comp.get_trg();
+
+        if let ObjTarget::None = abil_trg {
+            new_states.push((*uid, UnitState::UseAbility(*abil_id)));
+            // new_targets.push((*uid, ObjTarget::Entity(*uid)));
+            new_targets.push((*uid, ObjTarget::None));
+
+            return;
+        }
+
+        let abil_range = abil_comp.get_ability(*abil_id).get_range();
+
+        // CHeck if target can be converted to position:
+        let trg_pos = target_to_pos(sim, trg);
+
+        match trg_pos {
+            None => {
+                new_states.push((*uid, UnitState::UseAbilityFailed));
+                new_targets.push((*uid, ObjTarget::None));
+                return;
+            }
+            Some(trg_pos) => {
+                // Is unit in range?
+                if abil_range >= &pos_comp.get_pos().dist(&trg_pos) {
+                    // Unit is in range, therefore set state to use ability
+                    new_states.push((*uid, UnitState::UseAbility(*abil_id)));
+                    // and target to same as in given order:
+                    new_targets.push((*uid, *abil_trg));
+
+                    return;
+                } else {
+                    match knows_path_to_dest(&sim, entity, &trg_pos) {
+                        true => {
+                            new_states.push((*uid, UnitState::Move));
+                        }
+                        false => {
+                            new_states.push((*uid, UnitState::PathfindAndMove));
+                        }
+                    }
+                    new_targets.push((*uid, ObjTarget::Position(trg_pos)));
+                    return;
+                }
             }
         }
     }
@@ -258,19 +346,46 @@ mod order_and_state_tests {
 
         print_components(&mut sim, &0);
 
-        let order = sim
-            .ecs
-            .get::<OrderQueueComp>(*sim.res.id_map.get(&0).unwrap())
-            .unwrap();
-        assert_eq!(
-            *order.get_current_order(),
-            UnitOrder::MoveTo(Pos::from_num(4, 1))
+        {
+            let order = sim
+                .ecs
+                .get::<OrderQueueComp>(*sim.res.id_map.get(&0).unwrap())
+                .unwrap();
+
+            assert_eq!(
+                *order.get_current_order(),
+                UnitOrder::MoveTo(Pos::from_num(4, 1))
+            );
+        }
+
+        let msg = RenderMessage::InputOrder(
+            0,
+            units,
+            UnitOrder::Ability(0, ObjTarget::Position(Pos::from_num(10, 10))),
         );
+
+        rend_messenger.send(vec![msg]);
+
+        receive_messages(&mut sim);
+
+        sys_input_to_order(&mut sim);
+
+        {
+            let order = sim
+                .ecs
+                .get::<OrderQueueComp>(*sim.res.id_map.get(&0).unwrap())
+                .unwrap();
+
+            assert_eq!(
+                *order.get_current_order(),
+                UnitOrder::Ability(0, ObjTarget::Position(Pos::from_num(10, 10)))
+            );
+        }
     }
 
     #[test]
     fn moveto_state() {
-        // cargo test -- --nocapture update_order_schedule
+        // cargo test -- --nocapture moveto_state
 
         let (sim_messenger, rend_messenger) = create_messenger();
 
@@ -287,11 +402,12 @@ mod order_and_state_tests {
         run_single_tick(&mut sim);
 
         // Print initial state
-        print_components(&mut sim, &0);
+        //print_components(&mut sim, &0);
 
         // Send order to move:
         let mut units: [Option<UId>; UNIT_GROUP_CAP] = [None; UNIT_GROUP_CAP];
         units[0] = Some(0);
+
         let msg = RenderMessage::InputOrder(0, units, UnitOrder::MoveTo(Pos::from_num(4, 1)));
 
         rend_messenger.send(vec![msg]);
@@ -311,12 +427,69 @@ mod order_and_state_tests {
 
         run_single_tick(&mut sim);
 
+        print_components(&mut sim, &0);
+
         {
             let state = sim
                 .ecs
                 .get::<UnitStateComp>(*sim.res.id_map.get(&0).unwrap())
                 .unwrap();
             assert_eq!(*state.get_state(), UnitState::Move);
+        }
+    }
+
+    #[test]
+    fn use_abilities_states() {
+        // cargo test -- --nocapture use_abilities_states
+
+        let (sim_messenger, rend_messenger) = create_messenger();
+
+        let map = Map::make_test_map();
+        let mut sim = SimState::new(map, sim_messenger, 1, 10);
+
+        //run first 2 ticks:
+        first_tick(&mut sim);
+        rend_messenger.rec();
+        run_single_tick(&mut sim);
+
+        let msg0 = RenderMessage::SpawnSmart(0, Pos::from_num(1, 1));
+        rend_messenger.send(vec![msg0]);
+        run_single_tick(&mut sim);
+
+        // selection of units:
+        let mut units: [Option<UId>; UNIT_GROUP_CAP] = [None; UNIT_GROUP_CAP];
+        units[0] = Some(0);
+
+        // Send message to use ability:
+        let msg = RenderMessage::InputOrder(
+            0,
+            units,
+            UnitOrder::Ability(0, ObjTarget::Position(Pos::from_num(5.1, 1.0))),
+        );
+        rend_messenger.send(vec![msg]);
+
+        run_single_tick(&mut sim);
+        print_components(&mut sim, &0);
+
+        {
+            let state = sim
+                .ecs
+                .get::<UnitStateComp>(*sim.res.id_map.get(&0).unwrap())
+                .unwrap();
+
+            assert_eq!(*state.get_state(), UnitState::PathfindAndMove);
+        }
+
+        run_single_tick(&mut sim);
+        print_components(&mut sim, &0);
+
+        {
+            let state = sim
+                .ecs
+                .get::<UnitStateComp>(*sim.res.id_map.get(&0).unwrap())
+                .unwrap();
+
+            assert_eq!(*state.get_state(), UnitState::UseAbility(0));
         }
     }
 }

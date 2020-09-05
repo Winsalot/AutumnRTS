@@ -102,8 +102,6 @@ pub fn plc_smart_unit(sim: &mut SimState, owner: PId, pos: Pos, speed: FixF, col
 
         let new_entity = sim.ecs.spawn(unit_builder.build());
 
-        // let msg = EngineMessage::ObjPosColl(sim.res.id_counter - 1, pos, coll_r);
-        // let msg = StateChange(ObjPosColl(sim.res.id_counter - 1, pos, coll_r));
         let msg = StateChange(ObjSpawn(sim.res.id_counter - 1, *player, pos, coll_r));
         sim.res.send_batch.push(msg);
 
@@ -290,7 +288,7 @@ fn set_moveto_order(
     }
 }
 
-// TODO: for groups of units only the closest unit to the target should use the ability.
+// TODO: for groups of units only the closest unit to the target should use the ability. Probably best to place this under behaviour AI module, instead of input systems.
 fn set_ability_order(
     sim: &mut SimState,
     player_id: &PId,
@@ -310,41 +308,6 @@ fn set_ability_order(
         }
     }
 }
-
-// pub fn input_spawn_structure(sim: &mut SimState) {
-
-//     let inbox = &mut sim.res.inbox;
-
-//     let (spawn_msg, rest): (Vec<RenderMessage>, Vec<RenderMessage>) =
-//         inbox.iter().partition(|&msg| match msg {
-//             RenderMessage::SpawnStructureTmp(..) => true,
-//             _ => false,
-//         });
-
-//     *inbox = rest;
-
-//     for i in 0..spawn_msg.len() {
-//         match spawn_msg[i] {
-//             RenderMessage::SpawnStructureTmp(pos) => {
-
-//                 if !sim.map.within(pos) {
-//                     continue;
-//                 }
-
-//                 if sim.map.tile_from_pos(pos).blocks_path() {
-//                     continue;
-//                 }
-
-//                 if sim.map.map_mem.get_blocked().contains(&pos.round()) {
-//                     continue;
-//                 }
-
-//                 plc_building(sim, 0,  pos);
-//             }
-//             _ => {}
-//         }
-//     }
-// }
 
 pub fn clear_inbox(sim: &mut SimState) -> Option<Vec<RenderMessage>> {
     let mut ret: Option<Vec<RenderMessage>> = None;

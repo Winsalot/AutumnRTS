@@ -12,6 +12,7 @@ And engine informs renderer of ability by sending index and enum value. But that
 use crate::common::AbilityID;
 use crate::common::N_ABILITY_CAP;
 use crate::sim_abilities_list::*;
+use crate::sim_fix_math::*;
 
 //const N_ABILITY_CAP: usize = 3;
 
@@ -21,12 +22,12 @@ pub struct ActiveAbilityComp {
 
 impl ActiveAbilityComp {
     pub fn builder() -> Self {
-        let mut abil = [Ability::Mundane; N_ABILITY_CAP as usize];
-        abil[0] = Ability::BuildSimpleStructure;
+        let mut abil = [Ability::mundane_abil(); N_ABILITY_CAP as usize];
+        abil[0] = Ability::build_structure(FixF::from_num(2), 0);
         ActiveAbilityComp { abilities: abil }
     }
 
-    pub fn get_ability(&self, id: AbilityID) -> Ability {
-        self.abilities[id as usize].clone()
+    pub fn get_ability(&self, id: AbilityID) -> &Ability {
+        &self.abilities[id as usize]
     }
 }

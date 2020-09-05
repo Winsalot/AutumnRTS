@@ -1,6 +1,8 @@
 use crate::common::*;
 use crate::sim_fix_math::*;
 
+/// EVERYTHING BELOW IS LIKELY OLD BULLSHIT
+
 ///Simply put unit's target for hostile action. Target can be nothing (idle),
 /// Position (firing into the ground), another unit (firing at it).
 /// Automatic targeting type means unit chooses and attacks target on its own (eg. firing at nearby enemy).
@@ -10,18 +12,18 @@ use crate::sim_fix_math::*;
 
 /// Overall I feel like I am going in wrong direction wih this. Should probably make this more specific. Like what if healer unit can heal and attack. Should heal ability rely on different targeting component?
 
-#[derive(Debug, PartialEq, Clone, Copy)]
-enum TargetingType {
-    Order,
-    Automatic,
-}
+// #[derive(Debug, PartialEq, Clone, Copy)]
+// enum TargetingType {
+//     Order,
+//     Automatic,
+// }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct TargetComp {
     /// Current target
     target: ObjTarget,
     /// How was current target chosen?
-    trg_mode: TargetingType,
+    //trg_mode: TargetingType,
     /// Range to automatically search for targets
     trg_range: FixF,
 }
@@ -30,7 +32,7 @@ impl TargetComp {
     pub fn new(range: FixF) -> Self {
         TargetComp {
             target: ObjTarget::None,
-            trg_mode: TargetingType::Automatic,
+            // trg_mode: TargetingType::Automatic,
             trg_range: range,
         }
     }
@@ -47,31 +49,31 @@ impl TargetComp {
     // 	&self.trg_mode
     // }
 
-    pub fn mode_is_order(&self) -> bool {
-        self.trg_mode == TargetingType::Order
-    }
+    // pub fn mode_is_order(&self) -> bool {
+    //     self.trg_mode == TargetingType::Order
+    // }
 
     pub fn get_range(&self) -> &FixF {
         &self.trg_range
     }
 
-    pub fn _under_order(&self) -> bool {
-        self.trg_mode == TargetingType::Order
-    }
+    // pub fn _under_order(&self) -> bool {
+    //     self.trg_mode == TargetingType::Order
+    // }
 
-    pub fn _set_automatic(&mut self) {
-        self.trg_mode = TargetingType::Automatic;
-    }
+    // pub fn _set_automatic(&mut self) {
+    //     self.trg_mode = TargetingType::Automatic;
+    // }
 
-    pub fn _set_order(&mut self) {
-        self.trg_mode = TargetingType::Order;
-    }
+    // pub fn _set_order(&mut self) {
+    //     self.trg_mode = TargetingType::Order;
+    // }
 
-    pub fn get_trg_pos(&self) -> Option<Pos> {
-        // Returns Pos of target. If target is entitiy then None
-        if let ObjTarget::Position(pos) = self.target {
-            return Some(pos.clone());
-        }
-        None
-    }
+    // pub fn get_trg_pos(&self) -> Option<Pos> {
+    //     // Returns Pos of target. If target is entitiy then None
+    //     if let ObjTarget::Position(pos) = self.target {
+    //         return Some(pos.clone());
+    //     }
+    //     None
+    // }
 }

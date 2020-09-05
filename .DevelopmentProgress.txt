@@ -349,17 +349,28 @@ There is lon way to go, but it can be like this:
 	+ Delete/rewrite tests to use asserts
 	+ Targeting system no longer used.
 29. Port ability use for smart Units.
+	+ Rework targeting system to have only helper functions.
+		+ Target -> Pos
+	- once again, refactor abilities.
+		- Wtf was I even thinking when I implemented abilities?
+		+ Every ability should have easy to check factors such as:
+			+ range
+			x MP cost (maybe later)
+			+ Cooldown.
+			x Viable targets. (also later, maybe make it per-ability specific)
+		- New ability system.
 	- Process of logic:
-		- Order sent to use ability on target. Order component updated.
-			- Have a target to Pos function.
-		- In AI step checks:
-			- Ability range.
-			- Distance to target.
-		- Then sets either state:
-			- Move/PathfindAndMove
-			- UseAbility.
-		- Sets corresponding target.
+		+ Order sent to use ability on target. Order component updated.
+			+ Have a target to Pos function.
+		+ In AI step checks:
+			+ Ability range.
+			+ Distance to target.
+		+ Then sets either state:
+			+ Move/PathfindAndMove
+			+ UseAbility.
+		+ Sets corresponding target.
 			- In this case it's one and the same.
+		- Test still failing.
 		- Ability system checks state component for permission to activate.
 			- Add additional range check? I guess I could add panic! hook, to find any bugs.
 

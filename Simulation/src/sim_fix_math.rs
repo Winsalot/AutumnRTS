@@ -37,6 +37,11 @@ impl Pos {
         Pos::vec_length(self.clone() - xy.clone())
     }
 
+    // Manhattan distance
+    pub fn m_dist(&self, xy: &Pos) -> FixF {
+        (self.x - xy.x).abs() + (self.y - xy.y).abs()
+    }
+
     pub fn round(&self) -> Pos {
         Pos {
             x: self.x.round(),

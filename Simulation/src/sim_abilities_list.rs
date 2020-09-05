@@ -1,16 +1,43 @@
-//Chill my dude. This file contains list of abilities and subsystems that "cast" them. subsystems Themselves are called from within systems in main game loop.
+//Weird part of code. Could be placed in common.rs. neither component, nor syustem.
 
 use crate::common::*;
 use crate::sim_fix_math::*;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
-pub enum Ability {
+pub enum AbilityEffect {
     Mundane,
     BuildSimpleStructure,
-    GenericAbility {
-        pw_cost: i32,
-        cooldown_end_at: TickNum,
-        range: FixF,
-        damage: i32,
-    },
+    GenericAbility { damage: i32 },
+}
+
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub struct Ability {
+    ability: AbilityEffect,
+    range: FixF,
+    cd: TickNum,
+    cd_end: TickNum,
+}
+
+impl Ability {
+    pub fn mundane_abil() -> Self {
+        Ability {
+            ability: AbilityEffect::Mundane,
+            range: FixF::from_num(0),
+            cd: 0,
+            cd_end: 0,
+        }
+    }
+
+    pub fn build_structure(range: FixF, cd: TickNum) -> Self {
+        Ability {
+            ability: AbilityEffect::BuildSimpleStructure,
+            range: range,
+            cd: cd,
+            cd_end: 0,
+        }
+    }
+
+    pub fn get_range(&self) -> &FixF {
+        &self.range
+    }
 }

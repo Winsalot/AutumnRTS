@@ -4,6 +4,7 @@ use crate::sim_components::order_queue_comp::OrderQueueComp;
 use crate::sim_components::sim_unit_base_components::IdComp;
 use crate::sim_components::targeting_comp::TargetComp;
 use crate::sim_components::unitstate_comp::UnitStateComp;
+use crate::sim_systems::targeting::target_to_pos;
 
 use crate::sim_components::sim_unit_base_components::DestinationComp;
 use crate::sim_components::sim_unit_base_components::PathComp;
@@ -220,7 +221,8 @@ pub fn sys_pathfinding_smart(sim: &mut SimState) {
             continue 'query_loop;
         }
 
-        let dest = target.get_trg_pos().unwrap();
+        // let dest = target.get_trg_pos().unwrap();
+        let dest = target_to_pos(sim, target.get_trg()).unwrap();
 
         // If current path ends at destination then don't recalculate.
         // This check is redundant, but whatever.

@@ -1,7 +1,7 @@
 use crate::sim_systems::unit_behaviour_ai::sys_unit_behaviour_ai;
 // use crate::sim_systems::targeting::auto_assign_targets;
 use crate::messenger::*;
-use crate::sim_systems::abilities::sys_abilities;
+// use crate::sim_systems::abilities::sys_abilities;
 use crate::sim_systems::input_systems::*;
 use crate::sim_systems::movement::*;
 use crate::sim_systems::pathfinding::*;
@@ -62,7 +62,7 @@ pub fn run_single_tick(sim: &mut SimState) -> bool {
     input_spawn_smart_unit(sim);
 
     sys_input_dest(sim);
-    sys_abilities(sim);
+    // sys_abilities(sim);
 
     sys_pathfinding_astar(sim);
     sys_pathfinding_smart(sim);
