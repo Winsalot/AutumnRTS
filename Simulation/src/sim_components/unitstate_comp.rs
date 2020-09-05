@@ -39,15 +39,15 @@ impl UnitStateComp {
     }
 
     pub fn can_move(&self, current_tick: &TickNum) -> bool {
-        let mut ret = false;
+        //let mut ret = false;
         if &self.cooldown_end <= current_tick {
             match self.state {
-                UnitState::PathfindAndMove => ret = true,
-                UnitState::Move => ret = true,
-                _ => {}
-            };
+                UnitState::PathfindAndMove => return true,
+                UnitState::Move => return true,
+                _ => return false,
+            }
         }
-        ret
+        false
     }
 
     pub fn just_moved(&mut self, current_tick: &TickNum, cooldown: &TickNum) {

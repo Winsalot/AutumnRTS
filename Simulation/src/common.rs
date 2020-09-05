@@ -135,5 +135,5 @@ pub enum UnitState {
     Move,
     PathfindAndMove,
     UseAbility(AbilityID),
-    UseAbilityFailed,
+    UseAbilityFailed(SimWarnMsg),
 }

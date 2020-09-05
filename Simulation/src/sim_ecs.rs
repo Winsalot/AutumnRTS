@@ -32,9 +32,11 @@ impl SimState {
         self.res.current_tick
     }
 
-    pub fn end_tick(&mut self) {
+    pub fn end_tick(&mut self, debug: bool) {
         self.res.current_tick += 1;
-        self.res.fps_counter.limit_fps(self.res.fps_limit);
+        if !debug {
+            self.res.fps_counter.limit_fps(self.res.fps_limit);
+        }
         self.res.fps_counter.tick();
     }
 }

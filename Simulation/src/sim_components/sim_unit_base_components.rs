@@ -71,6 +71,7 @@ impl PositionComp {
 }
 
 /// Next position component
+#[derive(Debug, PartialEq, Clone)]
 pub struct NextPosComp {
     pos: Pos,
 }

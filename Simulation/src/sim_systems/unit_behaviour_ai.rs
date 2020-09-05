@@ -43,7 +43,7 @@ fn check_current_order_completion(sim: &mut SimState) {
                         UnitState::UseAbility(..) => {
                             to_update_orders.push(*id.get_id());
                         }
-                        UnitState::UseAbilityFailed => {
+                        UnitState::UseAbilityFailed(..) => {
                             to_update_orders.push(*id.get_id());
                         }
                         _ => {}
@@ -175,16 +175,13 @@ fn ability_order_behaviour(
         // &'a UnitStateComp,
         &'a ActiveAbilityComp,
         &'a PositionComp,
-        &'a TargetComp,
+        // &'a TargetComp,
     );
 
     let mut query = sim.ecs.query_one::<ToQuery>(*entity).unwrap();
 
     // Don't run if entity doesn't have either of the components
-    if let Some((abil_comp, pos_comp, trg_comp)) = query.get() {
-        // If ability has no target, then allow it as is:
-        let trg = trg_comp.get_trg();
-
+    if let Some((abil_comp, pos_comp)) = query.get() {
         if let ObjTarget::None = abil_trg {
             new_states.push((*uid, UnitState::UseAbility(*abil_id)));
             // new_targets.push((*uid, ObjTarget::Entity(*uid)));
@@ -196,11 +193,14 @@ fn ability_order_behaviour(
         let abil_range = abil_comp.get_ability(*abil_id).get_range();
 
         // CHeck if target can be converted to position:
-        let trg_pos = target_to_pos(sim, trg);
+        let trg_pos = target_to_pos(sim, abil_trg);
 
         match trg_pos {
             None => {
-                new_states.push((*uid, UnitState::UseAbilityFailed));
+                new_states.push((
+                    *uid,
+                    UnitState::UseAbilityFailed(SimWarnMsg::UnitUnavailable),
+                ));
                 new_targets.push((*uid, ObjTarget::None));
                 return;
             }
@@ -275,6 +275,7 @@ fn knows_path_to_dest(sim: &SimState, entity_id: &Entity, dest: &Pos) -> bool {
 #[cfg(test)]
 mod order_and_state_tests {
     use crate::messenger::*;
+    use crate::sim_components::sim_unit_base_components::NextPosComp;
     use crate::sim_ecs::*;
     use crate::sim_gameloop::first_tick;
     use crate::sim_gameloop::run_single_tick;
@@ -297,19 +298,21 @@ mod order_and_state_tests {
             &'a TargetComp,
             &'a PathComp,
             &'a PositionComp,
+            &'a NextPosComp,
         );
 
         let mut query = sim
             .ecs
             .query_one::<ToQuery>(*sim.res.id_map.get(e).unwrap())
             .unwrap();
-        let (state, queue, trg, path, pos) = query.get().unwrap();
+        let (state, queue, trg, path, pos, nextpos) = query.get().unwrap();
         println!("\n Tick: {:?} \n", sim.current_tick());
         println!("{:?} \n", state);
         println!("{:?} \n", queue);
         println!("{:?} \n", trg);
         println!("{:?} \n", path);
         println!("{:?} \n", pos);
+        println!("{:?} \n", nextpos);
     }
 
     #[test]
@@ -396,10 +399,12 @@ mod order_and_state_tests {
         first_tick(&mut sim);
         rend_messenger.rec();
         run_single_tick(&mut sim);
+        sim.end_tick(true);
 
         let msg0 = RenderMessage::SpawnSmart(0, Pos::from_num(1, 1));
         rend_messenger.send(vec![msg0]);
         run_single_tick(&mut sim);
+        sim.end_tick(true);
 
         // Print initial state
         //print_components(&mut sim, &0);
@@ -415,6 +420,7 @@ mod order_and_state_tests {
         receive_messages(&mut sim);
 
         run_single_tick(&mut sim);
+        sim.end_tick(true);
 
         print_components(&mut sim, &0);
         {
@@ -426,6 +432,7 @@ mod order_and_state_tests {
         }
 
         run_single_tick(&mut sim);
+        sim.end_tick(true);
 
         print_components(&mut sim, &0);
 
@@ -451,10 +458,12 @@ mod order_and_state_tests {
         first_tick(&mut sim);
         rend_messenger.rec();
         run_single_tick(&mut sim);
+        sim.end_tick(true);
 
         let msg0 = RenderMessage::SpawnSmart(0, Pos::from_num(1, 1));
         rend_messenger.send(vec![msg0]);
         run_single_tick(&mut sim);
+        sim.end_tick(true);
 
         // selection of units:
         let mut units: [Option<UId>; UNIT_GROUP_CAP] = [None; UNIT_GROUP_CAP];
@@ -464,11 +473,12 @@ mod order_and_state_tests {
         let msg = RenderMessage::InputOrder(
             0,
             units,
-            UnitOrder::Ability(0, ObjTarget::Position(Pos::from_num(5.1, 1.0))),
+            UnitOrder::Ability(0, ObjTarget::Position(Pos::from_num(3.9, 1.0))),
         );
         rend_messenger.send(vec![msg]);
 
         run_single_tick(&mut sim);
+        sim.end_tick(true);
         print_components(&mut sim, &0);
 
         {
@@ -481,6 +491,20 @@ mod order_and_state_tests {
         }
 
         run_single_tick(&mut sim);
+        sim.end_tick(true);
+        print_components(&mut sim, &0);
+
+        {
+            let state = sim
+                .ecs
+                .get::<UnitStateComp>(*sim.res.id_map.get(&0).unwrap())
+                .unwrap();
+
+            assert_eq!(*state.get_state(), UnitState::Move);
+        }
+
+        run_single_tick(&mut sim);
+        sim.end_tick(true);
         print_components(&mut sim, &0);
 
         {
@@ -490,6 +514,19 @@ mod order_and_state_tests {
                 .unwrap();
 
             assert_eq!(*state.get_state(), UnitState::UseAbility(0));
+        }
+
+        run_single_tick(&mut sim);
+        sim.end_tick(true);
+        print_components(&mut sim, &0);
+
+        {
+            let state = sim
+                .ecs
+                .get::<UnitStateComp>(*sim.res.id_map.get(&0).unwrap())
+                .unwrap();
+
+            assert_eq!(*state.get_state(), UnitState::Idle);
         }
     }
 }

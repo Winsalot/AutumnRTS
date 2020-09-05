@@ -25,7 +25,7 @@ pub fn start_loop(n_players: u32, fps: u32) -> (JoinHandle<()>, RendMessenger) {
 
         update_fps_info(&mut sim);
         first_tick(&mut sim);
-        sim.end_tick();
+        sim.end_tick(false);
 
         // Run game loop & systems
         'running: loop {
@@ -35,7 +35,7 @@ pub fn start_loop(n_players: u32, fps: u32) -> (JoinHandle<()>, RendMessenger) {
                 break 'running;
             }
 
-            sim.end_tick();
+            sim.end_tick(false);
         }
     });
 
@@ -67,13 +67,13 @@ pub fn run_single_tick(sim: &mut SimState) -> bool {
     sys_pathfinding_astar(sim);
     sys_pathfinding_smart(sim);
 
+    sys_set_next_pos(sim);
+    sys_set_next_pos_smart(sim);
+
     sys_collision_pred(sim);
 
     sys_set_pos(sim);
     sys_set_pos_smart(sim);
-
-    sys_set_next_pos(sim);
-    sys_set_next_pos_smart(sim);
 
     clear_inbox(sim);
     send_messages(sim);

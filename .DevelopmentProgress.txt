@@ -370,7 +370,7 @@ There is lon way to go, but it can be like this:
 			+ UseAbility.
 		+ Sets corresponding target.
 			- In this case it's one and the same.
-		- Test still failing.
+		+ Test still failing.
 		- Ability system checks state component for permission to activate.
 			- Add additional range check? I guess I could add panic! hook, to find any bugs.
 

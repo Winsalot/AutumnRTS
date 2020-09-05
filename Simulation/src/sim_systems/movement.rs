@@ -65,7 +65,9 @@ pub fn sys_set_next_pos(sim: &mut SimState) {
 
     let ecs = &mut sim.ecs;
 
-    'query_loop: for (_, (id, pos, next_pos, path, speed)) in &mut ecs.query::<ToQuery>() {
+    'query_loop: for (_, (id, pos, next_pos, path, speed)) in
+        ecs.query::<ToQuery>().without::<UnitStateComp>().iter()
+    {
         let path_next_pos = path.get_next_pos(pos.get_pos());
 
         if let Some(move_to) = path_next_pos {
@@ -102,7 +104,7 @@ pub fn sys_set_next_pos_smart(sim: &mut SimState) {
     let current_tick = sim.current_tick().clone();
     let ecs = &mut sim.ecs;
 
-    'query_loop: for (_, (id, pos, speed, state, next_pos, path)) in &mut ecs.query::<ToQuery>() {
+    'query_loop: for (_, (id, pos, speed, state, next_pos, path)) in ecs.query::<ToQuery>().iter() {
         if !state.can_move(&current_tick) {
             continue 'query_loop;
         }
@@ -173,7 +175,9 @@ pub fn sys_set_pos(sim: &mut SimState) {
 
     let ecs = &mut sim.ecs;
 
-    'query_loop: for (_, (id, pos, next_pos)) in &mut ecs.query::<ToQuery>() {
+    'query_loop: for (_, (id, pos, next_pos)) in
+        ecs.query::<ToQuery>().without::<UnitStateComp>().iter()
+    {
         if next_pos.get_pos() == pos.get_pos() {
             continue 'query_loop;
         }
@@ -203,7 +207,11 @@ pub fn sys_set_pos_smart(sim: &mut SimState) {
     let current_tick = sim.current_tick().clone();
     let ecs = &mut sim.ecs;
 
-    'query_loop: for (_, (id, next_pos, speed, pos, state)) in &mut ecs.query::<ToQuery>() {
+    'query_loop: for (_, (id, next_pos, speed, pos, state)) in ecs.query::<ToQuery>().iter() {
+        if !state.can_move(&current_tick) {
+            continue 'query_loop;
+        }
+
         if next_pos.get_pos() == pos.get_pos() {
             continue 'query_loop;
         }
