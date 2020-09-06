@@ -10,8 +10,8 @@ Therefore, these are the things that should be implemented before I begin to act
 
 - Core game logic that implements:
 	- Units shooting at each other and killing each other.
-	- Move Order support.
-	- Use ability order support.
+	- ✅ Move Order support.
+	- ✅ Use ability order support.
 	- Attack order support.
 	- Some simple spatial partitioning implementation.
 - Code structure/architecture that I feel relatively confident about (ambigious, I know).

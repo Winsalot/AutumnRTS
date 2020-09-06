@@ -348,7 +348,7 @@ There is lon way to go, but it can be like this:
 	x Delete old commented out code.
 	+ Delete/rewrite tests to use asserts
 	+ Targeting system no longer used.
-29. Port ability use for smart Units.
+[DONE] 29. Port ability use for smart Units.
 	+ Rework targeting system to have only helper functions.
 		+ Target -> Pos
 	- once again, refactor abilities.
@@ -376,7 +376,14 @@ There is lon way to go, but it can be like this:
 				+ Panics don't do well with Godot. Better to avoid. Also wtf? Leave range checks for behaviour AI.
 			+ Leave only smart ability use
 			+ Should check if ability was used succesfult and then update cooldowns.
-		- Write tests for actual ability use
+		+ Write tests for actual ability use
+30. Add health and killing.
+	- Health & weapon components
+	- Attack order input message & order.
+	- Firing state.
+		- Idle units still ignore enemies.
+	- Death condition.
+
 	
 
 		
@@ -392,12 +399,11 @@ GENERAL IDEAS:
 		2. Add automatic firing with all stop to fire, cooldown and shit features (also add health).
 		3. Do another big step and move on to 3D and proper renderer implementation.
 	+ Fuck destination component. Instead use Target Component.
-		+ Target is set inside Unit Behaviour AI system. Eg:
-			+ Move sets target Pos.
-			- Force fire sets taret Pos with mode fire.
-			- A-move sets target pos, but if enemies in range then switches to target Entity.
-		- Remove Targeting Type from Targeting component. It is always automatic and always set by AI.
-		- With time, but smart behaviour will remove target.
+	- Add some ways for units to indirectly influence their state in behaviour ai step.
+		- Eg. unit gets stunned. 
+		- Unit starts action that takes multiple frames.
+		- Unit encounters obstacle when moving (some info to rerun pathfinding)
+		- Unit's position is forcibly changed.
 		
 	
 
@@ -414,6 +420,7 @@ SHORT term:
 	+ Start using player & alliance logic. Adapt messaging system for it.
 	x Select/deselect, drag (group) unit select. [Lets worry about this when I start migrating to 3d)
 	+ Targeting system (automatic).
+	- Add turn rates.
 	- Weapon firing system & health.
 	- Use quadtrees or something for all spatial logic instead of fucking grid search.
 	- Add collision avoidance. (In collision scenario move to the side or something)

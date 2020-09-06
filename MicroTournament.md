@@ -46,7 +46,7 @@ So yeah, something like this.
 		- Group orders.
 		- Pathfinding for groups.
 		- Schedule orders (shift-orders).
-		- A-move, M-move, Follow, stop, hold position commands.
+		- A-move, ✅M-move, Follow, stop, hold position commands.
 - Renderer features:
 	- Everything. Current godot implementation will need to be rewritten entirely. (I am not looking forward to it)
 - Content features:

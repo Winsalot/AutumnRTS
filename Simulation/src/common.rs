@@ -107,7 +107,7 @@ pub enum SimWarnMsg {
     _AbilTrgInvalid,  // Target invalid
     _AbilUnavailable, // on cooldown
     AbilOnCD,
-    UnitUnavailable,  // Invalid unit. Maybe already dead.
+    UnitUnavailable, // Invalid unit. Maybe already dead.
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]

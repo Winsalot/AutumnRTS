@@ -399,12 +399,12 @@ mod order_and_state_tests {
         first_tick(&mut sim);
         rend_messenger.rec();
         run_single_tick(&mut sim);
-        sim.end_tick(true);
+        sim.end_tick_debug();
 
         let msg0 = RenderMessage::SpawnSmart(0, Pos::from_num(1, 1));
         rend_messenger.send(vec![msg0]);
         run_single_tick(&mut sim);
-        sim.end_tick(true);
+        sim.end_tick_debug();
 
         // Print initial state
         //print_components(&mut sim, &0);
@@ -420,7 +420,7 @@ mod order_and_state_tests {
         receive_messages(&mut sim);
 
         run_single_tick(&mut sim);
-        sim.end_tick(true);
+        sim.end_tick_debug();
 
         print_components(&mut sim, &0);
         {
@@ -432,7 +432,7 @@ mod order_and_state_tests {
         }
 
         run_single_tick(&mut sim);
-        sim.end_tick(true);
+        sim.end_tick_debug();
 
         print_components(&mut sim, &0);
 
@@ -458,12 +458,12 @@ mod order_and_state_tests {
         first_tick(&mut sim);
         rend_messenger.rec();
         run_single_tick(&mut sim);
-        sim.end_tick(true);
+        sim.end_tick_debug();
 
         let msg0 = RenderMessage::SpawnSmart(0, Pos::from_num(1, 1));
         rend_messenger.send(vec![msg0]);
         run_single_tick(&mut sim);
-        sim.end_tick(true);
+        sim.end_tick_debug();
 
         // selection of units:
         let mut units: [Option<UId>; UNIT_GROUP_CAP] = [None; UNIT_GROUP_CAP];
@@ -478,7 +478,7 @@ mod order_and_state_tests {
         rend_messenger.send(vec![msg]);
 
         run_single_tick(&mut sim);
-        sim.end_tick(true);
+        sim.end_tick_debug();
         print_components(&mut sim, &0);
 
         {
@@ -491,7 +491,7 @@ mod order_and_state_tests {
         }
 
         run_single_tick(&mut sim);
-        sim.end_tick(true);
+        sim.end_tick_debug();
         print_components(&mut sim, &0);
 
         {
@@ -504,7 +504,7 @@ mod order_and_state_tests {
         }
 
         run_single_tick(&mut sim);
-        sim.end_tick(true);
+        sim.end_tick_debug();
         print_components(&mut sim, &0);
 
         {
@@ -517,7 +517,7 @@ mod order_and_state_tests {
         }
 
         run_single_tick(&mut sim);
-        sim.end_tick(true);
+        sim.end_tick_debug();
         print_components(&mut sim, &0);
 
         {

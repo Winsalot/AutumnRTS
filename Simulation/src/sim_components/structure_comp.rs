@@ -4,6 +4,7 @@ use crate::sim_fix_math::*;
 // SHould contain location and occupied squares around it.
 // Location should not be float.
 
+#[derive(Debug, PartialEq, Clone)]
 pub struct StructureComp {
     pos: Pos,        // centre of the structure
     tiles: Vec<Pos>, // occupied tiles as vectors from centre.
@@ -15,5 +16,9 @@ impl StructureComp {
             pos: pos,
             tiles: vec![pos],
         }
+    }
+
+    pub fn get_pos(&self) -> &Pos {
+        &self.pos
     }
 }
