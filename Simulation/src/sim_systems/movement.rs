@@ -208,6 +208,7 @@ pub fn sys_set_pos_smart(sim: &mut SimState) {
     let ecs = &mut sim.ecs;
 
     'query_loop: for (_, (id, next_pos, speed, pos, state)) in ecs.query::<ToQuery>().iter() {
+        
         if !state.can_move(&current_tick) {
             continue 'query_loop;
         }

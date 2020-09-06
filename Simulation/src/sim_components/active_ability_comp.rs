@@ -9,6 +9,7 @@ So I guess idea is that rend sends index of ability to use.
 And engine informs renderer of ability by sending index and enum value. But that means Ability enum should be decoupled from the component itself.
 */
 
+use crate::common::TickNum;
 use crate::common::AbilityID;
 use crate::common::N_ABILITY_CAP;
 use crate::sim_abilities_list::*;
@@ -29,5 +30,9 @@ impl ActiveAbilityComp {
 
     pub fn get_ability(&self, id: AbilityID) -> &Ability {
         &self.abilities[id as usize]
+    }
+
+    pub fn start_cooldown(&mut self, abil_id: &AbilityID, curr_tick: &TickNum){
+    	self.abilities[*abil_id as usize].start_cd(curr_tick);
     }
 }

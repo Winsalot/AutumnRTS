@@ -371,9 +371,12 @@ There is lon way to go, but it can be like this:
 		+ Sets corresponding target.
 			- In this case it's one and the same.
 		+ Test still failing.
-		- Ability system checks state component for permission to activate.
-			- Add additional range check? I guess I could add panic! hook, to find any bugs.
-
+		+ Ability system checks state component for permission to activate.
+			x Add additional range check? I guess I could add panic! hook, to find any bugs.
+				+ Panics don't do well with Godot. Better to avoid. Also wtf? Leave range checks for behaviour AI.
+			+ Leave only smart ability use
+			+ Should check if ability was used succesfult and then update cooldowns.
+		- Write tests for actual ability use
 	
 
 		

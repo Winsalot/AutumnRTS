@@ -40,4 +40,16 @@ impl Ability {
     pub fn get_range(&self) -> &FixF {
         &self.range
     }
+
+    pub fn get_cd_end(&self) -> &TickNum {
+    	&self.cd_end
+    }
+
+    pub fn start_cd(&mut self, curr_tick: &TickNum){
+    	self.cd_end += curr_tick + self.cd;
+    }
+
+    pub fn get_effect(&self) -> &AbilityEffect{
+    	&self.ability
+    }
 }
