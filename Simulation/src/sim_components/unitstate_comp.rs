@@ -1,14 +1,6 @@
 use crate::common::*;
 //use crate::sim_fix_math::*;
 
-// // this is private enum of various substates.
-// #[derive(Debug, PartialEq, Clone, Copy)]
-// enum UnitSubState {
-// 	Idle,
-// 	PathfindAndMove,
-// 	Move,
-// }
-
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct UnitStateComp {
     state: UnitState,

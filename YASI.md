@@ -136,6 +136,7 @@ Things I really liked:
 - **Massive team games (6-16 players per team)**.  This is very popular. Seems like another must-have to keep game community alive and satisfied. However, mid-late game in these matches get so laggy it becomes unbearable for me.
 - **Clear unit role distinctions.** Probbaly necessary given the number of units in ZK. But makes the game very noob-friendly. Eg. if I see a unit for a first time I just hover over it to see that it's Riot (slow, short range, high dps) and I will know what to expect from it even if I have never seen this unit in a game before. However, I am not a fan of how these roles *hard-counter* each other in rock paper scissors manner: `Raid < Riot < Skirmsher < Raid`. 
 - **Line move/attack and area orders**. In Zk this is achieving by clicking and dragging mouse during move order to give group of units order to form a line instead of ordering them all to move to a single point. Area orders work similarly. Totally awesome feature that gives more smooth control over one's units.
+- **Units with multiple weapons** . In Zero-K this feature is reserved for only the biggest and baddest of units. However, it is very satisfying when your unit unleashes a swarm of long range rockets and then whips out machineguns to kill the raiders that were trying to bother it. In my case I am adding multiple weapon support from the beginning. However, I don't plan to add multiple target support.
 
 Things I didn't like:
 

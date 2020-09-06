@@ -14,6 +14,7 @@ mod sim_gameloop;
 mod sim_map;
 mod sim_player_alliances;
 mod sim_systems;
+mod sim_weapon_list;
 
 // Function that registers all exposed classes to Godot
 fn init(handle: gdnative::init::InitHandle) {

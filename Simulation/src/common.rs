@@ -21,6 +21,8 @@ pub type AbilityID = u8;
 
 pub const N_ABILITY_CAP: AbilityID = 3;
 
+pub const N_WEAPON_CAP: AbilityID = 2; // Not sure about type, but good for now.
+
 pub const ORDER_SCHEDULE_MAX: usize = 30;
 
 // This a tricky one. Means that orders for groups above this number will start to act funny.
@@ -91,6 +93,7 @@ pub enum UnitOrder {
     None,
     MoveTo(Pos),
     Ability(AbilityID, ObjTarget),
+    ForceAttack(ObjTarget),
 }
 
 /// New engine messages

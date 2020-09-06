@@ -377,12 +377,22 @@ There is lon way to go, but it can be like this:
 			+ Leave only smart ability use
 			+ Should check if ability was used succesfult and then update cooldowns.
 		+ Write tests for actual ability use
-30. Add health and killing.
-	- Health & weapon components
-	- Attack order input message & order.
+30. Force Attack order and related components.
+	+ Weapon component.
+		+ Contains range.
+		+ Cooldown (during which unit can do other things)
+		+ Charge/aim time (unit is frozen during this).
+		+ Smart Unit spawns with weapon.
+	+ Attack order input message & order.
+		+ In this case attack order is force-attack (not same as attack move)
 	- Firing state.
+		- Lots of techincal issues here.
+			- Should charge be handled inside weapon or inside state?
+			- How should weapon cooldown be handled?
 		- Idle units still ignore enemies.
-	- Death condition.
+		- What if target moves? This is where slowupdate could be useful.
+			- Right now pathfind only if target's position changes.(shitty, but whatever)
+	- test everything related to state.
 
 	
 
@@ -419,7 +429,8 @@ SHORT term:
 	x Refactor render messages.
 	+ Start using player & alliance logic. Adapt messaging system for it.
 	x Select/deselect, drag (group) unit select. [Lets worry about this when I start migrating to 3d)
-	+ Targeting system (automatic).
+	x [Was done but now is scraped] Targeting system (automatic).
+	- Structure component having position in itself is kinda stupid. Why did I implement it this way?
 	- Add turn rates.
 	- Weapon firing system & health.
 	- Use quadtrees or something for all spatial logic instead of fucking grid search.

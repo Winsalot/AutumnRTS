@@ -52,7 +52,8 @@ fn check_current_order_completion(sim: &mut SimState) {
                     //     to_update_orders.push(*id.get_id());
                     // }
                 }
-            } //_ => {}
+            }
+            _ => {}
         }
     }
 
@@ -105,7 +106,8 @@ fn order_to_unitstate(sim: &mut SimState) {
                     &mut to_update_states,
                     &mut to_update_targets,
                 );
-            } //_ => {}
+            }
+            _ => {}
         }
     }
 
