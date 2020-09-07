@@ -70,12 +70,9 @@ pub fn plc_unit(sim: &mut SimState, owner: PId, pos: Pos, speed: FixF, coll_r: F
         unit_builder.add(PathComp::new());
         unit_builder.add(TargetComp::new(FixF::from_num(3)));
         unit_builder.add(ActiveAbilityComp::builder());
-        //unit_builder.add(UnitStateComp::new());
 
         let new_entity = sim.ecs.spawn(unit_builder.build());
 
-        // let msg = EngineMessage::ObjPosColl(sim.res.id_counter - 1, pos, coll_r);
-        // let msg = StateChange(ObjPosColl(sim.res.id_counter - 1, pos, coll_r));
         let msg = StateChange(ObjSpawn(sim.res.id_counter - 1, *player, pos, coll_r));
         sim.res.send_batch.push(msg);
 
@@ -91,7 +88,6 @@ pub fn plc_smart_unit(sim: &mut SimState, owner: PId, pos: Pos, speed: FixF, col
         unit_builder.add(TypeNameComp::new("placeholder"));
         unit_builder.add(PositionComp::new(pos));
         unit_builder.add(NextPosComp::new(pos));
-        // unit_builder.add(DestinationComp::new(pos));
         unit_builder.add(SpeedComponent::new(speed, 1));
         unit_builder.add(CollComp::new(coll_r));
         unit_builder.add(IdComp::new(&mut sim.res.id_counter, player));
@@ -231,7 +227,39 @@ pub fn sys_input_to_order(sim: &mut SimState) {
             ) => {
                 set_ability_order(sim, &player_id, unit_ids, &abil_id, &abil_target);
             }
+            RenderMessage::InputOrder(player_id, unit_ids, UnitOrder::ForceAttack(target)) => {
+                set_forceattack_order(sim, &player_id, &unit_ids, &target);
+            }
             _ => {}
+        }
+    }
+}
+
+fn set_forceattack_order(
+    sim: &mut SimState,
+    player_id: &PId,
+    unit_ids: &[Option<UId>; UNIT_GROUP_CAP],
+    trg: &ObjTarget,
+) {
+    for id in unit_ids.iter() {
+        if let Some(id) = id {
+            if !is_valid(sim, player_id, id) {
+                sim.res.send_batch.push(SimMsg::Warn(
+                    *sim.res.players.get(*player_id).unwrap(),
+                    SimWarnMsg::UnitUnavailable,
+                ));
+                return;
+            }
+            if let Some(entity) = sim.res.id_map.get(id) {
+                type ToQuery<'a> = (&'a mut OrderQueueComp,);
+                if let Ok(mut query) = sim.ecs.query_one::<ToQuery>(*entity) {
+                    if let Some((order_queue,)) = query.get() {
+                        order_queue.set_single_order(UnitOrder::ForceAttack(*trg));
+
+                        // TODO: make attack order message
+                    }
+                }
+            }
         }
     }
 }

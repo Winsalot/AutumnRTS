@@ -6,6 +6,7 @@ use crate::sim_components::sim_unit_base_components::PathComp;
 use crate::sim_components::sim_unit_base_components::PositionComp;
 use crate::sim_components::targeting_comp::TargetComp;
 use crate::sim_components::unitstate_comp::UnitStateComp;
+use crate::sim_components::weapon_comp::WeaponComp;
 use crate::sim_fix_math::*;
 use crate::sim_systems::targeting::target_to_pos;
 use hecs::Entity;
@@ -53,7 +54,25 @@ fn check_current_order_completion(sim: &mut SimState) {
                     // }
                 }
             }
-            _ => {}
+            UnitOrder::ForceAttack(trg) => {
+                match trg {
+                    ObjTarget::None => {
+                        // wtf is even the order?
+                        to_update_orders.push(*id.get_id());
+                    }
+                    ObjTarget::Position(..) => {
+                        // Keep attacking ground until ordered otherwise :)
+                        continue;
+                    }
+                    ObjTarget::Entity(uid) => {
+                        // Only stop if entity dead:
+                        if sim.res.id_map.get(uid).is_none() {
+                            to_update_orders.push(*id.get_id());
+                        }
+                    }
+                }
+            }
+            // _ => {}
         }
     }
 
@@ -107,6 +126,14 @@ fn order_to_unitstate(sim: &mut SimState) {
                     &mut to_update_targets,
                 );
             }
+            UnitOrder::ForceAttack(atk_trg) => forceattack_order_behaviour(
+                &sim,
+                id.get_id(),
+                &atk_trg,
+                &mut to_update_states,
+                &mut to_update_targets,
+            ),
+
             _ => {}
         }
     }
@@ -123,6 +150,50 @@ fn order_to_unitstate(sim: &mut SimState) {
         if let Some(entity) = sim.res.id_map.get(&unit_id) {
             if let Ok(mut unit_target) = sim.ecs.get_mut::<TargetComp>(*entity) {
                 unit_target.set_trg(*new_target);
+            }
+        }
+    }
+}
+
+fn forceattack_order_behaviour(
+    sim: &SimState,
+    uid: &UId,
+    atk_trg: &ObjTarget,
+    new_states: &mut Vec<(UId, UnitState)>,
+    new_targets: &mut Vec<(UId, ObjTarget)>,
+) {
+    // basically: 1. if not in range then pathfind and move.
+    // 2. If in range then kill.
+    // 3. If target moves then keep shooting or rerun pathfinding.
+    type ToQuery<'a> = (&'a WeaponComp, &'a PositionComp);
+
+    let mut query = sim
+        .ecs
+        .query_one::<ToQuery>(*sim.res.id_map.get(uid).unwrap())
+        .unwrap();
+    let (wep_comp, pos_comp) = query.get().unwrap();
+
+    // check if range is enough:
+    if let Some(atk_trg_pos) = target_to_pos(sim, atk_trg) {
+        // Update target either way:
+        new_targets.push((*uid, *atk_trg));
+
+        let dist_to_trg = pos_comp.get_pos().dist(&atk_trg_pos);
+
+        match dist_to_trg <= wep_comp.get_max_range() {
+            true => {
+                let weapons_to_fire = wep_comp.get_weapons_in_range(&dist_to_trg);
+                new_states.push((*uid, UnitState::FireWeapons(weapons_to_fire)));
+            }
+            false => {
+                match knows_path_to_dest(&sim, sim.res.id_map.get(uid).unwrap(), &atk_trg_pos) {
+                    true => {
+                        new_states.push((*uid, UnitState::Move));
+                    }
+                    false => {
+                        new_states.push((*uid, UnitState::PathfindAndMove));
+                    }
+                }
             }
         }
     }

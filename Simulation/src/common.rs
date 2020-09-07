@@ -140,4 +140,5 @@ pub enum UnitState {
     PathfindAndMove,
     UseAbility(AbilityID),
     UseAbilityFailed(SimWarnMsg),
+    FireWeapons([bool; N_WEAPON_CAP as usize]),
 }

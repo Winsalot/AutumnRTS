@@ -376,7 +376,7 @@ There is lon way to go, but it can be like this:
 				+ Panics don't do well with Godot. Better to avoid. Also wtf? Leave range checks for behaviour AI.
 			+ Leave only smart ability use
 			+ Should check if ability was used succesfult and then update cooldowns.
-		+ Write tests for actual ability use
+		+ Write tests for actual ability use 
 30. Force Attack order and related components.
 	+ Weapon component.
 		+ Contains range.
@@ -386,11 +386,16 @@ There is lon way to go, but it can be like this:
 	+ Attack order input message & order.
 		+ In this case attack order is force-attack (not same as attack move)
 	- Firing state.
-		- Lots of techincal issues here.
+		+ Lots of techincal issues here.
 			- Should charge be handled inside weapon or inside state?
 			- How should weapon cooldown be handled?
-		- Idle units still ignore enemies.
-		- What if target moves? This is where slowupdate could be useful.
+			+ All shit hndled inside weapon state (except range)
+		+ Idle units still ignore enemies.
+		+ Input order -> Order queue.
+		- Write step that handles order
+			+ Oerder completion. (= unit target unit no longer exists. For position target- never)
+			+ Order -> unit state.
+		+ What if target moves? This is where slowupdate could be useful.
 			- Right now pathfind only if target's position changes.(shitty, but whatever)
 	- test everything related to state.
 
@@ -409,6 +414,7 @@ GENERAL IDEAS:
 		2. Add automatic firing with all stop to fire, cooldown and shit features (also add health).
 		3. Do another big step and move on to 3D and proper renderer implementation.
 	+ Fuck destination component. Instead use Target Component.
+	- Merge Move with PathfindAndMove? Let pathfinding do the check if target has changed.
 	- Add some ways for units to indirectly influence their state in behaviour ai step.
 		- Eg. unit gets stunned. 
 		- Unit starts action that takes multiple frames.
