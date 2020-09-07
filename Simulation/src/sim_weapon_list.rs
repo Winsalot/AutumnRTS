@@ -23,11 +23,11 @@ impl Weapon {
         }
     }
 
-    #[allow(non_shorthand_field_patterns)]
+    // #[allow(non_shorthand_field_patterns)]
     pub fn get_range(&self) -> FixF {
         match self {
             Weapon::None => FixF::from_num(0),
-            Weapon::Gun { range: range, .. } => *range,
+            Weapon::Gun { range, .. } => *range,
         }
     }
 }

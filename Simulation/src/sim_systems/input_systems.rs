@@ -248,7 +248,7 @@ fn set_forceattack_order(
                     *sim.res.players.get(*player_id).unwrap(),
                     SimWarnMsg::UnitUnavailable,
                 ));
-                return;
+                continue;
             }
             if let Some(entity) = sim.res.id_map.get(id) {
                 type ToQuery<'a> = (&'a mut OrderQueueComp,);
@@ -278,7 +278,7 @@ fn set_moveto_order(
                     *sim.res.players.get(*player_id).unwrap(),
                     SimWarnMsg::UnitUnavailable,
                 ));
-                return;
+                continue;
             }
 
             if let Some(entity) = sim.res.id_map.get(&id) {
@@ -299,20 +299,6 @@ fn set_moveto_order(
                         sim.res.send_batch.push(msg);
                     }
                 }
-
-                // if let Ok(mut state) = sim.ecs.get_mut::<OrderQueueComp>(*entity) {
-
-                //     // Order should be validated here:
-                //     let mut moveto_pos_valid = moveto_pos.clone();
-
-                //     sim.map.constrain_pos(&mut moveto_pos_valid);
-
-                //     state.set_single_order(UnitOrder::MoveTo(moveto_pos_valid));
-
-                //     // // Probably need different message:
-                //     // let msg = StateChange(ObjDest(id, pos));
-                //     // sim.res.send_batch.push(msg);
-                // }
             }
         }
     }

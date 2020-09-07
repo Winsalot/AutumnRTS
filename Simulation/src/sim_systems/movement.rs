@@ -148,7 +148,7 @@ pub fn sys_collision_pred(sim: &mut SimState) {
             }
             // does id0 collide with anything?
             let dist = Pos::dist(next_pos0.get_pos(), next_pos1.get_pos());
-            if dist <= (coll0.get_r() + coll1.get_r()) {
+            if dist < (coll0.get_r() + coll1.get_r()) {
                 //next_pos0.set_pos(*pos0.get_pos());
                 non_move_entities.push(id0.clone());
             }

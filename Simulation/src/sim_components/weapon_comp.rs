@@ -22,13 +22,13 @@ impl WeaponComp {
 
     // Gives unit a standard issue weapon.
     pub fn new_debug() -> Self {
-        WeaponComp::new(vec![Weapon::new_gun(FixF::from_num(10), 3, 1)])
+        WeaponComp::new(vec![Weapon::new_gun(FixF::from_num(5), 3, 1)])
     }
 
     pub fn get_max_range(&self) -> FixF {
         let mut max_range = FixF::from_num(0);
 
-        for i in 1..(N_WEAPON_CAP as usize) {
+        for i in 0..(N_WEAPON_CAP as usize) {
             max_range = max_range.max(self.weapons[i].get_range());
         }
 
@@ -38,7 +38,7 @@ impl WeaponComp {
     pub fn get_weapons_in_range(&self, range: &FixF) -> [bool; N_WEAPON_CAP as usize] {
         let mut in_range = [false; N_WEAPON_CAP as usize];
 
-        for i in 1..(N_WEAPON_CAP as usize) {
+        for i in 0..(N_WEAPON_CAP as usize) {
             if self.weapons[i].get_range() >= *range {
                 in_range[i] = true;
             }

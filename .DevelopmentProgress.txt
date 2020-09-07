@@ -413,7 +413,7 @@ GENERAL IDEAS:
 		+1. Implement automatic targeting.
 		2. Add automatic firing with all stop to fire, cooldown and shit features (also add health).
 		3. Do another big step and move on to 3D and proper renderer implementation.
-	+ Fuck destination component. Instead use Target Component.
+	- Messaging system is 100% coupled with whole codebase. And it's only gonna get worse. Decouple this shit.
 	- Merge Move with PathfindAndMove? Let pathfinding do the check if target has changed.
 	- Add some ways for units to indirectly influence their state in behaviour ai step.
 		- Eg. unit gets stunned. 

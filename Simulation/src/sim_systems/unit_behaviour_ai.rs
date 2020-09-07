@@ -347,8 +347,11 @@ fn knows_path_to_dest(sim: &SimState, entity_id: &Entity, dest: &Pos) -> bool {
 
 #[cfg(test)]
 mod order_and_state_tests {
-    use crate::messenger::*;
     use crate::sim_components::sim_unit_base_components::NextPosComp;
+use crate::sim_components::sim_unit_base_components::IdComp;
+use crate::sim_components::weapon_comp::WeaponComp;
+use crate::messenger::*;
+    
     use crate::sim_ecs::*;
     use crate::sim_gameloop::first_tick;
     use crate::sim_gameloop::run_single_tick;
@@ -366,41 +369,53 @@ mod order_and_state_tests {
 
     fn print_components(sim: &mut SimState, e: &UId) {
         type ToQuery<'a> = (
+            &'a IdComp,
             &'a UnitStateComp,
             &'a OrderQueueComp,
             &'a TargetComp,
             &'a PathComp,
             &'a PositionComp,
             &'a NextPosComp,
+            &'a WeaponComp,
         );
 
         let mut query = sim
             .ecs
             .query_one::<ToQuery>(*sim.res.id_map.get(e).unwrap())
             .unwrap();
-        let (state, queue, trg, path, pos, nextpos) = query.get().unwrap();
+        let (id, state, queue, trg, path, pos,nextpos, weapon) = query.get().unwrap();
         println!("\n Tick: {:?} \n", sim.current_tick());
+        println!("{:?} \n", id);
         println!("{:?} \n", state);
         println!("{:?} \n", queue);
         println!("{:?} \n", trg);
         println!("{:?} \n", path);
         println!("{:?} \n", pos);
         println!("{:?} \n", nextpos);
+        println!("{:?} \n", weapon);
+    }
+
+    fn make_game_state() -> (SimState, RendMessenger) {
+        let (sim_messenger, rend_messenger) = create_messenger();
+
+        let map = Map::make_test_map();
+        let mut sim = SimState::new(map, sim_messenger, 2, 10);
+
+        //run first 2 ticks:
+        first_tick(&mut sim);
+        rend_messenger.rec();
+        run_single_tick(&mut sim);
+        sim.end_tick_debug();
+
+        (sim, rend_messenger)
+
     }
 
     #[test]
     fn update_order_schedule() {
         // cargo test -- --nocapture update_order_schedule
 
-        let (sim_messenger, rend_messenger) = create_messenger();
-
-        let map = Map::make_test_map();
-        let mut sim = SimState::new(map, sim_messenger, 1, 10);
-
-        //run first 2 ticks:
-        first_tick(&mut sim);
-        rend_messenger.rec();
-        run_single_tick(&mut sim);
+        let (mut sim, rend_messenger) = make_game_state();
 
         let msg0 = RenderMessage::SpawnSmart(0, Pos::from_num(1, 1));
         rend_messenger.send(vec![msg0]);
@@ -463,16 +478,7 @@ mod order_and_state_tests {
     fn moveto_state() {
         // cargo test -- --nocapture moveto_state
 
-        let (sim_messenger, rend_messenger) = create_messenger();
-
-        let map = Map::make_test_map();
-        let mut sim = SimState::new(map, sim_messenger, 1, 10);
-
-        //run first 2 ticks:
-        first_tick(&mut sim);
-        rend_messenger.rec();
-        run_single_tick(&mut sim);
-        sim.end_tick_debug();
+        let (mut sim, rend_messenger) = make_game_state();
 
         let msg0 = RenderMessage::SpawnSmart(0, Pos::from_num(1, 1));
         rend_messenger.send(vec![msg0]);
@@ -522,16 +528,7 @@ mod order_and_state_tests {
     fn use_abilities_states() {
         // cargo test -- --nocapture use_abilities_states
 
-        let (sim_messenger, rend_messenger) = create_messenger();
-
-        let map = Map::make_test_map();
-        let mut sim = SimState::new(map, sim_messenger, 1, 10);
-
-        //run first 2 ticks:
-        first_tick(&mut sim);
-        rend_messenger.rec();
-        run_single_tick(&mut sim);
-        sim.end_tick_debug();
+        let (mut sim, rend_messenger) = make_game_state();
 
         let msg0 = RenderMessage::SpawnSmart(0, Pos::from_num(1, 1));
         rend_messenger.send(vec![msg0]);
@@ -600,6 +597,126 @@ mod order_and_state_tests {
                 .unwrap();
 
             assert_eq!(*state.get_state(), UnitState::Idle);
+        }
+    }
+
+    #[test]
+    fn force_attack_states() {
+
+        // cargo test -- --nocapture force_attack_states
+
+        let (mut sim, rend_messenger) = make_game_state();
+
+        let msg0 = RenderMessage::SpawnSmart(0, Pos::from_num(1, 1));
+        let msg1 = RenderMessage::SpawnSmart(1, Pos::from_num(1.0, 2.0));
+        rend_messenger.send(vec![msg0, msg1]);
+        run_single_tick(&mut sim);
+        sim.end_tick_debug();
+
+
+        // selection of units:
+        let mut units: [Option<UId>; UNIT_GROUP_CAP] = [None; UNIT_GROUP_CAP];
+        units[0] = Some(0);
+        units[1] = Some(1);
+
+        // Send message to use fire
+        let msg = RenderMessage::InputOrder(
+            0,
+            units,
+            UnitOrder::ForceAttack(ObjTarget::Position(Pos::from_num(2,1))),
+        );
+        let msg2 = RenderMessage::InputOrder(
+            1,
+            units,
+            UnitOrder::ForceAttack(ObjTarget::Entity(0))
+        );
+        rend_messenger.send(vec![msg, msg2]);
+
+        run_single_tick(&mut sim);
+        sim.end_tick_debug();
+        // print_components(&mut sim, &0);
+        print_components(&mut sim, &1);
+        //println!("{:?}",rend_messenger.rec() );
+        
+
+        {
+            let state = sim
+                .ecs
+                .get::<UnitStateComp>(*sim.res.id_map.get(&0).unwrap())
+                .unwrap();
+
+            match state.get_state() {
+                UnitState::FireWeapons(..) => {},
+                _ => {panic!("wrong state");},
+            }
+        }
+
+        {
+            let state = sim
+                .ecs
+                .get::<UnitStateComp>(*sim.res.id_map.get(&1).unwrap())
+                .unwrap();
+
+            match state.get_state() {
+                UnitState::FireWeapons(..) => {},
+                _ => {panic!("wrong state");},
+            }
+        }
+
+        let msg = RenderMessage::InputOrder(
+            1,
+            units,
+            UnitOrder::ForceAttack(ObjTarget::Position(Pos::from_num(7.0, 2.0)))
+        );
+        rend_messenger.send(vec![msg]);
+
+        run_single_tick(&mut sim);
+        sim.end_tick_debug();
+        print_components(&mut sim, &1);
+
+        {
+            let state = sim
+                .ecs
+                .get::<UnitStateComp>(*sim.res.id_map.get(&1).unwrap())
+                .unwrap();
+
+            match state.get_state() {
+                UnitState::PathfindAndMove => {},
+                _ => {panic!("wrong state");},
+            }
+        }
+        run_single_tick(&mut sim);
+        sim.end_tick_debug();
+
+        print_components(&mut sim, &1);
+
+        {
+            let state = sim
+                .ecs
+                .get::<UnitStateComp>(*sim.res.id_map.get(&1).unwrap())
+                .unwrap();
+
+            match state.get_state() {
+                UnitState::Move => {},
+                _ => {panic!("wrong state");},
+            }
+        }
+
+        run_single_tick(&mut sim);
+        sim.end_tick_debug();
+
+        print_components(&mut sim, &1);
+
+        {
+            let state = sim
+                .ecs
+                .get::<UnitStateComp>(*sim.res.id_map.get(&1).unwrap())
+                .unwrap();
+
+            match state.get_state() {
+                UnitState::FireWeapons(..) => {},
+                _ => {panic!("wrong state");},
+            }
         }
     }
 }
