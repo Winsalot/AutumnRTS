@@ -406,11 +406,11 @@ There is lon way to go, but it can be like this:
 		+ Should have its own state transition logic.
 			+ [YES] Be brave and update it every tick?
 	- FireWeapon system:
-		- Take state, target, weapon.
-		- Iterate over weapons that are firing.
-		- Call function dependent on weapon type.
+		+ Take state, target, weapon.
+		+ Iterate over weapons that are firing.
+		- Actually shoot something.
 			- Spawn mindless projectile.
-				- Has projectile component, speed, pos, nextpos, target.
+				- Has projectile component, speed, pos, target. [No nextpos. Nextpos is for collisions. Here we go straight]
 				- Flies to target.
 				- Then runs its own system:
 					- Deals damage

@@ -71,8 +71,7 @@ fn check_current_order_completion(sim: &mut SimState) {
                         }
                     }
                 }
-            }
-            // _ => {}
+            } // _ => {}
         }
     }
 
@@ -347,11 +346,11 @@ fn knows_path_to_dest(sim: &SimState, entity_id: &Entity, dest: &Pos) -> bool {
 
 #[cfg(test)]
 mod order_and_state_tests {
+    use crate::messenger::*;
+    use crate::sim_components::sim_unit_base_components::IdComp;
     use crate::sim_components::sim_unit_base_components::NextPosComp;
-use crate::sim_components::sim_unit_base_components::IdComp;
-use crate::sim_components::weapon_comp::WeaponComp;
-use crate::messenger::*;
-    
+    use crate::sim_components::weapon_comp::WeaponComp;
+
     use crate::sim_ecs::*;
     use crate::sim_gameloop::first_tick;
     use crate::sim_gameloop::run_single_tick;
@@ -383,7 +382,7 @@ use crate::messenger::*;
             .ecs
             .query_one::<ToQuery>(*sim.res.id_map.get(e).unwrap())
             .unwrap();
-        let (id, state, queue, trg, path, pos,nextpos, weapon) = query.get().unwrap();
+        let (id, state, queue, trg, path, pos, nextpos, weapon) = query.get().unwrap();
         println!("\n Tick: {:?} \n", sim.current_tick());
         println!("{:?} \n", id);
         println!("{:?} \n", state);
@@ -408,7 +407,6 @@ use crate::messenger::*;
         sim.end_tick_debug();
 
         (sim, rend_messenger)
-
     }
 
     #[test]
@@ -602,7 +600,6 @@ use crate::messenger::*;
 
     #[test]
     fn force_attack_states() {
-
         // cargo test -- --nocapture force_attack_states
 
         let (mut sim, rend_messenger) = make_game_state();
@@ -613,7 +610,6 @@ use crate::messenger::*;
         run_single_tick(&mut sim);
         sim.end_tick_debug();
 
-
         // selection of units:
         let mut units: [Option<UId>; UNIT_GROUP_CAP] = [None; UNIT_GROUP_CAP];
         units[0] = Some(0);
@@ -623,13 +619,10 @@ use crate::messenger::*;
         let msg = RenderMessage::InputOrder(
             0,
             units,
-            UnitOrder::ForceAttack(ObjTarget::Position(Pos::from_num(2,1))),
+            UnitOrder::ForceAttack(ObjTarget::Position(Pos::from_num(2, 1))),
         );
-        let msg2 = RenderMessage::InputOrder(
-            1,
-            units,
-            UnitOrder::ForceAttack(ObjTarget::Entity(0))
-        );
+        let msg2 =
+            RenderMessage::InputOrder(1, units, UnitOrder::ForceAttack(ObjTarget::Entity(0)));
         rend_messenger.send(vec![msg, msg2]);
 
         run_single_tick(&mut sim);
@@ -637,7 +630,6 @@ use crate::messenger::*;
         // print_components(&mut sim, &0);
         print_components(&mut sim, &1);
         //println!("{:?}",rend_messenger.rec() );
-        
 
         {
             let state = sim
@@ -646,8 +638,10 @@ use crate::messenger::*;
                 .unwrap();
 
             match state.get_state() {
-                UnitState::FireWeapons(..) => {},
-                _ => {panic!("wrong state");},
+                UnitState::FireWeapons(..) => {}
+                _ => {
+                    panic!("wrong state");
+                }
             }
         }
 
@@ -658,15 +652,17 @@ use crate::messenger::*;
                 .unwrap();
 
             match state.get_state() {
-                UnitState::FireWeapons(..) => {},
-                _ => {panic!("wrong state");},
+                UnitState::FireWeapons(..) => {}
+                _ => {
+                    panic!("wrong state");
+                }
             }
         }
 
         let msg = RenderMessage::InputOrder(
             1,
             units,
-            UnitOrder::ForceAttack(ObjTarget::Position(Pos::from_num(7.0, 2.0)))
+            UnitOrder::ForceAttack(ObjTarget::Position(Pos::from_num(7.0, 2.0))),
         );
         rend_messenger.send(vec![msg]);
 
@@ -681,8 +677,10 @@ use crate::messenger::*;
                 .unwrap();
 
             match state.get_state() {
-                UnitState::PathfindAndMove => {},
-                _ => {panic!("wrong state");},
+                UnitState::PathfindAndMove => {}
+                _ => {
+                    panic!("wrong state");
+                }
             }
         }
         run_single_tick(&mut sim);
@@ -697,8 +695,10 @@ use crate::messenger::*;
                 .unwrap();
 
             match state.get_state() {
-                UnitState::Move => {},
-                _ => {panic!("wrong state");},
+                UnitState::Move => {}
+                _ => {
+                    panic!("wrong state");
+                }
             }
         }
 
@@ -714,8 +714,10 @@ use crate::messenger::*;
                 .unwrap();
 
             match state.get_state() {
-                UnitState::FireWeapons(..) => {},
-                _ => {panic!("wrong state");},
+                UnitState::FireWeapons(..) => {}
+                _ => {
+                    panic!("wrong state");
+                }
             }
         }
     }

@@ -35,6 +35,10 @@ impl WeaponComp {
         max_range
     }
 
+    pub fn get_wep(&self, wep_index: usize) -> &Weapon {
+        &self.weapons[wep_index as usize]
+    }
+
     pub fn get_weapons_in_range(&self, range: &FixF) -> [bool; N_WEAPON_CAP as usize] {
         let mut in_range = [false; N_WEAPON_CAP as usize];
 
@@ -45,5 +49,15 @@ impl WeaponComp {
         }
 
         in_range
+    }
+
+    pub fn update_wep_states(&mut self, firing_weps: [bool; N_WEAPON_CAP as usize]) {
+        // I am asking for toruble with these global variables.
+        for i in 0..(N_WEAPON_CAP as usize) {
+            match firing_weps[i] {
+                true => self.weapons[i].update_firing(),
+                false => self.weapons[i].update_idle(),
+            }
+        }
     }
 }
