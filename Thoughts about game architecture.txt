@@ -1,0 +1,62 @@
+Here I (vaguely) describe current architecture, problems and potential solutions.
+
+
+Simulation -> Renderer communication using MPSC channels.
+	Problems: 
+		- Use of custom messages. This goes in contrast to the flexibility of ECS that is inside game logic.
+		- During development of game features I need to think about how events are communicated to renderer. Slows down development and iteration.
+		- Involves a lot of copying.
+		- VERY coupled with both renderer and simulation. Makes refactoring of this system extra painful (last refactor I had like 60 errrors to fix).
+	Advantages:
+		- A friendliest solution for when simulation and renderer run on separate threads.
+		- Uses less memory than copying whole game state.
+		- Good for events that happen WITHIN a game tick. Eg. the action of shooting a bullet (while gmestate holds only shooter and bullet).
+	Opinion:
+		- Keep this architecture, but MAKE EFFORT to decouple:
+			- Use setters and getters.
+			- Maube something else.
+
+Renderer -> Simulation communication using MPSC channels.
+	Problems:
+		- Same as above.
+	Advantages:
+		- Same as above.
+	Opinion:
+		- This is less problematic than Sim-> Rend communication because this sends only player orders. And usually there are less variants for player orders and the volumes are lower.
+		- overall I don't really see a need to change anything here.
+
+Renderer's use of SimMessages. Right now calls a bunch of separate functions and each one takes message inbox and drains only maeesages it cares about. Then does their stuff.
+	Problems:
+		- Drain operation involves lots of copying. Since I am already worried that sim message batches could grow pretty heavy, this can easily complicate things.
+		- A LOT of repetitive code. Just look at rustbridge_messages.rs to see what I mean.
+	Advantages: 
+		- Pretty straightforward. Simple to implement.
+	Alternatives:
+		- Use single function (on rust side) to iterate over messages in their order and act on them. 
+			- This would be much more memory efficient and would use less code copy-pasting.
+			- This would mean that more is done on the gdnative-rust side. WHich is good.
+			- However, this would be a difficult approach and I probably won't get it right on a first try.
+
+Unit Behaviour AI problems:
+	- Can't account for unexpected events (eg. unit forcibly displaced, unexpected obstacle in path, unit stunned, unit slowed).
+	- A lot of behaviour logic is handled in behaviour system instead of actual action systems (eg. check wether target is in range for weapon is done in behaviour AI system, and weapon-shooting system doesn't perform this check).
+		- This gives advantage of avoiding situations such as: unit is in range of target -> state set to shoot -> Movement system updates and target moves out of range -> shoot-weapon system starts -> performs check and target is not in range -> nothing happens -> unit wastes a tick becuse state::shoot blocks other actions such as movement. This could easily get even worse if weapons have charge/aim period during which targets have more time to move out of range.
+	- However, this also complicates some systems. Eg. weapon shooting system no longer checks for weapon range. And this is confusing as fuck.
+	- Also means that some complex weapon behaviours might have to be implemented on unit behaviuour AI system instead of weapon system itself.
+Opinion:
+	- Something will definetely need to change. But right now I expect that it hasn't grown so big that refactor would be painful.
+
+
+Unit order chain of systems is massive.
+	- Goes as following: Render message -> Input order -> Order queue -> Unit state -> All other systems.
+Problem: 
+	- Implementing new order and related behaviours means writing A LOT of code because I need to implement it in all of theose.
+Advantages:
+	- Flexibility in how user input gets converted to order and order into state.
+Optinion:
+	- I just don't see an alternative here.
+	- Hopefully once I implement main orders and define input it will be easier to maintain.
+
+NexPos component. Used to set next position that is then validated by the collision detection.
+	- Stupid name. I think somehting like MovementComponent should be better.
+		

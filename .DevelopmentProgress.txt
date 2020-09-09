@@ -377,7 +377,7 @@ There is lon way to go, but it can be like this:
 			+ Leave only smart ability use
 			+ Should check if ability was used succesfult and then update cooldowns.
 		+ Write tests for actual ability use 
-30. Force Attack order and related components.
+[DONE] 30. Force Attack order and related components.
 	+ Weapon component.
 		+ Contains range.
 		+ Cooldown (during which unit can do other things)
@@ -397,11 +397,8 @@ There is lon way to go, but it can be like this:
 			+ Order -> unit state.
 		+ What if target moves? This is where slowupdate could be useful.
 			- Right now pathfind only if target's position changes.(shitty, but whatever)
-	- test everything related to state.
-
-	
-
-		
+	+ test everything related to state.
+31. Probably implement weapon shooting, projectiles and murder.
 
 
 
@@ -446,7 +443,9 @@ SHORT term:
 		- For map.
 		- For unit builder.
 	- Godot working camera.
+	- Support different size units.
 	- Move to 3D on godot side.
+	- Refactor messages to use setters and getters. So that changes would be easier in the future.
 
 
 LONG term:
