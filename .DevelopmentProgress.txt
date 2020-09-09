@@ -399,6 +399,22 @@ There is lon way to go, but it can be like this:
 			- Right now pathfind only if target's position changes.(shitty, but whatever)
 	+ test everything related to state.
 31. Probably implement weapon shooting, projectiles and murder.
+	+ Quick weapon refactor [Was not that quick NGL]
+		+ Should have a state (ready -> aiming -> firing -> cooldown -> ready). So sorta-FSM.
+		+ Should have common parameters like cooldown, aim time, fire duration (continous fire for multiple frames), range, projectile speed.
+		+ SHould have effect variable (enum) that has its own parameters.
+		+ Should have its own state transition logic.
+			+ [YES] Be brave and update it every tick?
+	- FireWeapon system:
+		- Take state, target, weapon.
+		- Iterate over weapons that are firing.
+		- Call function dependent on weapon type.
+			- Spawn mindless projectile.
+				- Has projectile component, speed, pos, nextpos, target.
+				- Flies to target.
+				- Then runs its own system:
+					- Deals damage
+					- Despawns.
 
 
 

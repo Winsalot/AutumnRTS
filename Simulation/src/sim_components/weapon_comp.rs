@@ -9,7 +9,7 @@ pub struct WeaponComp {
 
 impl WeaponComp {
     pub fn new(weapons: Vec<Weapon>) -> Self {
-        let mut unit_weapons = [Weapon::None; N_WEAPON_CAP as usize];
+        let mut unit_weapons = [Weapon::unarmed(); N_WEAPON_CAP as usize];
 
         for i in 0..(weapons.len().min(N_WEAPON_CAP as usize)) {
             unit_weapons[i] = weapons[i];
@@ -22,7 +22,7 @@ impl WeaponComp {
 
     // Gives unit a standard issue weapon.
     pub fn new_debug() -> Self {
-        WeaponComp::new(vec![Weapon::new_gun(FixF::from_num(5), 3, 1)])
+        WeaponComp::new(vec![Weapon::debug_rifle(FixF::from_num(5))])
     }
 
     pub fn get_max_range(&self) -> FixF {

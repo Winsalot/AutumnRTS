@@ -59,4 +59,15 @@ Optinion:
 
 NexPos component. Used to set next position that is then validated by the collision detection.
 	- Stupid name. I think somehting like MovementComponent should be better.
-		
+
+Weapon implementation:
+Current solution:
+	- There is weapon enum.
+	- Weapon component holds multiple of those.
+	- Weapon parameters are specific per-enum.
+Problem:
+	- Weapon component is fine I think
+	- Weapon list enum is not.
+		- SHould have parameters common for all weapons.
+		- Should have specific parameters.
+		- ^ Flyweight pattern bruh.		
