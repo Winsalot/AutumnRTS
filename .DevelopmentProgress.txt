@@ -409,12 +409,14 @@ There is lon way to go, but it can be like this:
 		+ Take state, target, weapon.
 		+ Iterate over weapons that are firing.
 		- Actually shoot something.
-			- Spawn mindless projectile.
-				- Has projectile component, speed, pos, target. [No nextpos. Nextpos is for collisions. Here we go straight]
-				- Flies to target.
-				- Then runs its own system:
-					- Deals damage
-					- Despawns.
+			+ Spawn mindless projectile.
+				+ Has projectile component, speed, pos, target. [No nextpos. Nextpos is for collisions. Here we go straight].
+			- Test weapon shooting system.
+				- Make sure projectiles are spawned and shit.
+			- Projectile system:
+				- Moves towards target. (separate step from movement)
+				- Deals damage.
+				- Despawns.
 
 
 

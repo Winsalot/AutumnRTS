@@ -22,19 +22,25 @@ use crate::sim_fix_math::*;
 pub struct TargetComp {
     /// Current target
     target: ObjTarget,
-    /// How was current target chosen?
-    //trg_mode: TargetingType,
-    /// Range to automatically search for targets
-    trg_range: FixF,
+    // /// How was current target chosen?
+    // //trg_mode: TargetingType,
+    // /// Range to automatically search for targets
+    // trg_range: FixF,
 }
 
 impl TargetComp {
-    pub fn new(range: FixF) -> Self {
+    pub fn new(_range: FixF) -> Self {
         TargetComp {
             target: ObjTarget::None,
             // trg_mode: TargetingType::Automatic,
-            trg_range: range,
+            // trg_range: range,
         }
+    }
+
+    pub fn from_trg(trg: &ObjTarget) -> Self {
+    	TargetComp{
+    		target: *trg,
+    	}
     }
 
     pub fn set_trg(&mut self, trg: ObjTarget) {
@@ -53,9 +59,9 @@ impl TargetComp {
     //     self.trg_mode == TargetingType::Order
     // }
 
-    pub fn get_range(&self) -> &FixF {
-        &self.trg_range
-    }
+    // pub fn get_range(&self) -> &FixF {
+    //     &self.trg_range
+    // }
 
     // pub fn _under_order(&self) -> bool {
     //     self.trg_mode == TargetingType::Order
