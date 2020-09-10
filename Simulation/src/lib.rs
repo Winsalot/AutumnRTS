@@ -4,6 +4,7 @@ use rustbridge::*;
 mod common;
 mod fpscounter;
 mod messenger;
+mod placeholder_entities;
 mod rustbridge;
 mod rustbridge_messages;
 mod sim_abilities_list;
@@ -15,7 +16,6 @@ mod sim_map;
 mod sim_player_alliances;
 mod sim_systems;
 mod sim_weapon_list;
-mod placeholder_entities;
 
 // Function that registers all exposed classes to Godot
 fn init(handle: gdnative::init::InitHandle) {

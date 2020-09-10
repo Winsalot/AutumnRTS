@@ -38,9 +38,7 @@ impl TargetComp {
     }
 
     pub fn from_trg(trg: &ObjTarget) -> Self {
-    	TargetComp{
-    		target: *trg,
-    	}
+        TargetComp { target: *trg }
     }
 
     pub fn set_trg(&mut self, trg: ObjTarget) {

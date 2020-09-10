@@ -1,13 +1,13 @@
-use crate::sim_components::sim_unit_base_components::PositionComp;
-use crate::placeholder_entities::plc_projectile;
 use crate::common::*;
+use crate::placeholder_entities::plc_projectile;
 use crate::sim_components::sim_unit_base_components::IdComp;
+use crate::sim_components::sim_unit_base_components::PositionComp;
 use crate::sim_components::targeting_comp::TargetComp;
 use crate::sim_components::unitstate_comp::UnitStateComp;
 use crate::sim_components::weapon_comp::WeaponComp;
 use crate::sim_ecs::SimState;
-use crate::sim_weapon_list::*;
 use crate::sim_fix_math::*;
+use crate::sim_weapon_list::*;
 
 pub fn sys_fire_weapons(sim: &mut SimState) {
     // First update weapon states:
@@ -22,7 +22,9 @@ pub fn sys_fire_weapons(sim: &mut SimState) {
     // Firing entity, weapon effect, target:
     let mut to_fire_weapon: Vec<(UId, Pos, WeaponType, ObjTarget)> = vec![];
 
-    for (_, (id_comp, state_comp, pos_comp, trg_comp, wep_comp)) in sim.ecs.query::<ToQuery>().iter() {
+    for (_, (id_comp, state_comp, pos_comp, trg_comp, wep_comp)) in
+        sim.ecs.query::<ToQuery>().iter()
+    {
         match state_comp.get_state() {
             UnitState::FireWeapons(weps_to_fire) => {
                 wep_comp.update_wep_states(*weps_to_fire);
@@ -53,6 +55,13 @@ pub fn sys_fire_weapons(sim: &mut SimState) {
 
     // iterate over weapons to fire and spawn projectiles!
     for (shooter_id, spawn_pos, wep_type, fire_trg) in to_fire_weapon.iter() {
-        plc_projectile(sim, shooter_id, spawn_pos, wep_type, fire_trg, FixF::from_num(2));
+        plc_projectile(
+            sim,
+            shooter_id,
+            spawn_pos,
+            wep_type,
+            fire_trg,
+            FixF::from_num(0.5),
+        );
     }
 }

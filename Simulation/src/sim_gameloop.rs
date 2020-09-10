@@ -1,5 +1,6 @@
-use crate::sim_systems::fire_weapons::sys_fire_weapons;
 use crate::sim_systems::abilities::sys_abilities_smart;
+use crate::sim_systems::fire_weapons::sys_fire_weapons;
+use crate::sim_systems::projectiles::sys_projectiles;
 use crate::sim_systems::unit_behaviour_ai::sys_unit_behaviour_ai;
 // use crate::sim_systems::targeting::auto_assign_targets;
 use crate::messenger::*;
@@ -61,6 +62,7 @@ pub fn run_single_tick(sim: &mut SimState) -> bool {
     sys_unit_behaviour_ai(sim);
 
     sys_fire_weapons(sim);
+    sys_projectiles(sim);
 
     input_spawn_unit(sim);
     input_spawn_smart_unit(sim);

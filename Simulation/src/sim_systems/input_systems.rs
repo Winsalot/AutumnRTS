@@ -1,14 +1,8 @@
-use crate::placeholder_entities::*;
 use crate::common::SimMsg::StateChange;
 use crate::common::SimStateChng::*;
+use crate::placeholder_entities::*;
 use crate::sim_components::order_queue_comp::OrderQueueComp;
 use crate::sim_systems::validate_order::is_valid;
-
-
-
-
-
-
 
 use crate::sim_fix_math::Pos;
 use hecs::*;

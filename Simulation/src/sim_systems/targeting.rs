@@ -7,6 +7,7 @@ use crate::sim_components::sim_unit_base_components::PositionComp;
 use crate::sim_components::targeting_comp::*;
 use crate::sim_ecs::SimState;
 
+// TODO: this function should be moved to somewhere else. This is not a system, but rather a helper function aka. SUBSYSTEM.
 /// Helper function that returns the position of target
 pub fn target_to_pos(sim: &SimState, trg: &ObjTarget) -> Option<Pos> {
     match trg {

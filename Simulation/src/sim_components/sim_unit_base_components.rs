@@ -20,6 +20,7 @@ impl TypeNameComp {
 /// Reason is that hecs ecs reuses id's, and
 ///this could cause some bugs in the future.
 ///Id component should be perfectly unique in game context
+/// Also it should be owned by entities that get referenced by other entities (eg unit that gets attacked should have Id comp. Projectile that flies and ignores everything except its target doesnt need one)
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct IdComp {
     id: UId,

@@ -1,13 +1,12 @@
-use crate::sim_weapon_list::WeaponType;
 use crate::common::SimMsg::StateChange;
 use crate::common::SimStateChng::*;
 use crate::sim_components::order_queue_comp::OrderQueueComp;
-
+use crate::sim_weapon_list::WeaponType;
 
 use crate::sim_components::active_ability_comp::*;
+use crate::sim_components::projectile_comp::*;
 use crate::sim_components::sim_unit_base_components::*;
 use crate::sim_components::structure_comp::*;
-use crate::sim_components::projectile_comp::*;
 use crate::sim_components::targeting_comp::*;
 use crate::sim_components::unitstate_comp::*;
 use crate::sim_components::weapon_comp::*;
@@ -19,9 +18,7 @@ use crate::common::*;
 use crate::sim_ecs::*;
 use crate::sim_fix_math::FixF;
 
-
 // These are temporary semi-hard-coded functions that spawn entities.
-
 
 pub fn plc_unit(sim: &mut SimState, owner: PId, pos: Pos, speed: FixF, coll_r: FixF) {
     let mut unit_builder = EntityBuilder::new();
@@ -95,15 +92,14 @@ pub fn plc_building(sim: &mut SimState, owner: PId, pos: Pos) {
     sim.map.map_mem.add(vec![pos]);
 }
 
-
 pub fn plc_projectile(
-    sim: &mut SimState, 
+    sim: &mut SimState,
     shooter: &UId,
     shooter_pos: &Pos,
     _wep_type: &WeaponType,
     trg: &ObjTarget,
-    speed: FixF) -> Entity{
-
+    speed: FixF,
+) -> Entity {
     // Has id, projectile, speed, pos, target, components
 
     // For real though. Maybe It don't even need ID component?
@@ -117,7 +113,5 @@ pub fn plc_projectile(
     unit_builder.add(TargetComp::from_trg(trg));
     unit_builder.add(ProjectileComp::new(shooter, FixF::from_num(1)));
 
-
     sim.ecs.spawn(unit_builder.build())
-
 }

@@ -7,9 +7,8 @@ use crate::sim_systems::targeting::target_to_pos;
 
 use crate::sim_components::active_ability_comp::ActiveAbilityComp;
 
-use crate::sim_ecs::SimState;
 use crate::placeholder_entities::*;
-
+use crate::sim_ecs::SimState;
 
 // use crate::sim_systems::input_systems::plc_building;
 

@@ -45,6 +45,7 @@ pub struct Weapon {
 impl Weapon {
     // Standard weapon for debug
     pub fn debug_rifle(range: FixF) -> Self {
+        // Changin anything here will break tests :)
         let params = WeaponParams::new(range, 1, 3, 5);
         Weapon {
             state: WeaponState::Ready,
@@ -54,6 +55,7 @@ impl Weapon {
     }
 
     pub fn debug_rifle_fast(range: FixF) -> Self {
+        // Changin anything here will break tests :)
         let params = WeaponParams::new(range, 0, 1, 0);
         Weapon {
             state: WeaponState::Ready,
