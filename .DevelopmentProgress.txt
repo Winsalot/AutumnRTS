@@ -398,7 +398,7 @@ There is lon way to go, but it can be like this:
 		+ What if target moves? This is where slowupdate could be useful.
 			- Right now pathfind only if target's position changes.(shitty, but whatever)
 	+ test everything related to state.
-31. Probably implement weapon shooting, projectiles and murder.
+[DONE] 31. Probably implement weapon shooting, projectiles and murder.
 	+ Quick weapon refactor [Was not that quick NGL]
 		+ Should have a state (ready -> aiming -> firing -> cooldown -> ready). So sorta-FSM.
 		+ Should have common parameters like cooldown, aim time, fire duration (continous fire for multiple frames), range, projectile speed.
@@ -413,25 +413,27 @@ There is lon way to go, but it can be like this:
 				+ Has projectile component, speed, pos, target. [No nextpos. Nextpos is for collisions. Here we go straight].
 			x Test weapon shooting system.
 				x Make sure projectiles are spawned and shit.
-			- Projectile system:
+			+ Projectile system:
 				+ Moves towards target. (separate step from movement)
 				+ Despawns.
 				+ Deals damage.
 			+ Test projectile system.
-	- Add murder:
-		- Add health component.
-		- Deal damage (inside projectile system)
-		- Health system:
-			- regeneration.
-			- Despawn dead.
-	- Do entire murder test. :)
+	+ Add murder:
+		+ Add health component.
+		+ Deal damage (inside projectile system)
+		+ Health system:
+			+ regeneration.
+			+ Despawn dead.
+	+ Do entire murder test. :)
+32.
 
 
 
 GENERAL IDEAS:
 	- Fuck unnecerasy refactoring. I should avoid it. Better messy code & game than general good code and no game.
 	- Get some basic features working. Then add graphics & fix Godot side. Then attract contributors. Features to get:
-		- Everything in MicroTournament file.
+		x Everything in MicroTournament file.
+		- TBH I think fuck microtournament. Game logic development is going quite well. No need limit myself. 
 	- Current progression:
 		+1. Implement automatic targeting.
 		2. Add automatic firing with all stop to fire, cooldown and shit features (also add health).
@@ -467,11 +469,12 @@ SHORT term:
 	- (Good idea) Whole map data defined inside godot. Just initialise the game by supplying map layout as one of arguments for SimState.
 	- Start using data files.
 		- For map.
-		- For unit builder.
+		x [NAH, use hard coded balance.rs file now] For unit builder.
 	- Godot working camera.
 	- Support different size units.
 	- Move to 3D on godot side.
 	- Refactor messages to use setters and getters. So that changes would be easier in the future.
+	- Add friendly fire checks for projectile damage.
 
 
 LONG term:

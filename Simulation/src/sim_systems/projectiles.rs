@@ -1,3 +1,4 @@
+use crate::sim_components::health_comp::HealthComp;
 use crate::sim_components::projectile_comp::*;
 use crate::sim_components::sim_unit_base_components::*;
 use crate::sim_components::targeting_comp::*;
@@ -68,9 +69,8 @@ fn projectile_impact(sim: &mut SimState) {
                 // And yes, this is grid search
                 type ToQueryTrg<'a> = (&'a PositionComp, &'a CollComp);
 
-                // Should make sure that target has health component. (Id comp not neccesary)
                 for (e_id1, (pos_comp1, coll_comp1)) in
-                    sim.ecs.query::<ToQueryTrg>().with::<IdComp>().iter()
+                    sim.ecs.query::<ToQueryTrg>().with::<HealthComp>().iter()
                 {
                     // If impact happens within collision radius of target
                     if impact_pos.dist(pos_comp1.get_pos()) < *coll_comp1.get_r() {
@@ -96,13 +96,15 @@ fn projectile_impact(sim: &mut SimState) {
     }
 }
 
-fn damage_entity(_sim: &mut SimState, _e_id: Entity, _dmg: FixF) {
-    // TBA
+fn damage_entity(sim: &mut SimState, e_id: Entity, dmg: FixF) {
+    let mut hp_comp = sim.ecs.get_mut::<HealthComp>(e_id).unwrap();
+    hp_comp.damage(&dmg);
 }
 
 #[cfg(test)]
 mod shooting_tests {
     use crate::messenger::*;
+    use crate::sim_components::health_comp::HealthComp;
     use crate::sim_components::sim_unit_base_components::IdComp;
     use crate::sim_components::sim_unit_base_components::NextPosComp;
     use crate::sim_components::weapon_comp::WeaponComp;
@@ -110,8 +112,6 @@ mod shooting_tests {
     use crate::sim_ecs::*;
     use crate::sim_gameloop::first_tick;
     use crate::sim_gameloop::run_single_tick;
-    use crate::sim_systems::input_systems::receive_messages;
-    use crate::sim_systems::input_systems::sys_input_to_order;
 
     use crate::common::*;
     use crate::sim_components::order_queue_comp::OrderQueueComp;
@@ -132,13 +132,14 @@ mod shooting_tests {
             &'a PositionComp,
             &'a NextPosComp,
             &'a WeaponComp,
+            &'a HealthComp,
         );
 
         let mut query = sim
             .ecs
             .query_one::<ToQuery>(*sim.res.id_map.get(e).unwrap())
             .unwrap();
-        let (id, state, queue, trg, path, pos, nextpos, weapon) = query.get().unwrap();
+        let (id, state, queue, trg, path, pos, nextpos, weapon, hp) = query.get().unwrap();
         println!("\n Tick: {:?} \n", sim.current_tick());
         println!("{:?} \n", id);
         println!("{:?} \n", state);
@@ -148,6 +149,7 @@ mod shooting_tests {
         println!("{:?} \n", pos);
         println!("{:?} \n", nextpos);
         println!("{:?} \n", weapon);
+        println!("{:?} \n", hp);
 
         let ids = sim.ecs.iter().map(|(id, _)| id).collect::<Vec<_>>();
 
@@ -220,5 +222,85 @@ mod shooting_tests {
         run_single_tick(&mut sim);
         sim.end_tick_debug();
         print_components(&mut sim, &0);
+    }
+
+    #[test]
+    fn shoot_friend() {
+        // cargo test -- --nocapture shoot_friend
+
+        let (mut sim, rend_messenger) = make_game_state();
+
+        let msg0 = RenderMessage::SpawnSmart(0, Pos::from_num(1, 1));
+        let msg1 = RenderMessage::SpawnSmart(1, Pos::from_num(1.0, 2.0));
+        rend_messenger.send(vec![msg0, msg1]);
+        run_single_tick(&mut sim);
+        sim.end_tick_debug();
+
+        // selection of units:
+        let mut units: [Option<UId>; UNIT_GROUP_CAP] = [None; UNIT_GROUP_CAP];
+        units[0] = Some(0);
+        units[1] = Some(1);
+
+        let msg = RenderMessage::InputOrder(0, units, UnitOrder::ForceAttack(ObjTarget::Entity(1)));
+
+        rend_messenger.send(vec![msg]);
+
+        run_single_tick(&mut sim);
+        sim.end_tick_debug();
+        print_components(&mut sim, &1);
+
+        run_single_tick(&mut sim);
+        sim.end_tick_debug();
+        print_components(&mut sim, &1);
+
+        run_single_tick(&mut sim);
+        sim.end_tick_debug();
+        print_components(&mut sim, &1);
+
+        {
+            let hp = sim
+                .ecs
+                .get::<HealthComp>(*sim.res.id_map.get(&1).unwrap())
+                .unwrap();
+            assert!(*hp.get_hp() < FixF::from_num(10));
+        }
+    }
+
+    #[test]
+    fn murder_friend() {
+        // cargo test -- --nocapture murder_friend
+
+        // Shoot until friend dies.
+
+        let (mut sim, rend_messenger) = make_game_state();
+
+        let msg0 = RenderMessage::SpawnSmart(0, Pos::from_num(1, 1));
+        let msg1 = RenderMessage::SpawnSmart(1, Pos::from_num(1.0, 2.0));
+        rend_messenger.send(vec![msg0, msg1]);
+        run_single_tick(&mut sim);
+        sim.end_tick_debug();
+
+        // selection of units:
+        let mut units: [Option<UId>; UNIT_GROUP_CAP] = [None; UNIT_GROUP_CAP];
+        units[0] = Some(0);
+        units[1] = Some(1);
+
+        let msg = RenderMessage::InputOrder(0, units, UnitOrder::ForceAttack(ObjTarget::Entity(1)));
+
+        rend_messenger.send(vec![msg]);
+
+        for _ in 0..40 {
+            run_single_tick(&mut sim);
+            sim.end_tick_debug();
+        }
+
+        {
+            assert_eq!(sim.res.id_map.get(&1), None);
+        }
+
+        {
+            let ids = sim.ecs.iter().map(|(id, _)| id).collect::<Vec<_>>();
+            assert_eq!(1, ids.len());
+        }
     }
 }

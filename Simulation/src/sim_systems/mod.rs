@@ -1,5 +1,6 @@
 pub mod abilities;
 pub mod fire_weapons;
+pub mod health;
 pub mod input_systems;
 pub mod movement;
 pub mod pathfinding;

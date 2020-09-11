@@ -73,10 +73,42 @@ Very advanced. Highest mobility, swarm units and powerful hard-hitters. Don't ha
 	- Figure out a way to attract AI students to build smart bots for this game (probably won't happen in early developement).
 	- Single player campaign, with missions where player controls or has access to a limited number of units.
 	- Epic multiplayer team vs team battles with big armies and lots of units (imagine ZeroK 7v7 games that last for ~1 hour or more)
-	- Balance and framerate decoupling. This would allow game to be played at variable simulation framerate while still preserving game feel.
-	- Even more daring: variable framerate during runtime. Eg. in situations where too many units get spawned framerate could be automatically reduced to account for more CPU work.
-	- **Turn rates**. Having non-instant turn rates is a natural counter to kiting tactics.
-	- Defensive structures should not scale into late game. Turtling is not cool strategy overall, and even though static defences should be viable option for cheeses/cheese defences, it should lose effectivness into late game. It could be done by giving units dmg/def upgrades while making no upgrades available for structures.
+- Balance and framerate decoupling. This would allow game to be played at variable simulation framerate while still preserving game feel.
+- Even more daring: variable framerate during runtime. Eg. in situations where too many units get spawned framerate could be automatically reduced to account for more CPU work.
+- **Turn rates**. Having non-instant turn rates is a natural counter to kiting tactics.
+- Defensive structures should not scale into late game. Turtling is not cool strategy overall, and even though static defences should be viable option for cheeses/cheese defences, it should lose effectivness into late game. It could be done by giving units dmg/def upgrades while making no upgrades available for structures.
+- Fast game start. Most of RTS games have boring first 2-4 minutes where players build up economy and first raiding/scouting squad. In SC1 every game starts by building 4 more workers to reach 9 supply. It could be adressed by:
+	- Having expensive workers. 
+	- Start with sufficiently large number of workers so that building 1 more worker would have smaller impact on economy.
+	- Using previous 2 points give players alternatives to building workers at start of the game.  Eg: have some first upgrades very cheap (start with upgrade for timing), have some cheap scout units, make tech tree timings worthwhile.  
+	
+
+### Tech tree ideas
+
+I have already mentioned, that I would like the game to have a soft tech level boundary between competitive 1v1 and team games. Some basics:
+- There are unit upgrades for damage/armor.
+- They come in tech level tiers **up to 5**.
+- Tech is upgraded differently by faction. Eg. some could upgrade main building, other could rely on "research structures", or even have unlock tech tiers in form of permanent upgrades that are not associated with any particular structure.
+- Every new unlocked tech level unlocks new units.
+- Soft boundary should be between tech level tiers 1-3 and tiers 4-5. Basic idea:
+- Tiers 1-3:
+	- Standard relatively cheap and spammable units. 
+	- Multiple units viable for front-line role.
+	- Couple of support units (eg. casters, artillery, niche-role units).
+	- Standard damage/armor upgrades. 
+	- Some unique unit upgrades.
+- Tiers 4-5:
+	- Support units.
+	- Megaunits (aka. Experimentals).
+	- Further standard damage/armor upgrades.
+	- Powerful upgrades for units of all tiers.
+- Soft boundary between tiers 1-3 and 4-5 could be added by:
+	- Upgrades past tier 3 taking long time.
+	- High price for upgrades past t3.
+	- Tiers 4-5 achieved by building new structures (can be destoryed to lose the tech).
+	- Some superupgrades being tied to striuctures (and therefore lost if structure is destroyed)
+	- Megaunits being build like structures.
+	- t4-t5 structures requiring upgraded workers to build.
 
 ### Cool building/structure ideas
 
@@ -137,6 +169,8 @@ Things I really liked:
 - **Clear unit role distinctions.** Probbaly necessary given the number of units in ZK. But makes the game very noob-friendly. Eg. if I see a unit for a first time I just hover over it to see that it's Riot (slow, short range, high dps) and I will know what to expect from it even if I have never seen this unit in a game before. However, I am not a fan of how these roles *hard-counter* each other in rock paper scissors manner: `Raid < Riot < Skirmsher < Raid`. 
 - **Line move/attack and area orders**. In Zk this is achieving by clicking and dragging mouse during move order to give group of units order to form a line instead of ordering them all to move to a single point. Area orders work similarly. Totally awesome feature that gives more smooth control over one's units.
 - **Units with multiple weapons** . In Zero-K this feature is reserved for only the biggest and baddest of units. However, it is very satisfying when your unit unleashes a swarm of long range rockets and then whips out machineguns to kill the raiders that were trying to bother it. In my case I am adding multiple weapon support from the beginning. However, I don't plan to add multiple target support.
+- **Nibus unit**. Gunship tank that is slow, but when he takes position unleashes a thick stream of low accuracy low damage projectiles. I don't care how effective it is, I build it in 90% of my ZK matches. Because it is most awesome air unit I have ever seen in RTS.
+- **Invisibility mechanics**. Basically invisible units are called *cloaked* and they get *decloaked* when: they get too close to enemies or fire/use ability. The point is that this is the most non-cancer invisibility I have seen. You will never find yourself in situation where your base gets destroyed by invis units and you feel helpless because you forgot to get detection. 
 
 Things I didn't like:
 

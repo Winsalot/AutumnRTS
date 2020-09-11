@@ -4,6 +4,7 @@ use crate::sim_components::order_queue_comp::OrderQueueComp;
 use crate::sim_weapon_list::WeaponType;
 
 use crate::sim_components::active_ability_comp::*;
+use crate::sim_components::health_comp::*;
 use crate::sim_components::projectile_comp::*;
 use crate::sim_components::sim_unit_base_components::*;
 use crate::sim_components::structure_comp::*;
@@ -62,6 +63,7 @@ pub fn plc_smart_unit(sim: &mut SimState, owner: PId, pos: Pos, speed: FixF, col
         unit_builder.add(UnitStateComp::new());
         unit_builder.add(OrderQueueComp::new());
         unit_builder.add(WeaponComp::new_debug());
+        unit_builder.add(HealthComp::new_debug());
 
         let new_entity = sim.ecs.spawn(unit_builder.build());
 
