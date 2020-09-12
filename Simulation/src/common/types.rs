@@ -1,12 +1,3 @@
-/*
-Here goes things that are used by at least 2 of:
-Systems
-Components
-Messenger & RustBridge
-
-Right now everything store in a single file. It will be reworked into its own module once it fills up <3
-*/
-
 use crate::sim_fix_math::*;
 
 
@@ -29,13 +20,6 @@ pub const ORDER_SCHEDULE_MAX: usize = 30;
 // However, this will be adressed once it becomes a problem
 pub const UNIT_GROUP_CAP: usize = 32; // >32 is possible but complicates things (no traits like Debug or PartialEq)
 
-// Target. Either posiion or entity.
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub enum ObjTarget {
-    Position(Pos),
-    Entity(UId),
-    None,
-}
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum TeamAlliance {
@@ -74,6 +58,15 @@ impl PlayerId {
     }
 }
 
+
+
+// Target. Either posiion or entity.
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub enum ObjTarget {
+    Position(Pos),
+    Entity(UId),
+    None,
+}
 
 /// Decoupled from RenderMessage because in the future Renderer will send orders for group of units.
 /// But UnitOrder is always specific for a single unit.
