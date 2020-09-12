@@ -1,7 +1,8 @@
-use crate::common::SimMsg::StateChange;
-use crate::common::SimStateChng::*;
+
 use crate::sim_components::order_queue_comp::OrderQueueComp;
 use crate::sim_weapon_list::WeaponType;
+
+use crate::sim_rend_message::*;
 
 use crate::sim_components::active_ability_comp::*;
 use crate::sim_components::health_comp::*;
@@ -39,7 +40,7 @@ pub fn plc_unit(sim: &mut SimState, owner: PId, pos: Pos, speed: FixF, coll_r: F
 
         let new_entity = sim.ecs.spawn(unit_builder.build());
 
-        let msg = StateChange(ObjSpawn(sim.res.id_counter - 1, *player, pos, coll_r));
+        let msg = SimMsg::StateChange(SimStateChng::ObjSpawn(sim.res.id_counter - 1, *player, pos, coll_r));
         sim.res.send_batch.push(msg);
 
         sim.res.id_map.insert(sim.res.id_counter - 1, new_entity);
@@ -67,7 +68,7 @@ pub fn plc_smart_unit(sim: &mut SimState, owner: PId, pos: Pos, speed: FixF, col
 
         let new_entity = sim.ecs.spawn(unit_builder.build());
 
-        let msg = StateChange(ObjSpawn(sim.res.id_counter - 1, *player, pos, coll_r));
+        let msg = SimMsg::StateChange(SimStateChng::ObjSpawn(sim.res.id_counter - 1, *player, pos, coll_r));
         sim.res.send_batch.push(msg);
 
         sim.res.id_map.insert(sim.res.id_counter - 1, new_entity);
@@ -87,7 +88,7 @@ pub fn plc_building(sim: &mut SimState, owner: PId, pos: Pos) {
     let new_entity = sim.ecs.spawn(unit_builder.build());
 
     // let msg = EngineMessage::StructurePosTmp(sim.res.id_counter - 1, pos.round());
-    let msg = StateChange(StructurePosTmp(sim.res.id_counter - 1, pos.round()));
+    let msg = SimMsg::StateChange(SimStateChng::StructurePosTmp(sim.res.id_counter - 1, pos.round()));
     sim.res.send_batch.push(msg);
 
     sim.res.id_map.insert(sim.res.id_counter - 1, new_entity);

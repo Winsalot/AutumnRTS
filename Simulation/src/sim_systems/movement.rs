@@ -1,5 +1,12 @@
-use crate::common::SimMsg::*;
-use crate::common::SimStateChng::*;
+// use crate::common::SimMsg::*;
+// use crate::common::SimStateChng::*;
+use crate::sim_rend_message::messages_sim::SimStateChng::ObjMove;
+
+use crate::sim_rend_message::messages_sim::SimStateChng::ObjNextPos;
+
+use crate::sim_rend_message::messages_sim::SimStateChng::ObjDest;
+use crate::sim_rend_message::messages_sim::SimMsg::StateChange;
+use crate::sim_rend_message::*;
 use crate::common::*;
 use crate::sim_components::sim_unit_base_components::*;
 use crate::sim_components::unitstate_comp::UnitStateComp;

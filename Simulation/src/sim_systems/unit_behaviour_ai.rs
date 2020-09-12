@@ -44,7 +44,7 @@ fn check_current_order_completion(sim: &mut SimState) {
                         UnitState::UseAbility(..) => {
                             to_update_orders.push(*id.get_id());
                         }
-                        UnitState::UseAbilityFailed(..) => {
+                        UnitState::UseAbilityFailed => {
                             to_update_orders.push(*id.get_id());
                         }
                         _ => {}
@@ -271,7 +271,7 @@ fn ability_order_behaviour(
             None => {
                 new_states.push((
                     *uid,
-                    UnitState::UseAbilityFailed(SimWarnMsg::UnitUnavailable),
+                    UnitState::UseAbilityFailed,
                 ));
                 new_targets.push((*uid, ObjTarget::None));
                 return;
@@ -346,7 +346,7 @@ fn knows_path_to_dest(sim: &SimState, entity_id: &Entity, dest: &Pos) -> bool {
 
 #[cfg(test)]
 mod order_and_state_tests {
-    use crate::messenger::*;
+    use crate::sim_rend_message::*;
     use crate::sim_components::sim_unit_base_components::IdComp;
     use crate::sim_components::sim_unit_base_components::NextPosComp;
     use crate::sim_components::weapon_comp::WeaponComp;

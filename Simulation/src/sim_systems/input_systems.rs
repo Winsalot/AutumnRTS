@@ -1,5 +1,6 @@
-use crate::common::SimMsg::StateChange;
-use crate::common::SimStateChng::*;
+use crate::sim_rend_message::*;
+// use crate::common::SimMsg::StateChange;
+// use crate::common::SimStateChng::*;
 use crate::placeholder_entities::*;
 use crate::sim_components::order_queue_comp::OrderQueueComp;
 use crate::sim_systems::validate_order::is_valid;
@@ -218,7 +219,7 @@ fn set_moveto_order(
 
                         // dest.set_dest(moveto_pos_valid, sim.current_tick());
 
-                        let msg = StateChange(ObjDest(*id, moveto_pos_valid));
+                        let msg = SimMsg::StateChange(SimStateChng::ObjDest(*id, moveto_pos_valid));
                         sim.res.send_batch.push(msg);
                     }
                 }

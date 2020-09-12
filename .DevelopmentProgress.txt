@@ -425,7 +425,25 @@ There is lon way to go, but it can be like this:
 			+ regeneration.
 			+ Despawn dead.
 	+ Do entire murder test. :)
-32.
+32. Separate common and messages into their own modules.
+	- Messages should import common. not other way around.
+	- Common:
+		- Ability lists.
+		- Weapon list
+		- types, structs & enums.
+		- sim fix math
+	- Mesaages:
+		- Same as messenger
+		- SIm msg
+		- rend msg.
+	- Do in order:
+		- Messages into own module:
+			+ Messenger.
+			+ Sim messages
+			- Rend messages
+		- Common into own module.
+33. Refactor messenger to be more decoupled.
+34. Make less warnings.
 
 
 

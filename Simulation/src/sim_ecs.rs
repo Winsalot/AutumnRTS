@@ -1,7 +1,7 @@
 //use crate::sim_map::StructureMemory;
 use crate::common::*;
 use crate::fpscounter::*;
-use crate::messenger::*;
+use crate::sim_rend_message::*;
 use crate::sim_map::Map;
 use crate::sim_player_alliances::*;
 //use hecs::*;

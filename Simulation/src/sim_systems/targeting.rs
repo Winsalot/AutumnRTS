@@ -34,7 +34,7 @@ pub fn target_to_pos(sim: &SimState, trg: &ObjTarget) -> Option<Pos> {
 #[cfg(test)]
 mod order_and_state_tests {
     use crate::common::*;
-    use crate::messenger::*;
+    use crate::sim_rend_message::*;
     use crate::sim_ecs::*;
     use crate::sim_fix_math::*;
     use crate::sim_gameloop::first_tick;

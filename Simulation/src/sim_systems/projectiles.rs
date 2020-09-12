@@ -103,7 +103,7 @@ fn damage_entity(sim: &mut SimState, e_id: Entity, dmg: FixF) {
 
 #[cfg(test)]
 mod shooting_tests {
-    use crate::messenger::*;
+    use crate::sim_rend_message::*;
     use crate::sim_components::health_comp::HealthComp;
     use crate::sim_components::sim_unit_base_components::IdComp;
     use crate::sim_components::sim_unit_base_components::NextPosComp;
