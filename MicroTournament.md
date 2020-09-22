@@ -1,3 +1,5 @@
+UPDATE: Scaling down my ambitions for project is probably good idea. However, I don't feel like doing it. I dont want to make MicroTournament. I want to make AutumnRTS. And I will be making AutumnRTS, even if it's impossible or too hard for a single dev (for now). Might delete this file later, idk :).
+
 # Micro Tournament
 
 I got dissilusioned by my ability to finish (or get even close to finish) of this project solo. Since I still feel passionate about making a proper open source RTS I decided to focus on making a smaller game and engine that supports it.

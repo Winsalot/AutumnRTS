@@ -9,12 +9,12 @@ Unfortunately, at this moment the project is not yet ready for contributions. Ma
 Therefore, these are the things that should be implemented before I begin to actively look for contributors:
 
 - Core game logic that implements:
-	- Units shooting at each other and killing each other.
+	- ✅ Units shooting at each other and killing each other.
 	- ✅ Move Order support.
 	- ✅ Use ability order support.
-	- Attack order support.
+	- ✅ Attack order support.
 	- Some simple spatial partitioning implementation.
-- Code structure/architecture that I feel relatively confident about (ambigious, I know).
+- ✅ Code structure/architecture that I feel relatively confident about (ambigious, I know). *(Update: tbh I kinda do now. Not really, but I don't have ideas for improvement either)*
 - Proper foundations for Godot side of things:
 	- Move to 3d (map, models, animations)
 	- Actual interpolation of animations.

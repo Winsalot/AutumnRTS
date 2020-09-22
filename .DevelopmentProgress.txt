@@ -444,8 +444,20 @@ There is lon way to go, but it can be like this:
 		+ Common into own module.
 			+ Whole common.rs file
 				+ This was not so hard haha.
-33. Refactor messenger to be more decoupled.
-34. Make less warnings.
+33. Fuck all else. Start working on Godot side.
+	+ Make separate projects to figure out how tf Godot AND 3d works.
+	- Possibly in this order:
+		- Render shitty 3d map made out of tiles.
+		- Render some robot.
+		- Figure out input.
+		- GUI viewports and shit.
+	- Bruh. I can't do this 3d bullshit anymore. I want to work on game logic again. lets do it this way:
+		+ Select/deselect.
+		+ Basic HUD panels.
+		- Unit orders by select -> click order -> Click target.
+		- Box select.
+		- Mouse camera movement
+		- 3D mapo & unit (cube) movement on map.
 
 
 
@@ -487,8 +499,8 @@ SHORT term:
 	- Use quadtrees or something for all spatial logic instead of fucking grid search.
 	- Add collision avoidance. (In collision scenario move to the side or something)
 	- (Good idea) Whole map data defined inside godot. Just initialise the game by supplying map layout as one of arguments for SimState.
-	- Start using data files.
-		- For map.
+	x Start using data files.
+		x For map.
 		x [NAH, use hard coded balance.rs file now] For unit builder.
 	- Godot working camera.
 	- Support different size units.
