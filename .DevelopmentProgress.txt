@@ -446,6 +446,12 @@ There is lon way to go, but it can be like this:
 				+ This was not so hard haha.
 33. Fuck all else. Start working on Godot side.
 	+ Make separate projects to figure out how tf Godot AND 3d works.
+	+ Delet old Godot stuff.
+	- Port this stuff into the project's Godot.
+		+ New base placeholder unit.
+		+ Copy HUD from separate project.
+		- Add game manager.
+		- Spawn mapo
 	- Possibly in this order:
 		- Render shitty 3d map made out of tiles.
 		- Render some robot.

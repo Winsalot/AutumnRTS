@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/godot-ferris.png-32ae0088012ab812a5914fce4e2f464f.s3tc.stex"
-path.etc="res://.import/godot-ferris.png-32ae0088012ab812a5914fce4e2f464f.etc.stex"
+path.s3tc="res://.import/icon.png-ec880de02d5dab0aa15458af9d6c53ed.s3tc.stex"
+path.etc="res://.import/icon.png-ec880de02d5dab0aa15458af9d6c53ed.etc.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/godot-ferris.png"
-dest_files=[ "res://.import/godot-ferris.png-32ae0088012ab812a5914fce4e2f464f.s3tc.stex", "res://.import/godot-ferris.png-32ae0088012ab812a5914fce4e2f464f.etc.stex" ]
+source_file="res://Assets/icon.png"
+dest_files=[ "res://.import/icon.png-ec880de02d5dab0aa15458af9d6c53ed.s3tc.stex", "res://.import/icon.png-ec880de02d5dab0aa15458af9d6c53ed.etc.stex" ]
 
 [params]
 

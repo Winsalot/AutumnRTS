@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="GDNativeLibrary" id=1]
+entry/X11.64 = "res://Simulation/target/debug/libsimulation.so"
+dependency/X11.64 = [  ]
+
+[sub_resource type="NativeScript" id=2]
+resource_name = "RustBridge"
+class_name = "RustBridge"
+library = SubResource( 1 )
+
+[node name="RustBridge" type="Node"]
+script = SubResource( 2 )

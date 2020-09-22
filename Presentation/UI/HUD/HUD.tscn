@@ -1,0 +1,108 @@
+[gd_scene format=2]
+
+[node name="GUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BottomPanel" type="MarginContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -156.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BottomPanel"]
+margin_right = 1024.0
+margin_bottom = 156.0
+
+[node name="MinimapPanel" type="PanelContainer" parent="BottomPanel/HBoxContainer"]
+margin_right = 338.0
+margin_bottom = 156.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="BottomPanel/HBoxContainer/MinimapPanel"]
+margin_left = 7.0
+margin_top = 71.0
+margin_right = 331.0
+margin_bottom = 85.0
+text = "Minimap zone"
+
+[node name="SelectedPanel" type="PanelContainer" parent="BottomPanel/HBoxContainer"]
+margin_left = 342.0
+margin_right = 681.0
+margin_bottom = 156.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="BottomPanel/HBoxContainer/SelectedPanel"]
+margin_left = 7.0
+margin_top = 71.0
+margin_right = 332.0
+margin_bottom = 85.0
+text = "unit selection zone"
+
+[node name="OrderPanel" type="PanelContainer" parent="BottomPanel/HBoxContainer"]
+margin_left = 685.0
+margin_right = 1024.0
+margin_bottom = 156.0
+size_flags_horizontal = 3
+
+[node name="GridContainer" type="GridContainer" parent="BottomPanel/HBoxContainer/OrderPanel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 332.0
+margin_bottom = 149.0
+columns = 3
+
+[node name="Button" type="Button" parent="BottomPanel/HBoxContainer/OrderPanel/GridContainer"]
+margin_right = 53.0
+margin_bottom = 20.0
+text = "Move"
+
+[node name="Button2" type="Button" parent="BottomPanel/HBoxContainer/OrderPanel/GridContainer"]
+margin_left = 57.0
+margin_right = 110.0
+margin_bottom = 20.0
+text = "Attack"
+
+[node name="Button3" type="Button" parent="BottomPanel/HBoxContainer/OrderPanel/GridContainer"]
+margin_left = 114.0
+margin_right = 167.0
+margin_bottom = 20.0
+text = "Stop"
+
+[node name="Button4" type="Button" parent="BottomPanel/HBoxContainer/OrderPanel/GridContainer"]
+margin_top = 24.0
+margin_right = 53.0
+margin_bottom = 44.0
+text = "Ability"
+
+[node name="Button5" type="Button" parent="BottomPanel/HBoxContainer/OrderPanel/GridContainer"]
+margin_left = 57.0
+margin_top = 24.0
+margin_right = 110.0
+margin_bottom = 44.0
+text = "Ability"
+
+[node name="Button6" type="Button" parent="BottomPanel/HBoxContainer/OrderPanel/GridContainer"]
+margin_left = 114.0
+margin_top = 24.0
+margin_right = 167.0
+margin_bottom = 44.0
+text = "Ability"
+
+[node name="TopPanel" type="PanelContainer" parent="."]
+anchor_right = 1.0
+rect_min_size = Vector2( 0, 32 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="TopPanel"]
+margin_left = 7.0
+margin_top = 9.0
+margin_right = 1017.0
+margin_bottom = 23.0
+text = "Top panel with some relevant info"

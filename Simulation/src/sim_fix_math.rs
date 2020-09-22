@@ -7,7 +7,7 @@ pub type FixF = I28F4; //fixed float
 
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd, Copy)]
 pub struct Pos {
-    pub x: FixF, // FixedI32 with 24 integer bits and eight fractional bits.
+    pub x: FixF,
     pub y: FixF,
 }
 
