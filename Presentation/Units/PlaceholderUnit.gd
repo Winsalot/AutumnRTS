@@ -25,6 +25,7 @@ func _unhandled_input(event):
 	mouse_entered:
 		is_selected = true
 #		Singleton.select_add(self)
+		self.select() # This should be called from somehwere else
 		self.get_tree().set_input_as_handled()
 
 func _on_Area_mouse_entered():

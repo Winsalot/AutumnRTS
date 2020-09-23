@@ -1,9 +1,12 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Presentation/UI/HUD/HUD.gd" type="Script" id=1]
 
 [node name="GUI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -100,9 +103,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="TopPanel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TopPanel"]
 margin_left = 7.0
-margin_top = 9.0
+margin_top = 7.0
 margin_right = 1017.0
-margin_bottom = 23.0
+margin_bottom = 25.0
+
+[node name="Label" type="Label" parent="TopPanel/HBoxContainer"]
+margin_top = 2.0
+margin_right = 789.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+text = "Top panel with some relevant info"
+
+[node name="FPS label" type="Label" parent="TopPanel/HBoxContainer"]
+margin_left = 793.0
+margin_top = 2.0
+margin_right = 1010.0
+margin_bottom = 16.0
 text = "Top panel with some relevant info"

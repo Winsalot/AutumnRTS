@@ -24,6 +24,19 @@ config/icon="res://Assets/godot-ferris.png"
 RenderState="*res://Presentation/Common/RenderState.gd"
 Params="*res://Presentation/Common/Params.gd"
 
+[input]
+
+mouse_select_single={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+quit={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"unicode":0,"echo":false,"script":null)
+ ]
+}
+
 [rendering]
 
 quality/driver/driver_name="GLES2"

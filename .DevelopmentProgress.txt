@@ -454,6 +454,7 @@ There is lon way to go, but it can be like this:
 		+ [It doesn nothing atm :)] Add game manager.
 		+ Main game scene. No script. Holds all relevant nodes.
 		+ Spawn mapo
+		+ Basic camera controls with mouse.
 		- Spawn unit with input
 	- Possibly in this order:
 		- Render shitty 3d map made out of tiles.

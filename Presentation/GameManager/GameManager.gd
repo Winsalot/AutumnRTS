@@ -8,7 +8,7 @@ func _ready():
 	RenderState.set("gamemanager", self) # set value in singleton
 	maptile = preload("res://Presentation/Map/MapTile.tscn")
 	
-	RenderState.rustbridge.start_loop(2,10)
+	RenderState.rustbridge.start_loop(2,2)
 
 
 
