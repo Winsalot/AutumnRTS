@@ -16,6 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="AutumnRTS"
+run/main_scene="res://Presentation/Game.tscn"
 config/icon="res://Assets/godot-ferris.png"
 
 [autoload]

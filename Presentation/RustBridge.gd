@@ -1,14 +1,14 @@
 extends Node
 
-#Autoload script that holds all UI related info. 
-#Including UI related node references
 
-var rustbridge
-var gamemanager
+# Declare member variables here. Examples:
+# var a = 2
+# var b = "text"
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	RenderState.set("rustbridge", $RustBridge_lib)
 	pass # Replace with function body.
 
 

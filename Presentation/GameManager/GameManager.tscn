@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Presentation/GameManager/GameManager.gd" type="Script" id=1]
+
+[node name="GameManager" type="Node"]
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": "Game Manager node. This node receives updates from simulation and shit. Holds all the shit that player sees as his children.
+"
+}

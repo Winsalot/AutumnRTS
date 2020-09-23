@@ -447,11 +447,14 @@ There is lon way to go, but it can be like this:
 33. Fuck all else. Start working on Godot side.
 	+ Make separate projects to figure out how tf Godot AND 3d works.
 	+ Delet old Godot stuff.
+	+ Dont update GDnative just yet.
 	- Port this stuff into the project's Godot.
 		+ New base placeholder unit.
 		+ Copy HUD from separate project.
-		- Add game manager.
-		- Spawn mapo
+		+ [It doesn nothing atm :)] Add game manager.
+		+ Main game scene. No script. Holds all relevant nodes.
+		+ Spawn mapo
+		- Spawn unit with input
 	- Possibly in this order:
 		- Render shitty 3d map made out of tiles.
 		- Render some robot.

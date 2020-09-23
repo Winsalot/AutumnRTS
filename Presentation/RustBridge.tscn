@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Presentation/RustBridge.gd" type="Script" id=1]
 
 [sub_resource type="GDNativeLibrary" id=1]
 entry/X11.64 = "res://Simulation/target/debug/libsimulation.so"
@@ -10,4 +12,10 @@ class_name = "RustBridge"
 library = SubResource( 1 )
 
 [node name="RustBridge" type="Node"]
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": "Has a child node with native script. This node layout because I want to control Rustbridge using GDscript"
+}
+
+[node name="RustBridge_lib" type="Node" parent="."]
 script = SubResource( 2 )
