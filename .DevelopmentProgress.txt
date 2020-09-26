@@ -456,6 +456,10 @@ There is lon way to go, but it can be like this:
 		+ Spawn mapo
 		+ Basic camera controls with mouse.
 		- Spawn unit with input
+			+ xy with camera projection script.
+			x Z from tile info. Probaby have a dictionary xy -> &Tile
+			+ Z = zero for now.
+			- Review what messages are being checked.
 	- Possibly in this order:
 		- Render shitty 3d map made out of tiles.
 		- Render some robot.

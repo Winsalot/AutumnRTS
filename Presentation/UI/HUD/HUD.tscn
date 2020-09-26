@@ -16,6 +16,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -156.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="BottomPanel"]
 margin_right = 1024.0
@@ -122,3 +125,7 @@ margin_top = 2.0
 margin_right = 1010.0
 margin_bottom = 16.0
 text = "Top panel with some relevant info"
+[connection signal="mouse_entered" from="BottomPanel" to="." method="_on_BottomPanel_mouse_entered"]
+[connection signal="mouse_exited" from="BottomPanel" to="." method="_on_BottomPanel_mouse_exited"]
+[connection signal="mouse_entered" from="TopPanel" to="." method="_on_TopPanel_mouse_entered"]
+[connection signal="mouse_exited" from="TopPanel" to="." method="_on_TopPanel_mouse_exited"]

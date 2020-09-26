@@ -1,6 +1,4 @@
 use crate::sim_rend_message::*;
-// use crate::common::SimStateChng::*;
-// use crate::common::SimStateInfo::*;
 use crate::common::*;
 
 use crate::sim_fix_math::Pos;

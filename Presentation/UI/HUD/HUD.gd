@@ -10,18 +10,45 @@ extends Control
 func _ready():
 	pass # Replace with function body.
 
-# TODO: this should probably use _gui_input(). However, gui input doesnt work for some reason
+# TODO: this should probably use _gui_input().
+# However, gui input doesnt work for some reason
+#func _gui_input(event):
 func _unhandled_input(event):
 	if event.is_action_pressed("quit"):
 		get_tree().quit()
+	# action processing when mouse in game:
+	if event.is_action_pressed("debug_spawn_unit"):
+		RenderState.gamemanager.debug_spawn_unit_msg()
 
-
+#func in_game_input(event):
+#	if event.is_action_pressed("debug_spawn_unit"):
+#		print("Spawn unit!")
 
 func _process(delta):
-	update_fps(delta)	
+	update_fps(delta)
 	pass
 
 func update_fps(delta):
-	var own_fps = String(1.0/(delta+(1.0/2000.0)))
-	var text = "FPS: " + String(own_fps)
+	var fps = Performance.get_monitor(Performance.TIME_FPS)
+	var text = "FPS: " +  String(fps)
 	get_node("TopPanel/HBoxContainer/FPS label").set_text(text)
+
+
+
+# Some signals for mouse position:
+# I am not a fan of this imp,ementation, but I want to get things done
+#func _on_BottomPanel_mouse_entered():
+#	RenderState.mouse_area = "gui"
+#	print("mouse entered")
+#
+#func _on_BottomPanel_mouse_exited():
+#	RenderState.mouse_area = "game"
+#	print("mouse exited")
+#
+#func _on_TopPanel_mouse_entered():
+#	RenderState.mouse_area = "gui"
+#	print("mouse entered")
+#
+#func _on_TopPanel_mouse_exited():
+#	RenderState.mouse_area = "game"
+#	print("mouse exited")

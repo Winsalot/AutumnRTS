@@ -8,7 +8,8 @@ onready var camera = $Camera
 
 
 func _ready():
-	RenderState.set("camera", self)
+	RenderState.set("camera_pivot", self)
+	RenderState.set("camera", camera)
 	pass # Replace with function body.
 
 func calc_move(delta):
