@@ -10,15 +10,20 @@ extends Control
 func _ready():
 	pass # Replace with function body.
 
-# TODO: this should probably use _gui_input().
-# However, gui input doesnt work for some reason
-#func _gui_input(event):
-func _unhandled_input(event):
-	if event.is_action_pressed("quit"):
-		get_tree().quit()
-	# action processing when mouse in game:
-	if event.is_action_pressed("debug_spawn_unit"):
-		RenderState.gamemanager.debug_spawn_unit_msg()
+## TODO: this should probably use _gui_input().
+## However, gui input doesnt work for some reason
+##func _gui_input(event):
+#func _unhandled_input(event):
+#	if event.is_action_pressed("quit"):
+#		get_tree().quit()
+#		self.get_tree().set_input_as_handled()
+#	# action processing when mouse in game:
+#	if event.is_action_pressed("debug_spawn_unit"):
+#		RenderState.gamemanager.debug_spawn_unit_msg()
+#		self.get_tree().set_input_as_handled()
+#	if event.is_action_pressed("deselect_all"):
+#		RenderState.deselect_all()
+#		self.get_tree().set_input_as_handled()
 
 #func in_game_input(event):
 #	if event.is_action_pressed("debug_spawn_unit"):

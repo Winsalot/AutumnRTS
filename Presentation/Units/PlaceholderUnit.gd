@@ -18,13 +18,12 @@ func deselect():
 
 func select():
 	is_selected = true
+	RenderState.select_add(self)
 	$SelectionCircle.visible = true
 
 func _unhandled_input(event):
 	if event.is_action_pressed("mouse_select_single") && \
 	mouse_entered:
-		is_selected = true
-#		Singleton.select_add(self)
 		self.select() # This should be called from somehwere else
 		self.get_tree().set_input_as_handled()
 

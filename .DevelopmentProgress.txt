@@ -444,7 +444,7 @@ There is lon way to go, but it can be like this:
 		+ Common into own module.
 			+ Whole common.rs file
 				+ This was not so hard haha.
-33. Fuck all else. Start working on Godot side.
+[KINDA DONE]33. Fuck all else. Start working on Godot side.
 	+ Make separate projects to figure out how tf Godot AND 3d works.
 	+ Delet old Godot stuff.
 	+ Dont update GDnative just yet.
@@ -455,23 +455,25 @@ There is lon way to go, but it can be like this:
 		+ Main game scene. No script. Holds all relevant nodes.
 		+ Spawn mapo
 		+ Basic camera controls with mouse.
-		- Spawn unit with input
+		+ Spawn unit with input
 			+ xy with camera projection script.
 			x Z from tile info. Probaby have a dictionary xy -> &Tile
 			+ Z = zero for now.
-			- Review what messages are being checked.
+			+ Review what messages are being checked.
+			+ Apparantly there ^ I just forgot to add the function to the main loop haha. FML
 	- Possibly in this order:
-		- Render shitty 3d map made out of tiles.
-		- Render some robot.
-		- Figure out input.
-		- GUI viewports and shit.
-	- Bruh. I can't do this 3d bullshit anymore. I want to work on game logic again. lets do it this way:
+		+ Render shitty 3d map made out of tiles.
+		+ Render some robot. [Robot is a pill shaped thing haha]
+		+ Figure out input. [It works (kinda)]
+		+ GUI viewports and shit. [Camera actually works]
+	x Bruh. I can't do this 3d bullshit anymore. I want to work on game logic again. lets do it this way:
 		+ Select/deselect.
 		+ Basic HUD panels.
-		- Unit orders by select -> click order -> Click target.
-		- Box select.
-		- Mouse camera movement
-		- 3D mapo & unit (cube) movement on map.
+		x[LATER] Unit orders by select -> click order -> Click target.
+		x[LATER] Box select.
+		x[LATER] Mouse camera movement
+		x[LATER] 3D mapo & unit (cube) movement on map.
+
 
 
 

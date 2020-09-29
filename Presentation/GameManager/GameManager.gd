@@ -17,6 +17,7 @@ func _ready():
 func _process(_delta):
 	RenderState.rustbridge.receive_sim_messages() # should be first thing every frame
 	spawn_map()
+	spawn_units()
 	
 	RenderState.rustbridge.clear_inbox()
 	RenderState.rustbridge.deliver_input() 
