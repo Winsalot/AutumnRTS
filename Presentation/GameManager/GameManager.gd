@@ -2,12 +2,15 @@ extends Node
 
 
 var maptile
+var maptile_block
 var plc_unit3d
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	RenderState.set("gamemanager", self) # set value in singleton
-	maptile = preload("res://Presentation/Map/MapTile.tscn")
+#	maptile = preload("res://Presentation/Map/MapTile.tscn")
+	maptile = preload("res://Presentation/Map/Tile_plc_non_block.tscn")
+	maptile_block = preload("res://Presentation/Map/Tile_plc_block.tscn")
 	plc_unit3d = preload("res://Presentation/Units/PlaceholderUnit.tscn")
 	
 	RenderState.rustbridge.start_loop(2,2)
@@ -15,7 +18,8 @@ func _ready():
 
 
 func _process(_delta):
-	RenderState.rustbridge.receive_sim_messages() # should be first thing every frame
+	# should be first thing every frame
+	RenderState.rustbridge.receive_sim_messages() 
 	spawn_map()
 	spawn_units()
 	
@@ -26,12 +30,14 @@ func _process(_delta):
 func spawn_map():
 	var map_info = RenderState.rustbridge.get_msg_map()
 	for tile_spawn in map_info:
-		var tile = maptile.instance()
+		var tile 
+		if tile_spawn[2]:
+			tile = maptile_block.instance()
+		else:
+			tile = maptile.instance()
 		var xzy = Vector3(tile_spawn[0],float(tile_spawn[3])/2,tile_spawn[1]) 
 		tile.set_translation(xzy)
 		tile.set_name("Tile:" + String(xzy))
-		if tile_spawn[2]:
-			tile.set_scale(Vector3(0.8, 1, 0.8))
 #		tile.block_path = tile_spawn[2]
 #		tile.z_level = tile_spawn[3]
 		self.add_child(tile)
