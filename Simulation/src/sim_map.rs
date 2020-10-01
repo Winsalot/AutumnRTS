@@ -183,6 +183,8 @@ impl Map {
 
                     (10, 9) => map.set_tile(x, y, MapTile::ground_tile(-1)),
                     (10, 10) => map.set_tile(x, y, MapTile::ground_tile(-1)),
+                    
+                    (4, 6) => map.set_tile(x, y, MapTile::ground_tile(1)),
 
                     _ => {}
                 }

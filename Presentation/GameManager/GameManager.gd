@@ -11,7 +11,7 @@ func _ready():
 #	maptile = preload("res://Presentation/Map/MapTile.tscn")
 	maptile = preload("res://Presentation/Map/Tile_plc_non_block.tscn")
 	maptile_block = preload("res://Presentation/Map/Tile_plc_block.tscn")
-	plc_unit3d = preload("res://Presentation/Units/PlaceholderUnit.tscn")
+	plc_unit3d = preload("res://Presentation/Units/Placeholder_Marine.tscn")
 	
 	RenderState.rustbridge.start_loop(2,2)
 

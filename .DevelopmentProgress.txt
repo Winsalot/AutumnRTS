@@ -473,6 +473,9 @@ There is lon way to go, but it can be like this:
 		x[LATER] Box select.
 		x[LATER] Mouse camera movement
 		x[LATER] 3D mapo & unit (cube) movement on map.
+34. Back to RUST! Review messaging system.
+	- Is current implementation reasonable?
+	- Maybe use dictionary to store unit attributes on Godot side?
 
 
 
