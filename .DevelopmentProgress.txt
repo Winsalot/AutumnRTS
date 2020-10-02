@@ -473,18 +473,22 @@ There is lon way to go, but it can be like this:
 		x[LATER] Box select.
 		x[LATER] Mouse camera movement
 		x[LATER] 3D mapo & unit (cube) movement on map.
-34. Back to RUST! Review messaging system.
-	- Is current implementation reasonable?
-	- Maybe use dictionary to store unit attributes on Godot side?
-
+34. Spawn smart unit and render all the shit that happens in sim.
+	+ SpawnSmart message.
+	+ SpawnSmart call:
+		+ Rustbridge side.
+		+ Godot side.
+		+ Input system side
+	- Smart unit sim -> rend communication.
+		+ Custom message (UnitNew) with all relevant fields
+			(Not all fields yet)
+		- Rustbridge messgage system that takes this messgae.
+		
 
 
 
 GENERAL IDEAS:
 	- Fuck unnecerasy refactoring. I should avoid it. Better messy code & game than general good code and no game.
-	- Get some basic features working. Then add graphics & fix Godot side. Then attract contributors. Features to get:
-		x Everything in MicroTournament file.
-		- TBH I think fuck microtournament. Game logic development is going quite well. No need limit myself. 
 	- Current progression:
 		+1. Implement automatic targeting.
 		2. Add automatic firing with all stop to fire, cooldown and shit features (also add health).
@@ -526,6 +530,7 @@ SHORT term:
 	- Move to 3D on godot side.
 	- Refactor messages to use setters and getters. So that changes would be easier in the future.
 	- Add friendly fire checks for projectile damage.
+	- Rework obj spawn message
 
 
 LONG term:

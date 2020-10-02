@@ -19,6 +19,9 @@ func _unhandled_input(event):
 	if event.is_action_pressed("debug_spawn_unit"):
 		RenderState.gamemanager.debug_spawn_unit_msg()
 		self.get_tree().set_input_as_handled()
+	if event.is_action_pressed("debug_spawn_smart_unit"):
+		RenderState.gamemanager.debug_spawn_smart()
+		self.get_tree().set_input_as_handled()
 	if event.is_action_pressed("deselect_all"):
 		RenderState.deselect_all()
 		self.get_tree().set_input_as_handled()

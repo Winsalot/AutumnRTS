@@ -29,7 +29,15 @@ pub enum SimStateChng {
     ObjPathTmp(UId, [Pos; 20]),
     StructurePosTmp(UId, Pos),
     ObjTargetPos(UId, Pos),
+    ObjTarget(UId, ObjTarget),
     ObjTargetNone(UId),
+    UnitNew{
+        uid: UId,
+        owner: PlayerId,
+        pos: Pos,
+        speed: FixF,
+        coll_r: FixF,  
+    },
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]

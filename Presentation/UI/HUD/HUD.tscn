@@ -31,14 +31,16 @@ size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="BottomPanel/HBoxContainer/MinimapPanel"]
 margin_left = 7.0
-margin_top = 37.0
+margin_top = 20.0
 margin_right = 331.0
-margin_bottom = 119.0
+margin_bottom = 136.0
 text = "[Minimap zone]
 Controls:
 LEFT MOUSE to select units
 LEFT MOUSE on background or Esc to deselect
-Q to quit"
+Q to quit
+SPACE to spawn dumb unit
+V to spawn smart unit"
 
 [node name="SelectedPanel" type="PanelContainer" parent="BottomPanel/HBoxContainer"]
 margin_left = 342.0

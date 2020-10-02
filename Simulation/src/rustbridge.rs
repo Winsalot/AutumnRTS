@@ -148,6 +148,16 @@ impl RustBridge {
     }
 
     #[export]
+    /// Debug function to spawn a smart placeholder unit
+    fn debug_spawn_smart(&mut self, _owner: gdnative::Node, player: PId, xy: Vector2){
+
+        let pos: Pos = Pos::from_num(xy.x, xy.y);
+        let msg = RenderMessage::SpawnSmart(player, pos);
+        self.message_batch.push(msg);
+
+    }
+
+    #[export]
     fn use_ability_pos(
         &mut self,
         _owner: gdnative::Node,

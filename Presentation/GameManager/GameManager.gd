@@ -52,6 +52,13 @@ func debug_spawn_unit_msg():
 	RenderState.rustbridge.tmp_spawn_obj(RenderState.player_id, Vector2(position3D.x,position3D.z))
 
 
+# Sends the message to simulation to spawn unit
+func debug_spawn_smart():
+	var position2D = get_viewport().get_mouse_position()
+	var dropPlane  = Plane( 0, 1, 0, 0 )
+	var position3D = dropPlane.intersects_ray(RenderState.camera.project_ray_origin(position2D),RenderState.camera.project_ray_normal(position2D))
+	RenderState.rustbridge.debug_spawn_smart(RenderState.player_id, Vector2(position3D.x,position3D.z))
+
 func unit_name(id):
 	#var params = self.get_node("/root/PresentationParams") #autoload node
 	return "U_" + String(id)
@@ -72,3 +79,4 @@ func spawn_units():
 #		unit.coll_radius = unit_spawn[5]
 		self.add_child(unit)
 	pass
+

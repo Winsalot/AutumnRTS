@@ -52,12 +52,12 @@ pub fn plc_smart_unit(sim: &mut SimState, owner: PId, pos: Pos, speed: FixF, col
     let player = sim.res.players.get(owner);
 
     if let Some(player) = player {
-        unit_builder.add(TypeNameComp::new("placeholder"));
+        unit_builder.add(IdComp::new(&mut sim.res.id_counter, player));
+        unit_builder.add(TypeNameComp::new("placeholder_2"));
         unit_builder.add(PositionComp::new(pos));
         unit_builder.add(NextPosComp::new(pos));
         unit_builder.add(SpeedComponent::new(speed, 1));
         unit_builder.add(CollComp::new(coll_r));
-        unit_builder.add(IdComp::new(&mut sim.res.id_counter, player));
         unit_builder.add(PathComp::new());
         unit_builder.add(TargetComp::new(FixF::from_num(3)));
         unit_builder.add(ActiveAbilityComp::builder());
@@ -68,7 +68,17 @@ pub fn plc_smart_unit(sim: &mut SimState, owner: PId, pos: Pos, speed: FixF, col
 
         let new_entity = sim.ecs.spawn(unit_builder.build());
 
-        let msg = SimMsg::StateChange(SimStateChng::ObjSpawn(sim.res.id_counter - 1, *player, pos, coll_r));
+        // let msg = SimMsg::StateChange(SimStateChng::ObjSpawn(sim.res.id_counter - 1, *player, pos, coll_r));
+        // sim.res.send_batch.push(msg);
+        let msg0 = SimStateChng::UnitNew{
+            uid: sim.res.id_counter - 1,
+            owner: *player,
+            pos: pos,
+            speed: speed,
+            coll_r: coll_r,
+        };
+
+        let msg = SimMsg::StateChange(msg0);
         sim.res.send_batch.push(msg);
 
         sim.res.id_map.insert(sim.res.id_counter - 1, new_entity);
