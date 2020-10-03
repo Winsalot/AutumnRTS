@@ -479,10 +479,16 @@ There is lon way to go, but it can be like this:
 		+ Rustbridge side.
 		+ Godot side.
 		+ Input system side
-	- Smart unit sim -> rend communication.
+	+ Smart unit sim -> rend communication.
 		+ Custom message (UnitNew) with all relevant fields
 			(Not all fields yet)
-		- Rustbridge messgage system that takes this messgae.
+		+ Rustbridge messgage system that takes this messgae.
+			+ Also returns it as vector of dictionaries <3
+	- Smart unit (aka New Unit message) handling in Godot.
+		+ Spawn smart unit.
+		- Move order and movement:
+			- Move order (to all selected)	
+			- Movement (with animations <3)		
 		
 
 

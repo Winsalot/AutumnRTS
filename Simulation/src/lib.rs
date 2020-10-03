@@ -14,9 +14,9 @@ mod sim_fix_math;
 mod sim_gameloop;
 mod sim_map;
 mod sim_player_alliances;
+mod sim_rend_message;
 mod sim_systems;
 mod sim_weapon_list;
-mod sim_rend_message;
 
 // Function that registers all exposed classes to Godot
 fn init(handle: gdnative::init::InitHandle) {

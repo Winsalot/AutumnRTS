@@ -1,5 +1,5 @@
-use crate::sim_rend_message::*;
 use crate::common::*;
+use crate::sim_rend_message::*;
 
 use crate::sim_fix_math::Pos;
 
@@ -46,6 +46,58 @@ pub fn inbox_drain_spawn(inbox: &mut Vec<SimMsg>) -> Vec<(UId, PId, String, f32,
                 pos.y.to_num::<f32>(),
                 radius.to_num::<f32>(),
             ));
+        }
+    }
+
+    return ret;
+}
+
+/// Drains new unit messages from simulation. Returns dictionary
+pub fn inbox_drain_new_unit(inbox: &mut Vec<SimMsg>) -> Vec<Dictionary> {
+    let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) = inbox.iter().partition(|&msg| match msg {
+        SimMsg::StateChange(SimStateChng::UnitNew { .. }) => true,
+        _ => false,
+    });
+
+    *inbox = rest;
+
+    // turn messages into tuples:
+    let mut ret: Vec<Dictionary> = vec![];
+
+    for i in 0..target.len() {
+        if let SimMsg::StateChange(SimStateChng::UnitNew {
+            uid,
+            owner,
+            pos,
+            speed,
+            coll_r,
+        }) = target[i]
+        {
+            let mut unit_stats = Dictionary::new();
+
+            // Honestly this kinda sux
+            unit_stats.set(&Variant::from_str("uid"), &Variant::from(uid));
+
+            unit_stats.set(
+                &Variant::from_str("player"),
+                &Variant::from(owner.get_id() as u64),
+            );
+
+            let pos1 = Vector2::new(pos.x.to_num::<f32>(), pos.y.to_num::<f32>());
+
+            unit_stats.set(&Variant::from_str("pos"), &Variant::from_vector2(&pos1));
+
+            unit_stats.set(
+                &Variant::from_str("speed"),
+                &Variant::from_f64(speed.to_num::<f64>()),
+            );
+
+            unit_stats.set(
+                &Variant::from_str("coll_r"),
+                &Variant::from_f64(coll_r.to_num::<f64>()),
+            );
+
+            ret.push(unit_stats);
         }
     }
 

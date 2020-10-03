@@ -3,8 +3,8 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 //use gdnative::{ToVariant, FromVariant};
 
 use crate::common::*;
-use crate::sim_rend_message::messages_sim::*;
 use crate::sim_rend_message::messages_rend::*;
+use crate::sim_rend_message::messages_sim::*;
 
 // this struct communicates between simulation and renderer
 pub struct SimMessenger {

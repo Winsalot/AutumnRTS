@@ -1,5 +1,5 @@
-use crate::sim_fix_math::*;
 use crate::common::*;
+use crate::sim_fix_math::*;
 
 // #[derive(Debug, PartialEq, Clone, Copy)]
 #[derive(Debug, Clone, Copy)]

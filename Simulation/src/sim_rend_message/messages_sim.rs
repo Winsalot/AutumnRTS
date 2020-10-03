@@ -1,6 +1,6 @@
-use crate::sim_map::MapTile;
 use crate::common::*;
 use crate::sim_fix_math::*;
+use crate::sim_map::MapTile;
 
 /// New engine messages
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -31,12 +31,12 @@ pub enum SimStateChng {
     ObjTargetPos(UId, Pos),
     ObjTarget(UId, ObjTarget),
     ObjTargetNone(UId),
-    UnitNew{
+    UnitNew {
         uid: UId,
         owner: PlayerId,
         pos: Pos,
         speed: FixF,
-        coll_r: FixF,  
+        coll_r: FixF,
     },
 }
 

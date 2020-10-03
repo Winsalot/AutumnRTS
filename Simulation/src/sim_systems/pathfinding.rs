@@ -1,12 +1,12 @@
 // use crate::common::SimMsg::StateChange;
 // use crate::common::SimStateChng::ObjPathTmp;
-use crate::sim_rend_message::messages_sim::SimMsg;
-use crate::sim_rend_message::messages_sim::SimMsg::StateChange;
-use crate::sim_rend_message::messages_sim::SimStateChng::ObjPathTmp;
 use crate::sim_components::order_queue_comp::OrderQueueComp;
 use crate::sim_components::sim_unit_base_components::IdComp;
 use crate::sim_components::targeting_comp::TargetComp;
 use crate::sim_components::unitstate_comp::UnitStateComp;
+use crate::sim_rend_message::messages_sim::SimMsg;
+use crate::sim_rend_message::messages_sim::SimMsg::StateChange;
+use crate::sim_rend_message::messages_sim::SimStateChng::ObjPathTmp;
 use crate::sim_systems::targeting::target_to_pos;
 
 use crate::sim_components::sim_unit_base_components::DestinationComp;
@@ -14,7 +14,6 @@ use crate::sim_components::sim_unit_base_components::PathComp;
 use crate::sim_components::sim_unit_base_components::PositionComp;
 use num_traits::identities::Zero;
 use pathfinding::prelude::astar;
-
 
 use crate::sim_ecs::SimState;
 use crate::sim_fix_math::*;
@@ -250,4 +249,3 @@ pub fn sys_pathfinding_smart(sim: &mut SimState) {
         path_comp.set(path);
     }
 }
-

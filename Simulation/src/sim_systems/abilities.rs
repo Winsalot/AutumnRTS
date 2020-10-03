@@ -1,9 +1,9 @@
 use crate::common::*;
-use crate::sim_rend_message::*;
 use crate::sim_abilities_list::*;
 use crate::sim_components::sim_unit_base_components::IdComp;
 use crate::sim_components::targeting_comp::TargetComp;
 use crate::sim_components::unitstate_comp::UnitStateComp;
+use crate::sim_rend_message::*;
 use crate::sim_systems::targeting::target_to_pos;
 
 use crate::sim_components::active_ability_comp::ActiveAbilityComp;
@@ -120,9 +120,9 @@ fn build_simple_structure(sim: &mut SimState, id: &UId, trg: &ObjTarget) -> bool
 #[cfg(test)]
 mod ability_tests {
 
-use crate::sim_rend_message::*;
     use crate::sim_components::active_ability_comp::ActiveAbilityComp;
     use crate::sim_components::structure_comp::StructureComp;
+    use crate::sim_rend_message::*;
 
     use crate::sim_ecs::*;
     use crate::sim_gameloop::first_tick;

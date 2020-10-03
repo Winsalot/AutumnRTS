@@ -4,14 +4,14 @@ use crate::sim_rend_message::messages_sim::SimStateChng::ObjMove;
 
 use crate::sim_rend_message::messages_sim::SimStateChng::ObjNextPos;
 
-use crate::sim_rend_message::messages_sim::SimStateChng::ObjDest;
-use crate::sim_rend_message::messages_sim::SimMsg::StateChange;
-use crate::sim_rend_message::*;
 use crate::common::*;
 use crate::sim_components::sim_unit_base_components::*;
 use crate::sim_components::unitstate_comp::UnitStateComp;
 use crate::sim_ecs::*;
 use crate::sim_fix_math::*;
+use crate::sim_rend_message::messages_sim::SimMsg::StateChange;
+use crate::sim_rend_message::messages_sim::SimStateChng::ObjDest;
+use crate::sim_rend_message::*;
 use crate::sim_systems::validate_order::is_valid;
 use hecs::*;
 

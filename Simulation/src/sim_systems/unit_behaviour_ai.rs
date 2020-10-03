@@ -269,10 +269,7 @@ fn ability_order_behaviour(
 
         match trg_pos {
             None => {
-                new_states.push((
-                    *uid,
-                    UnitState::UseAbilityFailed,
-                ));
+                new_states.push((*uid, UnitState::UseAbilityFailed));
                 new_targets.push((*uid, ObjTarget::None));
                 return;
             }
@@ -346,10 +343,10 @@ fn knows_path_to_dest(sim: &SimState, entity_id: &Entity, dest: &Pos) -> bool {
 
 #[cfg(test)]
 mod order_and_state_tests {
-    use crate::sim_rend_message::*;
     use crate::sim_components::sim_unit_base_components::IdComp;
     use crate::sim_components::sim_unit_base_components::NextPosComp;
     use crate::sim_components::weapon_comp::WeaponComp;
+    use crate::sim_rend_message::*;
 
     use crate::sim_ecs::*;
     use crate::sim_gameloop::first_tick;

@@ -1,8 +1,8 @@
 use crate::common::*;
-use crate::sim_rend_message::*;
 use crate::rustbridge_messages::*;
 use crate::sim_fix_math::Pos;
 use crate::sim_gameloop;
+use crate::sim_rend_message::*;
 use gdnative::*;
 use std::thread::JoinHandle;
 
@@ -83,6 +83,11 @@ impl RustBridge {
     }
 
     #[export]
+    fn get_msg_new_unit(&mut self, _owner: gdnative::Node) -> Variant {
+        inbox_drain_new_unit(&mut self.message_inbox).to_variant()
+    }
+
+    #[export]
     fn get_msg_spawn_structure(&mut self, _owner: gdnative::Node) -> Variant {
         inbox_drain_spawn_structure(&mut self.message_inbox).to_variant()
     }
@@ -149,12 +154,10 @@ impl RustBridge {
 
     #[export]
     /// Debug function to spawn a smart placeholder unit
-    fn debug_spawn_smart(&mut self, _owner: gdnative::Node, player: PId, xy: Vector2){
-
+    fn debug_spawn_smart(&mut self, _owner: gdnative::Node, player: PId, xy: Vector2) {
         let pos: Pos = Pos::from_num(xy.x, xy.y);
         let msg = RenderMessage::SpawnSmart(player, pos);
         self.message_batch.push(msg);
-
     }
 
     #[export]

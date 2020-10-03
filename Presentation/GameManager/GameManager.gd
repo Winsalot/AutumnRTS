@@ -22,6 +22,7 @@ func _process(_delta):
 	RenderState.rustbridge.receive_sim_messages() 
 	spawn_map()
 	spawn_units()
+	new_units()
 	
 	RenderState.rustbridge.clear_inbox()
 	RenderState.rustbridge.deliver_input() 
@@ -79,4 +80,13 @@ func spawn_units():
 #		unit.coll_radius = unit_spawn[5]
 		self.add_child(unit)
 	pass
+
+func new_units():
+	var spawn_info = RenderState.rustbridge.get_msg_new_unit()
+	for unit_spawn in spawn_info:
+		var unit = plc_unit3d.instance()
+		var xy = unit_spawn.get("pos")
+		unit.set_translation(Vector3(xy.x, 0, xy.y))
+		unit.set_name(unit_name(unit_spawn.get("uid")))
+		self.add_child(unit)
 
