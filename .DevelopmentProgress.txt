@@ -487,7 +487,7 @@ There is lon way to go, but it can be like this:
 	- Smart unit (aka New Unit message) handling in Godot.
 		+ Spawn smart unit.
 		- Move order and movement:
-			- Move order (to all selected)	
+			+ Move order (to all selected)	
 			- Movement (with animations <3)		
 		
 

@@ -89,4 +89,5 @@ func new_units():
 		unit.set_translation(Vector3(xy.x, 0, xy.y))
 		unit.set_name(unit_name(unit_spawn.get("uid")))
 		self.add_child(unit)
+		unit.set_uid(unit_spawn.get("uid"))
 

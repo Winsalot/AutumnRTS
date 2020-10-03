@@ -116,6 +116,28 @@ impl RustBridge {
     }
 
     #[export]
+    fn input_order_move(
+        &mut self,
+        _owner: gdnative::Node,
+        player: PId,
+        units: Vec<UId>,
+        xy: Vector2,
+    ) {
+        if units.len() == 0 {
+            return;
+        }
+        let unit_groups = make_unit_group(&units);
+        for group in unit_groups {
+            let msg = RenderMessage::InputOrder(
+                player,
+                group,
+                UnitOrder::MoveTo(Pos::from_num(xy.x, xy.y)),
+            );
+            self.message_batch.push(msg);
+        }
+    }
+
+    #[export]
     fn get_msg_fps(&mut self, _owner: gdnative::Node) -> Variant {
         inbox_drain_fps(&mut self.message_inbox).to_variant()
     }
