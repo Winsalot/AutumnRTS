@@ -484,6 +484,11 @@ There is lon way to go, but it can be like this:
 			(Not all fields yet)
 		+ Rustbridge messgage system that takes this messgae.
 			+ Also returns it as vector of dictionaries <3
+	- Rework placeholder unit to have:
+		+ UnitBase as root node
+		- Collision shape
+		- affected by gravity (sometimes lol)
+		- clickeable.
 	- Smart unit (aka New Unit message) handling in Godot.
 		+ Spawn smart unit.
 		- Move order and movement:

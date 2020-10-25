@@ -90,4 +90,5 @@ func new_units():
 		unit.set_name(unit_name(unit_spawn.get("uid")))
 		self.add_child(unit)
 		unit.set_uid(unit_spawn.get("uid"))
+		unit.set_rpos(Vector2(xy.x, xy.y))
 

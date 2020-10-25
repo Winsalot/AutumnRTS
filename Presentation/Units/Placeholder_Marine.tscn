@@ -19,7 +19,6 @@ func _ready():
 	print(unit_base.get_uid())
 	pass # Replace with function body.
 
-
 func deselect():
 	is_selected = false
 	$SelectionCircle.visible = false
@@ -46,10 +45,15 @@ func _on_Area_mouse_exited():
 
 func set_uid(id):
 	unit_base.set_uid(id)
-	pass
 
 func get_uid():
 	return unit_base.get_uid()
+
+func get_rpos():
+	unit_base.get_rpos()
+
+func set_rpos(xy):
+	unit_base.set_rpos(xy)
 "
 
 [sub_resource type="ArrayMesh" id=2]

@@ -228,7 +228,6 @@ pub fn sys_set_pos_smart(sim: &mut SimState) {
 
         pos.set_pos(*next_pos.get_pos());
         state.just_moved(&current_tick, speed.get_cooldown());
-        //msg = EngineMessage::ObjMove(*id.get(), *pos.get_pos());
         msg = StateChange(ObjMove(*id.get_id(), *pos.get_pos()));
 
         sim.res.send_batch.push(msg);
