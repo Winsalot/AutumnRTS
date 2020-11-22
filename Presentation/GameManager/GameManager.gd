@@ -11,8 +11,9 @@ func _ready():
 #	maptile = preload("res://Presentation/Map/MapTile.tscn")
 	maptile = preload("res://Presentation/Map/Tile_plc_non_block.tscn")
 	maptile_block = preload("res://Presentation/Map/Tile_plc_block.tscn")
-	plc_unit3d = preload("res://Presentation/Units/Placeholder_Marine.tscn")
-	
+#	plc_unit3d = preload("res://Presentation/Units/Placeholder_Marine.tscn")
+	plc_unit3d = preload("res://Presentation/Units/Electro_marine3.tscn")
+		
 	RenderState.rustbridge.start_loop(2,2)
 
 
@@ -64,7 +65,7 @@ func unit_name(id):
 	#var params = self.get_node("/root/PresentationParams") #autoload node
 	return "U_" + String(id)
 
-
+# Spawns dumb units
 func spawn_units():
 	var spawn_info = RenderState.rustbridge.get_msg_spawn()
 	#if spawn_info.size() > 0:
@@ -72,7 +73,7 @@ func spawn_units():
 	for unit_spawn in spawn_info:
 		var unit = plc_unit3d.instance()
 		var xy = Vector2(unit_spawn[3], unit_spawn[4]) #* params.scale
-		unit.set_translation(Vector3(xy.x, 0, xy.y))
+		unit.set_translation(Vector3(xy.x, 0.0, xy.y))
 		unit.set_name(unit_name(unit_spawn[0]))
 #		unit.player = unit_spawn[1]
 #		unit.team = unit_spawn[2]
@@ -81,12 +82,13 @@ func spawn_units():
 		self.add_child(unit)
 	pass
 
+# spawns smart units
 func new_units():
 	var spawn_info = RenderState.rustbridge.get_msg_new_unit()
 	for unit_spawn in spawn_info:
 		var unit = plc_unit3d.instance()
 		var xy = unit_spawn.get("pos")
-		unit.set_translation(Vector3(xy.x, 0, xy.y))
+		unit.set_translation(Vector3(xy.x, 2, xy.y))
 		unit.set_name(unit_name(unit_spawn.get("uid")))
 		self.add_child(unit)
 		unit.set_uid(unit_spawn.get("uid"))
