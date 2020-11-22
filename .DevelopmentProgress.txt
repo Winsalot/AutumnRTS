@@ -485,12 +485,15 @@ There is lon way to go, but it can be like this:
 		+ Rustbridge messgage system that takes this messgae.
 			+ Also returns it as vector of dictionaries <3
 	- Rework placeholder unit to have:
-		+ Name: Placeholder_Marine_3.tscn
+		+ Name: electro_marine3.tscn
 		+ UnitBase as root node
 		+ Unit base now is Kinematic body.
 		+ Collision shape (Unit base has it)
 		+ affected by gravity (sometimes lol)
-		- clickeable.
+		+ clickeable.
+		+ Selection animation.
+		- Updates real pos
+		- Moves to real pos
 	- Smart unit (aka New Unit message) handling in Godot.
 		+ Spawn smart unit.
 		- Move order and movement:

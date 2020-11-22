@@ -88,7 +88,7 @@ func new_units():
 	for unit_spawn in spawn_info:
 		var unit = plc_unit3d.instance()
 		var xy = unit_spawn.get("pos")
-		unit.set_translation(Vector3(xy.x, 2, xy.y))
+		unit.set_translation(Vector3(xy.x, 3, xy.y))
 		unit.set_name(unit_name(unit_spawn.get("uid")))
 		self.add_child(unit)
 		unit.set_uid(unit_spawn.get("uid"))
