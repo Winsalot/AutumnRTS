@@ -5,6 +5,7 @@ var uid = -1 # default value
 
 var real_pos = Vector2(0,0)
 export(float) var unit_size = 1
+export(float) var max_pos_diff = 0.2
 
 onready var gravity = -ProjectSettings.get_setting("physics/3d/default_gravity")
 var velocity: Vector3
@@ -20,9 +21,20 @@ func _ready():
 	pass # Replace with function body.
 
 func _physics_process(delta):
+#	if !is_on_floor():
+#		velocity.y += delta * gravity
+#		velocity = move_and_slide(velocity, Vector3.UP)
+	velocity = Vector3(0,0,0)
 	if !is_on_floor():
-		velocity.y += delta * gravity
-		velocity = move_and_slide(velocity, Vector3.UP)
+		velocity.y = gravity
+	
+	var pos_diff = real_pos - Vector2(self.translation.x, self.translation.z)
+	if pos_diff.length() >= max_pos_diff:
+		velocity.x = pos_diff.normalized().x*2
+		velocity.z = pos_diff.normalized().y*2
+	
+	if velocity != Vector3(0,0,0):
+		move_and_slide(velocity, Vector3.UP, false, 4, 1.0)
 
 func _unhandled_input(event):
 	if event.is_action_pressed("mouse_select_single") && \

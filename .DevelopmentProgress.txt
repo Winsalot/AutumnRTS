@@ -492,8 +492,8 @@ There is lon way to go, but it can be like this:
 		+ affected by gravity (sometimes lol)
 		+ clickeable.
 		+ Selection animation.
-		- Updates real pos
-		- Moves to real pos
+		+ Updates real pos
+		+ Moves to real pos [Extra shity implementation]
 	- Smart unit (aka New Unit message) handling in Godot.
 		+ Spawn smart unit.
 		- Move order and movement:
@@ -504,6 +504,7 @@ There is lon way to go, but it can be like this:
 
 
 GENERAL IDEAS:
+	- Kinematic Body move and slide seems to be quite shitty.
 	- Fuck unnecerasy refactoring. I should avoid it. Better messy code & game than general good code and no game.
 	- Current progression:
 		+1. Implement automatic targeting.

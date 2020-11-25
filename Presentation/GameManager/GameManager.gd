@@ -25,6 +25,8 @@ func _process(_delta):
 	spawn_units()
 	new_units()
 	
+	update_real_pos()
+	
 	RenderState.rustbridge.clear_inbox()
 	RenderState.rustbridge.deliver_input() 
 
@@ -93,4 +95,12 @@ func new_units():
 		self.add_child(unit)
 		unit.set_uid(unit_spawn.get("uid"))
 		unit.set_rpos(Vector2(xy.x, xy.y))
+
+# Updates real position information
+# TODO: will error if unit with that name doesnt exist
+func update_real_pos():
+	var move_info = RenderState.rustbridge.get_msg_move()
+	for unit_move in move_info:
+		var unit = self.get_node(unit_name(unit_move[0]))
+		unit.set_rpos(Vector2(unit_move[1], unit_move[2]))
 
