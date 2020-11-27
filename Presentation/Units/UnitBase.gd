@@ -5,13 +5,15 @@ var uid = -1 # default value
 
 var real_pos = Vector2(0,0)
 export(float) var unit_size = 1
-export(float) var max_pos_diff = 0.2
+#export(float) var max_pos_diff = 0.2
 
-onready var gravity = -ProjectSettings.get_setting("physics/3d/default_gravity")
-var velocity: Vector3
+#onready var gravity = -ProjectSettings.get_setting("physics/3d/default_gravity")
+#var velocity: Vector3
 
 var is_selected = false
 var mouse_entered = false
+
+onready var rend_pos = Vector2(self.translation.x, self.translation.z)
 
 func _ready():
 	$CollisionShape.shape.radius = self.unit_size / 4
@@ -21,20 +23,18 @@ func _ready():
 	pass # Replace with function body.
 
 func _physics_process(delta):
-#	if !is_on_floor():
-#		velocity.y += delta * gravity
-#		velocity = move_and_slide(velocity, Vector3.UP)
-	velocity = Vector3(0,0,0)
-	if !is_on_floor():
-		velocity.y = gravity
+	update_rend_pos()
 	
-	var pos_diff = real_pos - Vector2(self.translation.x, self.translation.z)
-	if pos_diff.length() >= max_pos_diff:
-		velocity.x = pos_diff.normalized().x*2
-		velocity.z = pos_diff.normalized().y*2
+	var physics_state = PhysicsServer.space_get_direct_state(self.get_world().get_space())
 	
-	if velocity != Vector3(0,0,0):
-		move_and_slide(velocity, Vector3.UP, false, 4, 1.0)
+	var ground_level = physics_state.intersect_ray(\
+	Vector3(self.real_pos.x, 32.0, self.real_pos.y), \
+	Vector3(self.real_pos.x, -32.0, self.real_pos.y))
+	
+	self.translation = Vector3(\
+	self.real_pos.x, \
+	ground_level["position"].y,\
+	self.real_pos.y)
 
 func _unhandled_input(event):
 	if event.is_action_pressed("mouse_select_single") && \
@@ -70,3 +70,8 @@ func _on_Clickbox_Area_mouse_entered():
 
 func _on_Clickbox_Area_mouse_exited():
 	mouse_entered = false
+
+# Updates variable rend_pos to the current position of the node
+func update_rend_pos():
+	if (self.translation.x != self.rend_pos.x) || (self.translation.z != self.rend_pos.y):
+		rend_pos = Vector2(self.translation.x, self.translation.z)

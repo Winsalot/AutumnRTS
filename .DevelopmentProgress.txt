@@ -484,7 +484,7 @@ There is lon way to go, but it can be like this:
 			(Not all fields yet)
 		+ Rustbridge messgage system that takes this messgae.
 			+ Also returns it as vector of dictionaries <3
-	- Rework placeholder unit to have:
+	+ Rework placeholder unit to have:
 		+ Name: electro_marine3.tscn
 		+ UnitBase as root node
 		+ Unit base now is Kinematic body.
@@ -494,11 +494,15 @@ There is lon way to go, but it can be like this:
 		+ Selection animation.
 		+ Updates real pos
 		+ Moves to real pos [Extra shity implementation]
+	+ Unit movement to use intersect_ray for direct interface with Godot physics.
+		+ I actually made it work wtf haha.
+	- Animations when moving.
 	- Smart unit (aka New Unit message) handling in Godot.
 		+ Spawn smart unit.
 		- Move order and movement:
 			+ Move order (to all selected)	
-			- Movement (with animations <3)		
+			+ Movement.
+			- Animations when moving 		
 		
 
 
