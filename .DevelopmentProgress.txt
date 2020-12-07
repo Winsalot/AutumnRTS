@@ -473,7 +473,7 @@ There is lon way to go, but it can be like this:
 		x[LATER] Box select.
 		x[LATER] Mouse camera movement
 		x[LATER] 3D mapo & unit (cube) movement on map.
-34. Spawn smart unit and render all the shit that happens in sim.
+[DONE]34. Spawn smart unit and render some the shit that happens in sim.
 	+ SpawnSmart message.
 	+ SpawnSmart call:
 		+ Rustbridge side.
@@ -496,13 +496,17 @@ There is lon way to go, but it can be like this:
 		+ Moves to real pos [Extra shity implementation]
 	+ Unit movement to use intersect_ray for direct interface with Godot physics.
 		+ I actually made it work wtf haha.
-	- Animations when moving.
-	- Smart unit (aka New Unit message) handling in Godot.
+	- Animations.
+		+Idle on spawn.
+		+ UnitBase state signal (to change animation).	
+		+ Move animation.	
+	+ Smart unit (aka New Unit message) handling in Godot.
 		+ Spawn smart unit.
-		- Move order and movement:
+		+ Move order and movement:
 			+ Move order (to all selected)	
 			+ Movement.
-			- Animations when moving 		
+			+ Animations when moving
+35. Add abilities and shooting to front end. Start fixing GUI controls	
 		
 
 

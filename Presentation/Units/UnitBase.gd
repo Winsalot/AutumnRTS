@@ -1,5 +1,7 @@
 extends KinematicBody
 
+# signal that is emitted when unit starts some action.
+signal animation_state(name)
 
 var uid = -1 # default value
 
@@ -53,7 +55,9 @@ func get_rpos():
 	return self.real_pos
 
 func set_rpos(xy):
-	self.real_pos = xy
+	if self.real_pos!= xy:
+		self.real_pos = xy
+		emit_signal("animation_state", "move") # TODO: this should be handled differently
 
 func deselect():
 	is_selected = false

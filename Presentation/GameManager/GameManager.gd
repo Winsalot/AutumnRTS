@@ -94,7 +94,8 @@ func new_units():
 		unit.set_name(unit_name(unit_spawn.get("uid")))
 		self.add_child(unit)
 		unit.set_uid(unit_spawn.get("uid"))
-		unit.set_rpos(Vector2(xy.x, xy.y))
+#		unit.set_rpos(Vector2(xy.x, xy.y))
+		unit.real_pos = Vector2(xy.x, xy.y) # temporary sulution, because calling set_rpos triggers move animation haha
 
 # Updates real position information
 # TODO: will error if unit with that name doesnt exist
