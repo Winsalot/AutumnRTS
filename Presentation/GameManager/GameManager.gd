@@ -14,7 +14,7 @@ func _ready():
 #	plc_unit3d = preload("res://Presentation/Units/Placeholder_Marine.tscn")
 	plc_unit3d = preload("res://Presentation/Units/Electro_marine3.tscn")
 		
-	RenderState.rustbridge.start_loop(2,2)
+	start_loop()
 
 
 
@@ -29,6 +29,11 @@ func _process(_delta):
 	
 	RenderState.rustbridge.clear_inbox()
 	RenderState.rustbridge.deliver_input() 
+
+func start_loop():
+	# TODO: this should initialise RenderState.sim_params values
+	RenderState.rustbridge.start_loop(2,2)
+
 
 # Shitty implementation for now:
 func spawn_map():

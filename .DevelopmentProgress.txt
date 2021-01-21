@@ -506,7 +506,32 @@ There is lon way to go, but it can be like this:
 			+ Move order (to all selected)	
 			+ Movement.
 			+ Animations when moving
-35. Add abilities and shooting to front end. Start fixing GUI controls	
+[SKIP] 35. Add abilities and shooting to front end. Start fixing GUI controls	
+    - Probably good idea to skip. Instead, should probably focus on reworking existing GUI and rendering.
+36. Rework front end to be less shit.
+    - Renderer should know about SIM parameters:
+		- Basically a sim_params variable:
+				+ Stored in RenderState (for now).
+				+ Dictionary.
+				+ Initialised with default values that are then passed down to SIM.
+				- Can be updated by-demand.
+			- Contains:				
+        		- Sim tickrate (fixed one and actual).
+        - All unit stats.
+            - Current speed.
+                - Used to make smooth animations.
+            - HP, shown on selection bar or under/over the unit.
+    - Better camera controls:
+		- Arrow key movement.	
+		- Zoom.
+		- click and drag (middle mouse)
+		- Rotate & tilt.
+	- Robust mouse position -> world function. 
+		- To account for different terrain levels.
+	- Custom input map:
+		- To support for multiple key-commands (eg. shift+something).
+	+ Mouse confined to window.
+	
 		
 
 
