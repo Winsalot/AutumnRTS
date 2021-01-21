@@ -3,7 +3,7 @@
 [ext_resource path="res://Presentation/RustBridge.gd" type="Script" id=1]
 
 [sub_resource type="GDNativeLibrary" id=1]
-entry/X11.64 = "res://Simulation/target/debug/libsimulation.so"
+entry/X11.64 = "res://Simulation/target/release/libsimulation.so"
 dependency/X11.64 = [  ]
 
 [sub_resource type="NativeScript" id=2]

@@ -2,6 +2,7 @@
 
 Real time strategy game/engine written in Rust and Godot. Project is in very early stage of development and it is not playable yet. 
 
+![](/media/AutumnRTS_2021_jan.gif)
 
 ## FAQ
 
