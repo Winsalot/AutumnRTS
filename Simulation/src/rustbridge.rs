@@ -158,6 +158,11 @@ impl RustBridge {
     }
 
     #[export]
+    fn get_last_tick(&mut self, _owner: gdnative::Node) -> Variant {
+        inbox_drain_last_tick(&mut self.message_inbox).to_variant()
+    }
+
+    #[export]
     fn clear_inbox(&mut self, _owner: gdnative::Node) -> usize {
         let ret = self.message_inbox.len();
         if ret > 0 {

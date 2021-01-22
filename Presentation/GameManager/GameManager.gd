@@ -22,6 +22,7 @@ func _process(_delta):
 	# should be first thing every frame
 	RenderState.rustbridge.receive_sim_messages() 
 	update_sim_fps_info()
+	get_last_tick_num()
 	spawn_map()
 #	spawn_units()
 	new_units()
@@ -36,6 +37,11 @@ func start_loop(n_players, fps_limit):
 	RenderState.sim_params["n_players"] = n_players
 	
 	RenderState.rustbridge.start_loop(n_players, fps_limit)
+
+func get_last_tick_num():
+	var last_tick = RenderState.rustbridge.get_last_tick()
+	if last_tick != null:
+		RenderState.sim_params["sim_last_tick"] = last_tick
 
 func update_sim_fps_info():
 	var fps_info = RenderState.rustbridge.get_msg_fps()

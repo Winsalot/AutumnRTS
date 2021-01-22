@@ -318,3 +318,20 @@ pub fn inbox_drain_targeting(inbox: &mut Vec<SimMsg>) -> Vec<(UId, Vector2)> {
     }
     return ret;
 }
+
+pub fn inbox_drain_last_tick(inbox: &mut Vec<SimMsg>) -> Option<TickNum> {
+    let (mut target, rest): (Vec<SimMsg>, Vec<SimMsg>) = inbox.iter().partition(|&msg| match msg {
+        SimMsg::SimInfo(SimStateInfo::GameTick(..)) => true,
+        _ => false,
+    });
+
+    *inbox = rest;
+
+    let mut ret: Option<TickNum> = None;
+
+    if let Some(SimMsg::SimInfo(SimStateInfo::GameTick(last_tick))) = target.pop(){
+        ret = Some(last_tick);
+    }
+
+    return ret;
+}

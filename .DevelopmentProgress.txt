@@ -518,6 +518,8 @@ There is lon way to go, but it can be like this:
 			- Contains:				
         		+ Sim tickrate (fixed one and actual).
         		- Current tick
+        			+ Generated message
+        			- Pass message to Godot
         - All unit stats.
             - Current speed.
                 - Used to make smooth animations.
