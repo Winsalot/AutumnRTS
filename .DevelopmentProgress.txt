@@ -514,9 +514,10 @@ There is lon way to go, but it can be like this:
 				+ Stored in RenderState (for now).
 				+ Dictionary.
 				+ Initialised with default values that are then passed down to SIM.
-				- Can be updated by-demand.
+				+ Can be updated by-demand.
 			- Contains:				
-        		- Sim tickrate (fixed one and actual).
+        		+ Sim tickrate (fixed one and actual).
+        		- Current tick
         - All unit stats.
             - Current speed.
                 - Used to make smooth animations.

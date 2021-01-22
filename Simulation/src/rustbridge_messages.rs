@@ -184,7 +184,7 @@ pub fn inbox_drain_next_pos(inbox: &mut Vec<SimMsg>) -> Vec<(UId, f32, f32)> {
 }
 
 // pub fn inbox_drain_fps(inbox: &mut Vec<EngineMessage>) -> Vec<(u64, u64)> {
-pub fn inbox_drain_fps(inbox: &mut Vec<SimMsg>) -> Vec<(u64, u64)> {
+pub fn inbox_drain_fps(inbox: &mut Vec<SimMsg>) -> Vec<(f64, f64)> {
     // let (target, rest): (Vec<EngineMessage>, Vec<EngineMessage>) =
     let (target, rest): (Vec<SimMsg>, Vec<SimMsg>) = inbox.iter().partition(|&msg| match msg {
         // EngineMessage::Fps(..) => true,
@@ -195,7 +195,7 @@ pub fn inbox_drain_fps(inbox: &mut Vec<SimMsg>) -> Vec<(u64, u64)> {
     *inbox = rest;
 
     // turn messages into tuples:
-    let mut ret: Vec<(u64, u64)> = vec![];
+    let mut ret: Vec<(f64, f64)> = vec![];
     for i in 0..target.len() {
         // if let EngineMessage::Fps(fps, fps_r) = target[i] {
         if let SimMsg::SimInfo(SimStateInfo::Fps(fps, fps_r)) = target[i] {

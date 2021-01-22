@@ -14,15 +14,16 @@ func _ready():
 #	plc_unit3d = preload("res://Presentation/Units/Placeholder_Marine.tscn")
 	plc_unit3d = preload("res://Presentation/Units/Electro_marine3.tscn")
 		
-	start_loop()
+	start_loop(2, 1)
 
 
 
 func _process(_delta):
 	# should be first thing every frame
 	RenderState.rustbridge.receive_sim_messages() 
+	update_sim_fps_info()
 	spawn_map()
-	spawn_units()
+#	spawn_units()
 	new_units()
 	
 	update_real_pos()
@@ -30,10 +31,18 @@ func _process(_delta):
 	RenderState.rustbridge.clear_inbox()
 	RenderState.rustbridge.deliver_input() 
 
-func start_loop():
-	# TODO: this should initialise RenderState.sim_params values
-	RenderState.rustbridge.start_loop(2,2)
+func start_loop(n_players, fps_limit):
+	RenderState.sim_params["sim_fps"] = float(fps_limit)
+	RenderState.sim_params["n_players"] = n_players
+	
+	RenderState.rustbridge.start_loop(n_players, fps_limit)
 
+func update_sim_fps_info():
+	var fps_info = RenderState.rustbridge.get_msg_fps()
+	if fps_info.size() > 0:
+		fps_info = fps_info[fps_info.size() - 1]
+		RenderState.sim_params["sim_fps"] = fps_info[0]
+		RenderState.sim_params["sim_fps_real"] = fps_info[1]
 
 # Shitty implementation for now:
 func spawn_map():
@@ -72,22 +81,22 @@ func unit_name(id):
 	#var params = self.get_node("/root/PresentationParams") #autoload node
 	return "U_" + String(id)
 
-# Spawns dumb units
-func spawn_units():
-	var spawn_info = RenderState.rustbridge.get_msg_spawn()
-	#if spawn_info.size() > 0:
-	#	print(spawn_info)
-	for unit_spawn in spawn_info:
-		var unit = plc_unit3d.instance()
-		var xy = Vector2(unit_spawn[3], unit_spawn[4]) #* params.scale
-		unit.set_translation(Vector3(xy.x, 0.0, xy.y))
-		unit.set_name(unit_name(unit_spawn[0]))
-#		unit.player = unit_spawn[1]
-#		unit.team = unit_spawn[2]
-#		unit.unique_id = unit_spawn[0]
-#		unit.coll_radius = unit_spawn[5]
-		self.add_child(unit)
-	pass
+## Spawns dumb units
+#func spawn_units():
+#	var spawn_info = RenderState.rustbridge.get_msg_spawn()
+#	#if spawn_info.size() > 0:
+#	#	print(spawn_info)
+#	for unit_spawn in spawn_info:
+#		var unit = plc_unit3d.instance()
+#		var xy = Vector2(unit_spawn[3], unit_spawn[4]) #* params.scale
+#		unit.set_translation(Vector3(xy.x, 0.0, xy.y))
+#		unit.set_name(unit_name(unit_spawn[0]))
+##		unit.player = unit_spawn[1]
+##		unit.team = unit_spawn[2]
+##		unit.unique_id = unit_spawn[0]
+##		unit.coll_radius = unit_spawn[5]
+#		self.add_child(unit)
+#	pass
 
 # spawns smart units
 func new_units():

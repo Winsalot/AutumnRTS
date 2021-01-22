@@ -42,7 +42,7 @@ pub enum SimStateChng {
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum SimStateInfo {
-    Fps(u64, u64),
+    Fps(f64, f64),
     GameTick(TickNum),
     MapTile(Pos, MapTile),
 }

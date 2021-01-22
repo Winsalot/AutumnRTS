@@ -264,6 +264,8 @@ pub fn sys_init_send_map(sim: &mut SimState) {
 }
 
 pub fn send_messages(sim: &mut SimState) {
+    // Provide info about current tick to the message:
+    sim.res.send_batch.push(SimMsg::SimInfo(SimStateInfo::GameTick(sim.res.current_tick)));
     sim.messenger.send(sim.res.send_batch.clone());
     sim.res.send_batch = vec![];
 }

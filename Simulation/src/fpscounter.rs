@@ -24,14 +24,14 @@ impl FpsCounter {
         self.delta.push_back(d);
     }
 
-    pub fn get_fps(&self) -> (u64, u64) {
+    pub fn get_fps(&self) -> (f64, f64) {
         let sum = self.delta.iter().map(|x| x.as_nanos()).sum::<u128>() as f64;
         let len = self.delta.len() as f64;
-        let current = (1000000000.0 / (sum / len)) as u64;
+        let current = (1000000000.0 / (sum / len)) as f64;
 
         let sum = self.delta_real.iter().map(|x| x.as_nanos()).sum::<u128>() as f64;
         let len = self.delta_real.len() as f64;
-        let real = (1000000000.0 / (sum / len)) as u64;
+        let real = (1000000000.0 / (sum / len)) as f64;
 
         (current, real)
     }

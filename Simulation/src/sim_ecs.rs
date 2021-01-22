@@ -65,7 +65,7 @@ impl SimResources {
             players: PlayerList::ffa(n_players as PId),
             inbox: vec![],
             send_batch: vec![],
-            fps_counter: FpsCounter::new(10),
+            fps_counter: FpsCounter::new(1),
             fps_limit: fps_limit,
         }
     }
